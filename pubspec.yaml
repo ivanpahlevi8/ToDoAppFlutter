@@ -55,6 +55,9 @@ dependencies:
   shared_preferences: ^2.5.5
   go_router: ^17.3.0
   fpdart: ^1.2.0
+  freezed: ^2.5.2
+  freezed_annotation: ^2.4.4
+  json_annotation: any
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,7 @@ dev_dependencies:
   riverpod_generator: 2.4.0
   isar_generator: ^3.1.0-dev.12
   build_runner: ^2.4.6
+  json_serializable: any
 
 
 # Add this at the absolute root level of your pubspec.yaml (not indented under anything)
@@ -102,6 +106,7 @@ flutter:
     - assets/images/onboard_image_1.jpg
     - assets/images/onboard_image_2.jpg
     - assets/images/onboard_image_3.jpg
+    - assets/images/to-do-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -71,7 +71,18 @@ Future<void> setupServiceLocator() async {
   );
 
   // create instance for dio
-  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(
+    () => TokenInterceptor(sl<Apis>(), sl<SharedPreferences>()),
+  );
+
+  // 3. Create instance for Dio AND ATTACH THE INTERCEPTOR
+  sl.registerLazySingleton(() {
+    final dio = Dio();
+
+    dio.interceptors.add(sl<TokenInterceptor>());
+
+    return dio;
+  });
 
   // create instance for network service
   sl.registerLazySingleton(
@@ -83,11 +94,6 @@ Future<void> setupServiceLocator() async {
 
   // create instance for apis
   sl.registerLazySingleton(() => Apis());
-
-  // create instance for toke interceptors
-  sl.registerLazySingleton(
-    () => TokenInterceptor(sl<Apis>(), sl<SharedPreferences>()),
-  );
 
   // create instance for validators
   sl.registerLazySingleton(

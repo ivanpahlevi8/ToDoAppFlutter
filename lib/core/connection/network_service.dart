@@ -10,14 +10,14 @@ abstract interface class INetworkService<HttpResponse> {
   // function to do get request
   TaskEither<BaseException, HttpResponse> get(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
   });
 
   // function to do post request
   TaskEither<BaseException, HttpResponse> post(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
     Map<String, dynamic> body = const {},
   });
@@ -25,7 +25,7 @@ abstract interface class INetworkService<HttpResponse> {
   // function to do update request
   TaskEither<BaseException, HttpResponse> update(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
     Map<String, String> body = const {},
   });
@@ -33,7 +33,7 @@ abstract interface class INetworkService<HttpResponse> {
   // fucntion to do delete request
   TaskEither<BaseException, HttpResponse> delete(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
   });
 }
@@ -47,7 +47,7 @@ class NetworkService implements INetworkService<Response> {
   @override
   TaskEither<BaseException, Response<dynamic>> delete(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
   }) {
     return TaskEither<BaseException, Response>.tryCatch(
@@ -67,7 +67,7 @@ class NetworkService implements INetworkService<Response> {
   @override
   TaskEither<BaseException, Response<dynamic>> get(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
   }) {
     return TaskEither.tryCatch(
@@ -87,7 +87,7 @@ class NetworkService implements INetworkService<Response> {
   @override
   TaskEither<BaseException, Response<dynamic>> post(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
     Map<String, dynamic> body = const {},
   }) {
@@ -110,7 +110,7 @@ class NetworkService implements INetworkService<Response> {
   @override
   TaskEither<BaseException, Response<dynamic>> update(
     Uri uri,
-    CancelToken cancelToken, {
+    CancelToken? cancelToken, {
     Map<String, String> headers = const {},
     Map<String, String> body = const {},
   }) {

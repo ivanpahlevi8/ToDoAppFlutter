@@ -1,0 +1,31 @@
+import 'package:fpdart/src/task_either.dart';
+import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/Authentication/data/datasource/auth_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/Authentication/data/models/login_field_model.dart';
+import 'package:to_do_app_flutter/features/Authentication/domain/repositories/auth_repository.dart';
+
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDatasource authRemoteDatasource;
+
+  AuthRepositoryImpl({required this.authRemoteDatasource});
+
+  @override
+  TaskEither<BaseException, UserModel> login(LoginFieldModel loginFieldModel) {
+    return authRemoteDatasource.login(loginFieldModel).flatMap((responseModel) {
+      if (responseModel.isSuccess && responseModel.result != null) {
+        return TaskEither.right(responseModel.result!);
+      } else {
+        return TaskEither.left(
+          BaseException(
+            // Or whatever your default exception class is
+            message: responseModel.message,
+            userMessage: responseModel.message,
+            error: 'API Logic Error',
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+    });
+  }
+}
