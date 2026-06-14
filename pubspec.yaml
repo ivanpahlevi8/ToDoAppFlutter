@@ -54,6 +54,7 @@ dependencies:
       url: https://github.com/MrLittleWhite/isar_flutter_libs.git
   shared_preferences: ^2.5.5
   go_router: ^17.3.0
+  fpdart: ^1.2.0
 
 dev_dependencies:
   flutter_test:

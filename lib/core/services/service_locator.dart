@@ -1,6 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app_flutter/core/connection/apis.dart';
+import 'package:to_do_app_flutter/core/connection/base_network.dart';
+import 'package:to_do_app_flutter/core/connection/network_service.dart';
+import 'package:to_do_app_flutter/core/connection/token_interceptor.dart';
+import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/exception_builder.dart';
 import 'package:to_do_app_flutter/core/exception/exception_handler.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_local_datasource.dart';
@@ -12,7 +18,7 @@ final GetIt sl = GetIt.instance; // Service locator instance
 
 Future<void> setupServiceLocator() async {
   // Initialize Isar only once
-  final dir = await getApplicationSupportDirectory();
+  //final dir = await getApplicationSupportDirectory();
   // final isar = await Isar.open([
   //   MovieCollectionSchema,
   //   ProductionCompanyCollectionSchema,
@@ -61,6 +67,39 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton(
     () => OnBoardLocalUsecase(
       onBoardLocalRepository: sl<OnBoardLocalRepository>(),
+    ),
+  );
+
+  // create instance for dio
+  sl.registerLazySingleton(() => Dio());
+
+  // create instance for network service
+  sl.registerLazySingleton(
+    () => NetworkService(
+      dio: sl<Dio>(),
+      exceptionHandler: sl<NetworkExceptionHandler>(),
+    ),
+  );
+
+  // create instance for apis
+  sl.registerLazySingleton(() => Apis());
+
+  // create instance for toke interceptors
+  sl.registerLazySingleton(
+    () => TokenInterceptor(sl<Apis>(), sl<SharedPreferences>()),
+  );
+
+  // create instance for validators
+  sl.registerLazySingleton(
+    () => NetworkValidator(sl<NetworkExceptionHandler>()),
+  );
+
+  // create instance for base network
+  sl.registerLazySingleton(
+    () => BaseNetwork(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>(),
     ),
   );
 }
