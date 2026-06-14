@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/entity/on_board_entity.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/presentation/async_ui_externsion.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/widget/on_board_widget.dart';
 
@@ -19,7 +20,7 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
   late List<OnBoardEntity> onBoardDataList;
 
   // create state for tracked page number
-  int page_tracked = 0;
+  int _pageTracked = 0;
 
   @override
   void initState() {
@@ -57,20 +58,28 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // watch on board state
+    ref.listen<AsyncValue<void>>(onBoardLocalProviderProvider, (
+      previous,
+      next,
+    ) {
+      next.onUserOnBoard(context, ref);
+    });
+
     return PageView(
       controller: _pageViewController,
       allowImplicitScrolling: true,
       onPageChanged: (newPage) {
         setState(() {
-          page_tracked = newPage;
+          _pageTracked = newPage;
         });
       },
       children: onBoardDataList.map((data) {
         return OnBoardWidget(
           onBoardEntity: data,
-          showBackButton: page_tracked > 0,
-          showNextButton: page_tracked < 2,
-          showFinishButton: page_tracked == 2,
+          showBackButton: _pageTracked > 0,
+          showNextButton: _pageTracked < 2,
+          showFinishButton: _pageTracked == 2,
           onBackPage: () {
             // set on back
             _pageViewController.previousPage(
@@ -86,7 +95,7 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
           },
           onFinalPage: () {
             // set login later, by access the reference
-            // ref.read(onBoardLocalProviderProvider.notifier).setUserOnBoard();
+            ref.read(onBoardLocalProviderProvider.notifier).setUserOnBoard();
           },
         );
       }).toList(),

@@ -22,6 +22,8 @@ class OnBoardLocalDataSourceImpl implements OnBoardLocalDatasource {
 
   @override
   Future<void> setUserOnBoard() async {
+    // add some delay
+    await Future.delayed(Duration(milliseconds: 600));
     await sharedPreference.setBool("user_onboard", true);
   }
 }
