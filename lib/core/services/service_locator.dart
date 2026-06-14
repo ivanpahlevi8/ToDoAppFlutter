@@ -1,0 +1,66 @@
+import 'package:get_it/get_it.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app_flutter/core/exception/exception_builder.dart';
+import 'package:to_do_app_flutter/core/exception/exception_handler.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_local_datasource.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/domain/usecase/on_board_local_usecase.dart';
+
+final GetIt sl = GetIt.instance; // Service locator instance
+
+Future<void> setupServiceLocator() async {
+  // Initialize Isar only once
+  final dir = await getApplicationSupportDirectory();
+  // final isar = await Isar.open([
+  //   MovieCollectionSchema,
+  //   ProductionCompanyCollectionSchema,
+  //   SerieCollectionSchema,
+  // ], directory: dir.path);
+
+  // create shared preferences instance
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  // Register Isar instance in GetIt
+  //sl.registerSingleton<Isar>(isar);
+
+  // register shared preferences
+  sl.registerSingleton<SharedPreferences>(sharedPreferences);
+
+  /**
+   * Define instance of exception handlers under this
+   */
+  sl.registerLazySingleton(() => NetworkExceptionBuilder());
+  sl.registerLazySingleton(() => StorageExceptionBuilder());
+
+  sl.registerLazySingleton(
+    () => NetworkExceptionHandler(sl<NetworkExceptionBuilder>()),
+  );
+
+  sl.registerLazySingleton(
+    () => StorageExceptionHandler(sl<StorageExceptionBuilder>()),
+  );
+
+  // create instance of on board datasource and register to di
+  final onBoardLocalDatasource = OnBoardLocalDataSourceImpl(
+    sharedPreference: sharedPreferences,
+  );
+
+  sl.registerSingleton<OnBoardLocalDatasource>(onBoardLocalDatasource);
+
+  // create instance of on board local repositoru to di
+  sl.registerLazySingleton<OnBoardLocalRepository>(
+    () => OnBoardLocalRepositoryImpl(
+      handler: sl<StorageExceptionHandler>(),
+      onBoardLocalDatasource: sl<OnBoardLocalDatasource>(),
+    ),
+  );
+
+  // create instance of on board local usecase
+  sl.registerLazySingleton(
+    () => OnBoardLocalUsecase(
+      onBoardLocalRepository: sl<OnBoardLocalRepository>(),
+    ),
+  );
+}
