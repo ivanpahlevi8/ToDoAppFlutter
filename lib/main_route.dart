@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
-import 'package:to_do_app_flutter/features/OnBoarding/auth_route.dart';
+import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
 
 final routerProvider = Provider.autoDispose<GoRouter>((ref) {

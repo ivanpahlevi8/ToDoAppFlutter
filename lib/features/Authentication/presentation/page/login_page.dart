@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/widget/custom_input_widget.dart';
 
@@ -129,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: () {
                           // navigate to register
+                          context.push("/register");
                         },
                         child: Text(
                           "register",

@@ -4,17 +4,20 @@ class CustomInputWidget extends StatelessWidget {
   final TextEditingController textEditing;
   final String textLabel;
   final bool isPassword;
+  final TextInputType keyboardType;
   const CustomInputWidget({
     super.key,
     required this.textEditing,
     required this.textLabel,
     required this.isPassword,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textEditing,
+      keyboardType: TextInputType.text,
       obscureText: isPassword,
       decoration: InputDecoration(
         floatingLabelStyle: Theme.of(context).textTheme.titleLarge,
