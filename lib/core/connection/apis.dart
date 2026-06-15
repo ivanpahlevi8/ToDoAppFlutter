@@ -11,13 +11,15 @@ class Apis {
   Uri _buildUri(
     String endPoint, {
     Iterable<String> pathName = const [],
-    Map<String, String> queryParams = const {},
+    Map<String, String>? queryParams,
   }) {
     return Uri(
       scheme: 'https',
       host: ApiUrl.baseUrls,
       path: [endPoint, ...pathName].join('/').replaceAll('//', '/'),
-      queryParameters: queryParams,
+      queryParameters: (queryParams != null && queryParams.isNotEmpty)
+          ? queryParams
+          : null,
     );
   }
 

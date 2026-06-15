@@ -55,8 +55,8 @@ class NetworkService implements INetworkService<Response> {
         uri,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 900),
-          receiveTimeout: Duration(milliseconds: 900),
+          sendTimeout: Duration(milliseconds: 10000),
+          receiveTimeout: Duration(milliseconds: 10000),
         ),
         cancelToken: cancelToken,
       ),
@@ -75,8 +75,8 @@ class NetworkService implements INetworkService<Response> {
         uri,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 900),
-          receiveTimeout: Duration(milliseconds: 900),
+          sendTimeout: Duration(milliseconds: 10000),
+          receiveTimeout: Duration(milliseconds: 10000),
         ),
         cancelToken: cancelToken,
       ),
@@ -99,8 +99,8 @@ class NetworkService implements INetworkService<Response> {
             : body,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 900),
-          receiveTimeout: Duration(milliseconds: 900),
+          sendTimeout: Duration(milliseconds: 10000),
+          receiveTimeout: Duration(milliseconds: 10000),
         ),
       ),
       exceptionHandler.handle,
@@ -122,8 +122,8 @@ class NetworkService implements INetworkService<Response> {
             : body,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 900),
-          receiveTimeout: Duration(milliseconds: 900),
+          sendTimeout: Duration(milliseconds: 10000),
+          receiveTimeout: Duration(milliseconds: 10000),
         ),
       ),
       exceptionHandler.handle,

@@ -1,39 +1,52 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/Authentication/domain/entitiy/register_field_entity.dart';
+import 'package:to_do_app_flutter/features/Authentication/presentation/async_ui_extension.dart';
+import 'package:to_do_app_flutter/features/Authentication/presentation/controller/register_user_provider.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/widget/custom_input_widget.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
+  final TextEditingController inputUsernameController = TextEditingController();
+  final TextEditingController inputPasswordController = TextEditingController();
+  final TextEditingController inputEmailController = TextEditingController();
+  final TextEditingController inputPhoneNumberController =
+      TextEditingController();
+  final TextEditingController inputFirstNameController =
+      TextEditingController();
+  final TextEditingController inputLastNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    inputUsernameController.dispose();
+    inputPasswordController.dispose();
+    inputEmailController.dispose();
+    inputPhoneNumberController.dispose();
+    inputFirstNameController.dispose();
+    inputLastNameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
 
-    // create input controller for each field
-    TextEditingController inputUsernameController = TextEditingController(
-      text: "",
-    );
-    TextEditingController inputPasswordController = TextEditingController(
-      text: "",
-    );
-    TextEditingController inputEmailController = TextEditingController(
-      text: "",
-    );
-    TextEditingController inputPhoneNumberController = TextEditingController(
-      text: "",
-    );
-    TextEditingController inputFirstNameController = TextEditingController(
-      text: "",
-    );
-    TextEditingController inputLastNameController = TextEditingController(
-      text: "",
-    );
+    // listen to register provider
+    ref.listen<AsyncValue<UserModel?>>(registerUserProviderProvider, (
+      previous,
+      next,
+    ) {
+      next.onUserRegister(context, ref);
+    });
 
     return Stack(
       fit: StackFit.expand,
@@ -185,7 +198,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           horizontal: 12,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // create register field entity
+                        final registerField = RegisterFieldEntity(
+                          username: inputUsernameController.text,
+                          password: inputPasswordController.text,
+                          email: inputEmailController.text,
+                          phoneNumber: inputPhoneNumberController.text,
+                          firstName: inputFirstNameController.text,
+                          lastName: inputLastNameController.text,
+                        );
+
+                        // submit register
+                        ref
+                            .read(registerUserProviderProvider.notifier)
+                            .registerUser(registerField);
+                      },
                       child: Text(
                         "Submit",
                         style: TextStyle(

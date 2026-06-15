@@ -9,6 +9,9 @@ import 'package:to_do_app_flutter/core/connection/token_interceptor.dart';
 import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/exception_builder.dart';
 import 'package:to_do_app_flutter/core/exception/exception_handler.dart';
+import 'package:to_do_app_flutter/features/Authentication/data/datasource/auth_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/Authentication/data/repositories/auth_repository_impl.dart';
+import 'package:to_do_app_flutter/features/Authentication/domain/usecase/auth_usecase.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_local_datasource.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
@@ -107,5 +110,26 @@ Future<void> setupServiceLocator() async {
       validator: sl<NetworkValidator>(),
       apis: sl<Apis>(),
     ),
+  );
+
+  // create instance for auth remote datasource
+  sl.registerLazySingleton(
+    () => AuthRemoteDatasourceImpl(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>(),
+    ),
+  );
+
+  // create instance for auth remote repository
+  sl.registerLazySingleton(
+    () => AuthRepositoryImpl(
+      authRemoteDatasource: sl<AuthRemoteDatasourceImpl>(),
+    ),
+  );
+
+  // create instance for auth usecase
+  sl.registerLazySingleton(
+    () => AuthUsecase(authRepository: sl<AuthRepositoryImpl>()),
   );
 }

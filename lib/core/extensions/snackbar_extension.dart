@@ -4,28 +4,25 @@ import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 extension SnackBarExtension on BuildContext {
   // 1. THE ERROR SNACKBAR
   void showErrorSnackBar({required String message}) {
-    // Grab your custom colors from the theme
-    final customColors = Theme.of(this).extension<AppCustomColors>();
-
-    // This clears any currently showing snackbars so they don't pile up!
-    ScaffoldMessenger.of(this).hideCurrentSnackBar();
+    // 1. Get safe area top padding (so it sits below the camera notch)
+    final topPadding = MediaQuery.of(this).padding.top;
+    final screenHeight = MediaQuery.of(this).size.height;
 
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(
-            color: customColors?.errorDialogText ?? Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        dismissDirection: DismissDirection.up,
+        margin: EdgeInsets.only(
+          top: 0,
+          left: 16,
+          right: 16,
+          // Total screen height minus height of snackbar and top safe area status bar
+          bottom: screenHeight - topPadding - 80,
         ),
-        // Uses your specific error red, with a fallback just in case
-        backgroundColor: customColors?.errorColor ?? Colors.red.shade800,
-        behavior: SnackBarBehavior
-            .floating, // Makes it float above the bottom of the screen
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -33,6 +30,8 @@ extension SnackBarExtension on BuildContext {
   // 2. THE SUCCESS SNACKBAR
   void showSuccessSnackBar({required String message}) {
     final customColors = Theme.of(this).extension<AppCustomColors>();
+    final topPadding = MediaQuery.of(this).padding.top;
+    final screenHeight = MediaQuery.of(this).size.height;
 
     ScaffoldMessenger.of(this).hideCurrentSnackBar();
 
@@ -49,8 +48,15 @@ extension SnackBarExtension on BuildContext {
         backgroundColor:
             customColors?.successDialogBackground ?? Colors.green.shade700,
         behavior: SnackBarBehavior.floating,
+        dismissDirection: DismissDirection.up,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(
+          top: 0,
+          left: 16,
+          right: 16,
+          // Total screen height minus height of snackbar and top safe area status bar
+          bottom: screenHeight - topPadding - 80,
+        ),
         duration: const Duration(seconds: 3),
       ),
     );

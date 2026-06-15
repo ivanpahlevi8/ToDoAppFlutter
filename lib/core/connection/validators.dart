@@ -8,10 +8,6 @@ abstract interface class INetworkValidator<Response, ResponseBody> {
 
   Either<BaseException, Map<String, dynamic>> validateJson(ResponseBody body);
 
-  Either<BaseException, List<Map<String, dynamic>>> validateListOfMap(
-    Map<String, dynamic> json,
-  );
-
   Either<BaseException, Map<String, dynamic>> validateMap(
     Map<String, dynamic> json,
   );
@@ -26,16 +22,33 @@ class NetworkValidator implements INetworkValidator<Response, Object> {
   Either<BaseException, Object> validateBody(Response response) =>
       Either<BaseException, Response>.fromPredicate(
         response,
-        (r) =>
-            r.statusCode != null && r.statusCode! >= 200 && r.statusCode! < 300,
-        (r) => _exceptionHandler.handle(
-          DioException.badResponse(
-            statusCode: r.statusCode ?? 500,
-            requestOptions: r.requestOptions,
-            response: r,
-          ),
-        ),
-      ).map((a) => a.data);
+        (r) => r.statusCode != null && r.statusCode! == 200,
+        (r) {
+          if (r.data is Map<String, dynamic> &&
+              (r.data as Map).containsKey('message')) {
+            // check if response contains message
+            final errorMap = r.data as Map<String, dynamic>;
+            return _exceptionHandler.handle(
+              BaseException(
+                error: r.data,
+                message: errorMap['message']?.toString() ?? 'Unknown API Error',
+                userMessage:
+                    errorMap['message']?.toString() ?? 'Unknown API Error',
+                stackTrace: StackTrace.current,
+              ),
+            );
+          }
+
+          // Fallback if the server didn't return your custom JSON body envelope
+          return _exceptionHandler.handle(
+            DioException.badResponse(
+              statusCode: r.statusCode ?? 500,
+              requestOptions: r.requestOptions,
+              response: r,
+            ),
+          );
+        },
+      ).map((a) => a.data!);
 
   @override
   Either<BaseException, Map<String, dynamic>> validateJson(Object body) =>
@@ -58,73 +71,29 @@ class NetworkValidator implements INetworkValidator<Response, Object> {
       );
 
   @override
-  Either<BaseException, List<Map<String, dynamic>>> validateListOfMap(
-    Map<String, dynamic> json,
-  ) =>
-      Either<BaseException, Map<String, dynamic>>.fromPredicate(
-        json,
-        (r) => r['data'] is List,
-        (_) => _exceptionHandler.handle(
-          NetworkException(
-            error: json,
-            message: 'Response is not a valid List of Map',
-            userMessage: 'Terjadi kesalahan pada format data',
-            stackTrace: StackTrace.current,
-          ),
-        ),
-      ).flatMap(
-        (a) => Either<BaseException, List<Map<String, dynamic>>>.tryCatch(
-          () => List<Map<String, dynamic>>.from(a['data']),
-          _exceptionHandler.handle,
-        ),
-      );
-
-  @override
   Either<BaseException, Map<String, dynamic>> validateMap(
     Map<String, dynamic> json,
-  ) =>
-      Either<BaseException, Map<String, dynamic>>.fromPredicate(
-            json,
-            (r) => r['data'] is Map<String, dynamic> || r['data'] is List,
-            (r) => _exceptionHandler.handle(
-              BaseException(
-                error: json,
-                message: 'Response is not a valid Map',
-                userMessage: 'Response is not a valid Map',
-                stackTrace: StackTrace.current,
-              ),
-            ),
-          )
-          .flatMap(
-            (r) => Either<BaseException, dynamic>.tryCatch(() {
-              if (r['data'] is List) {
-                final data = (r['data'] as List);
+  ) {
+    // 1. Verify that the response contains your standard API envelope keys
+    final hasValidEnvelope =
+        json.containsKey('isSuccess') && json.containsKey('result');
 
-                if (data.isEmpty) {
-                  throw NetworkException(
-                    error: r,
-                    message: 'Data is empty',
-                    userMessage: 'Data is empty',
-                  );
-                }
+    if (hasValidEnvelope) {
+      // Return the WHOLE map so ResponseModel<UserModel>.fromJson can parse everything!
+      return Either.right(json);
+    }
 
-                return switch (!data.all((e) => e is Map<String, dynamic>)) {
-                  true => throw NetworkException(
-                    error: r,
-                    message: 'Response is not a valid Map',
-                    userMessage: 'Response is not a valid Map',
-                  ),
-                  _ => data.first,
-                };
-              }
-
-              return r['data'];
-            }, _exceptionHandler.handle),
-          )
-          .flatMap(
-            (r) => Either<BaseException, Map<String, dynamic>>.safeCast(
-              r as Map<String, dynamic>,
-              _exceptionHandler.handle,
-            ),
-          );
+    // 2. If the envelope structure is completely missing or malformed
+    return Either.left(
+      _exceptionHandler.handle(
+        BaseException(
+          error: json,
+          message:
+              'API response structure is invalid. Expected "isSuccess" and "result" keys.',
+          userMessage: 'Received an invalid data format from the server.',
+          stackTrace: StackTrace.current,
+        ),
+      ),
+    );
+  }
 }
