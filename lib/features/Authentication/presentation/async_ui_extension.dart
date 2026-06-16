@@ -51,4 +51,49 @@ extension AuthUserExtension on AsyncValue<UserModel?> {
       },
     );
   }
+
+  // state for login user
+  Future<void> onUserLogin(BuildContext context, WidgetRef ref) async {
+    when(
+      data: (data) {
+        // pop loading dialog
+        if (data != null) {
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // show success dialog
+          context.showSuccessSnackBar(
+            message: "Success Login with username ${data.userName}",
+          );
+
+          // Future.delayed(const Duration(milliseconds: 800), () {
+          //   // go to home
+          //   context.go("/home");
+          // });
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
 }

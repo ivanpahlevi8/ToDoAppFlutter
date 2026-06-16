@@ -83,6 +83,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           right: 0,
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            constraints: BoxConstraints(
+              // Caps the card at 65% of the available screen height
+              maxHeight: MediaQuery.of(context).size.height * 0.6,
+            ),
             decoration: BoxDecoration(
               color: customColor.cardBackgroundColor2,
               borderRadius: BorderRadius.only(

@@ -6,10 +6,7 @@ import 'package:to_do_app_flutter/features/Authentication/presentation/page/regi
 // 1. Expose the raw list of routes
 final RouteBase authPackageRoutes = ShellRoute(
   builder: (context, state, child) {
-    final currentPath = state.uri.path;
-
     return Scaffold(
-      resizeToAvoidBottomInset: currentPath == "/login" ? true : false,
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: child,

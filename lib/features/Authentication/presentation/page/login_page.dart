@@ -1,23 +1,35 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/Authentication/data/models/login_field_model.dart';
+import 'package:to_do_app_flutter/features/Authentication/presentation/async_ui_extension.dart';
+import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_remote_provider.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/widget/custom_input_widget.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
+  // create controller for input
+  final usernameTextInputController = TextEditingController();
+  final passwordTextInputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
 
-    // create controller for input
-    final usernameTextInputController = TextEditingController();
-    final passwordTextInputController = TextEditingController();
+    ref.listen<AsyncValue<UserModel?>>(loginUserRemoteProviderProvider, (
+      previous,
+      next,
+    ) {
+      next.onUserLogin(context, ref);
+    });
 
     return Stack(
       fit: StackFit.expand,
@@ -146,7 +158,16 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 32),
                   TextButton(
                     onPressed: () {
-                      // login button
+                      // login button, create login field
+                      final loginField = LoginFieldModel(
+                        username: usernameTextInputController.text,
+                        password: passwordTextInputController.text,
+                      );
+
+                      // do login
+                      ref
+                          .read(loginUserRemoteProviderProvider.notifier)
+                          .setUserLogin(loginField);
                     },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
