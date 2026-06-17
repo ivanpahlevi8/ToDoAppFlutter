@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_provider.dart';
+import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
 
@@ -13,7 +14,77 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // Force the entry point to be /splash while Riverpod initializes
     initialLocation: '/onboard',
 
-    routes: [onBoardRoutes, authPackageRoutes],
+    routes: [
+      onBoardRoutes,
+      authPackageRoutes,
+      ShellRoute(
+        builder: (context, state, child) {
+          return Scaffold(
+            appBar: AppBar(title: const Text("")),
+            drawer: Drawer(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: const DrawerHeader(
+                          decoration: BoxDecoration(color: Colors.blue),
+                          child: Text(
+                            'To Do App',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView(
+                      padding: .zero,
+                      children: <Widget>[
+                        ListTile(
+                          leading: const Icon(Icons.message),
+                          title: const Text('Messages'),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.account_circle),
+                          title: const Text('Profile'),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text('Settings'),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [Text("version 1.0.0.0 | by ivan")],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            body: child,
+          );
+        },
+        routes: [
+          GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
+        ],
+      ),
+    ],
 
     redirect: (context, state) {
       final onboardState = ref.read(onBoardLocalProviderProvider);
