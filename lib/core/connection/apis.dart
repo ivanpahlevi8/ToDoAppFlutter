@@ -32,4 +32,9 @@ class Apis {
   Uri getRegisterUri() {
     return _buildUri(ApiUrl.registerUser);
   }
+
+  // create search user by username API
+  Uri getSearchUserByUsernameURI({required String username}) {
+    return _buildUri(ApiUrl.getUser, queryParams: {"userName": username});
+  }
 }
