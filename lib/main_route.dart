@@ -8,6 +8,8 @@ import 'package:to_do_app_flutter/features/Authentication/presentation/controlle
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
+import 'package:to_do_app_flutter/features/search_friends/presentation/screen/search_user_screen.dart';
+import 'package:to_do_app_flutter/features/search_friends/search_friend_route.dart';
 
 final routerProvider = Provider.autoDispose<GoRouter>((ref) {
   return GoRouter(
@@ -17,6 +19,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     routes: [
       onBoardRoutes,
       authPackageRoutes,
+      searchFriendsRoute,
       ShellRoute(
         builder: (context, state, child) {
           return Scaffold(
@@ -41,7 +44,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                   ),
                   Expanded(
                     child: ListView(
-                      padding: .zero,
+                      padding: EdgeInsets.zero,
                       children: <Widget>[
                         ListTile(
                           leading: const Icon(Icons.message),
@@ -61,6 +64,31 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                       ],
                     ),
                   ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.person),
+                              title: const Text('Add People'),
+                              onTap: () {
+                                // unshow drawer
+                                if (context.canPop()) {
+                                  context.pop();
+                                }
+                                context.push("/search-user");
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       Expanded(
