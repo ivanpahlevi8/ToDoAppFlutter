@@ -58,6 +58,8 @@ dependencies:
   freezed: ^2.5.2
   freezed_annotation: ^2.4.4
   json_annotation: any
+  shimmer_animation: ^2.2.2+1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +69,7 @@ dev_dependencies:
   isar_generator: ^3.1.0-dev.12
   build_runner: ^2.4.6
   json_serializable: any
+  shimmer: ^3.0.0
 
 
 # Add this at the absolute root level of your pubspec.yaml (not indented under anything)

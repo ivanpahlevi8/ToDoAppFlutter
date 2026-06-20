@@ -7,6 +7,7 @@ class Apis {
 
   bool requiresAuthorization(String requestUrl) =>
       !_urlWithoutAuth.any((url) => requestUrl.contains(url));
+
   // create local function to create uri
   Uri _buildUri(
     String endPoint, {

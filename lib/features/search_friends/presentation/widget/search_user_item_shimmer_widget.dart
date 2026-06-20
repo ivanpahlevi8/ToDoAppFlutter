@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/core/widget/shimmer_box_widget.dart';
 
-class SearchUserItemWidget extends StatelessWidget {
-  final UserModel userModel;
-  final Function(String) sendUserFriendRequest;
-  const SearchUserItemWidget({
-    super.key,
-    required this.userModel,
-    required this.sendUserFriendRequest,
-  });
+class SearchUserItemShimmerWidget extends StatelessWidget {
+  const SearchUserItemShimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -43,30 +38,14 @@ class SearchUserItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  userModel.userName,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: customColor.textTitle!,
-                  ),
-                ),
+                ShimmerBoxWidget(height: 45, width: 130, padValue: 3),
                 SizedBox(height: 4),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(Icons.person, size: 22, color: customColor.textTitle),
                     SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        "${userModel.firstName} ${userModel.lastName}",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
                   ],
                 ),
                 SizedBox(height: 4),
@@ -75,16 +54,7 @@ class SearchUserItemWidget extends StatelessWidget {
                   children: [
                     Icon(Icons.email, size: 22, color: customColor.textTitle),
                     SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        userModel.email,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
                   ],
                 ),
                 SizedBox(height: 4),
@@ -93,16 +63,7 @@ class SearchUserItemWidget extends StatelessWidget {
                   children: [
                     Icon(Icons.phone, size: 22, color: customColor.textTitle),
                     SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        userModel.phoneNumber,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
                   ],
                 ),
               ],

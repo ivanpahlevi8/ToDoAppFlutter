@@ -13,27 +13,32 @@ class TokenInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (_apis.requiresAuthorization(options.uri.path)) {
-      final token = _prefs.getString(ConstantValue.bearerKey);
+    /**
+     * This will be updated later when the backend already implement the
+     * bearer token
+     */
 
-      if (token == null) {
-        return handler.reject(
-          DioException(
-            requestOptions: options,
-            type: DioExceptionType.badResponse,
-            stackTrace: StackTrace.current,
-            message: 'Token not found',
-            response: Response(
-              requestOptions: options,
-              statusCode: HttpStatus.unauthorized,
-              statusMessage: 'Token not found',
-            ),
-          ),
-        );
-      }
+    // if (_apis.requiresAuthorization(options.uri.path)) {
+    //   final token = _prefs.getString(ConstantValue.bearerKey);
 
-      options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
-    }
+    //   if (token == null) {
+    //     return handler.reject(
+    //       DioException(
+    //         requestOptions: options,
+    //         type: DioExceptionType.badResponse,
+    //         stackTrace: StackTrace.current,
+    //         message: 'Token not found',
+    //         response: Response(
+    //           requestOptions: options,
+    //           statusCode: HttpStatus.unauthorized,
+    //           statusMessage: 'Token not found',
+    //         ),
+    //       ),
+    //     );
+    //   }
+
+    //   options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    // }
     return super.onRequest(options, handler);
   }
 }

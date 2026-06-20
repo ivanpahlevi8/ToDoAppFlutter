@@ -1,18 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/search_friends/presentation/controller/search_user_provider.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_bar_widget.dart';
+import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_item_shimmer_widget.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_item_widget.dart';
 
-class SearchUserScreen extends StatefulWidget {
+class SearchUserScreen extends ConsumerStatefulWidget {
   const SearchUserScreen({super.key});
 
   @override
-  State<SearchUserScreen> createState() => _SearchUserScreenState();
+  ConsumerState<SearchUserScreen> createState() => _SearchUserScreenState();
 }
 
-class _SearchUserScreenState extends State<SearchUserScreen> {
+class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
   final TextEditingController inputSearchUsername = TextEditingController(
     text: "",
   );
@@ -20,6 +22,9 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   @override
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
+
+    // watch search friend riverpod
+    final searchFriendRiverpod = ref.watch(searchUserProviderProvider);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -82,6 +87,11 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: SearchUserBarWidget(
                         textEditing: inputSearchUsername,
+                        onSearch: (username) {
+                          ref
+                              .read(searchUserProviderProvider.notifier)
+                              .searchUserByUsername(username: username);
+                        },
                       ),
                     ),
                   ],
@@ -91,19 +101,49 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
           ],
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return SearchUserItemWidget(
-                userModel: UserModel(
-                  firstName: "Test",
-                  lastName: "Name",
-                  createdAt: "",
-                  userId: "",
-                  userName: "test_name",
-                  email: "test@test.com",
-                  phoneNumber: "847580",
+          child: searchFriendRiverpod.when(
+            data: (data) {
+              if (data == null) {
+                return Center(
+                  child: Text(
+                    "No Data Found",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: customColor.textTitle,
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return SearchUserItemWidget(
+                    userModel: data,
+                    sendUserFriendRequest: (userId) {},
+                  );
+                },
+              );
+            },
+            error: (error, stackTrace) {
+              return Center(
+                child: Text(
+                  error.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: customColor.errorColor,
+                  ),
                 ),
+              );
+            },
+            loading: () {
+              return ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return SearchUserItemShimmerWidget();
+                },
               );
             },
           ),

@@ -19,6 +19,9 @@ import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_l
 import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/usecase/on_board_local_usecase.dart';
+import 'package:to_do_app_flutter/features/search_friends/data/datasource/search_friend_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/search_friends/data/repositories/search_friend_remote_repository_impl.dart';
+import 'package:to_do_app_flutter/features/search_friends/domain/usecase/search_friend_usecase.dart';
 
 final GetIt sl = GetIt.instance; // Service locator instance
 
@@ -151,6 +154,32 @@ Future<void> setupServiceLocator() async {
     () => AuthUsecase(
       authRepository: sl<AuthRepositoryImpl>(),
       userLoginRepository: sl<UserLoginRepositoryImpl>(),
+    ),
+  );
+
+  /**
+   * Under this is part for create service for search friend
+   */
+  // create instance for search friend remote datasource
+  sl.registerLazySingleton(
+    () => SearchfriendRemoteDatasourceImpl(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>(),
+    ),
+  );
+
+  // create instance for search friend remote repository
+  sl.registerLazySingleton(
+    () => SearchFriendRemoteRepositoryImpl(
+      searchFriendRemoteDatasource: sl<SearchfriendRemoteDatasourceImpl>(),
+    ),
+  );
+
+  // create instance for search friend usecase
+  sl.registerLazySingleton(
+    () => SearchFriendUsecase(
+      searchFriendRemoteRepository: sl<SearchFriendRemoteRepositoryImpl>(),
     ),
   );
 }

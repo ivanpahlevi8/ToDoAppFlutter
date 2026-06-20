@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class SearchUserBarWidget extends StatelessWidget {
   final TextEditingController textEditing;
+  final Function(String) onSearch;
 
-  const SearchUserBarWidget({super.key, required this.textEditing});
+  const SearchUserBarWidget({
+    super.key,
+    required this.textEditing,
+    required this.onSearch,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +18,10 @@ class SearchUserBarWidget extends StatelessWidget {
           child: TextFormField(
             controller: textEditing,
             keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.search,
+            onFieldSubmitted: (value) {
+              onSearch(value);
+            },
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w900,
@@ -59,7 +68,9 @@ class SearchUserBarWidget extends StatelessWidget {
               ), // 3. Fixes the BorderRadius geometry bug
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            onSearch(textEditing.text);
+          },
           child: const Icon(
             Icons.search,
             size: 28,

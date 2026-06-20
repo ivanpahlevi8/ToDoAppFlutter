@@ -15,14 +15,15 @@ class SearchUserProvider extends _$SearchUserProvider {
   // create function to searcg user by usernam
   Future<void> searchUserByUsername({required String username}) async {
     state = AsyncValue.loading();
-
+    print("CHECK: Start to search friends");
     final response = await sl<SearchFriendUsecase>()
         .searchUserByUsername(username: username)
         .run();
+    print("CHECK: Finish search friend");
 
     state = response.fold(
       (excpetion) {
-        return AsyncValue.error(excpetion.error!, excpetion.stackTrace!);
+        return AsyncValue.error(excpetion.message!, excpetion.stackTrace!);
       },
       (data) {
         return AsyncValue.data(data);

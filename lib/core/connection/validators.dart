@@ -51,24 +51,23 @@ class NetworkValidator implements INetworkValidator<Response, Object> {
       ).map((a) => a.data!);
 
   @override
-  Either<BaseException, Map<String, dynamic>> validateJson(Object body) =>
-      Either<BaseException, Object>.fromPredicate(
-        body,
-        (_) => body is Map<String, dynamic>,
-        (_) => _exceptionHandler.handle(
-          NetworkException(
-            error: body,
-            message: 'Response body is not a valid JSON',
-            userMessage: 'Response body is not a valid JSON',
-            stackTrace: StackTrace.current,
-          ),
+  Either<BaseException, Map<String, dynamic>> validateJson(Object body) {
+    return Either<BaseException, Object>.fromPredicate(
+      body,
+      (_) => body is Map<String, dynamic>,
+      (_) => _exceptionHandler.handle(
+        NetworkException(
+          error: body,
+          message: 'Response body is not a valid JSON',
+          userMessage: 'Response body is not a valid JSON',
+          stackTrace: StackTrace.current,
         ),
-      ).flatMap(
-        (a) => Either.safeCast(
-          a as Map<String, dynamic>,
-          _exceptionHandler.handle,
-        ),
-      );
+      ),
+    ).flatMap(
+      (a) =>
+          Either.safeCast(a as Map<String, dynamic>, _exceptionHandler.handle),
+    );
+  }
 
   @override
   Either<BaseException, Map<String, dynamic>> validateMap(
