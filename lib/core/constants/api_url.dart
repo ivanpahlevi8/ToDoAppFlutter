@@ -8,4 +8,5 @@ class ApiUrl {
 
   // connection urls
   static const sendUserConenction = "todoapp/api/Connection/send-connection";
+  static const getIsConnected = "todoapp/api/Connection/get-is-connected";
 }

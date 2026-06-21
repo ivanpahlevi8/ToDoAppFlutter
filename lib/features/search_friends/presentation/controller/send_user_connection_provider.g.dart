@@ -7,7 +7,7 @@ part of 'send_user_connection_provider.dart';
 // **************************************************************************
 
 String _$sendUserConnectionProviderHash() =>
-    r'13c740c33e0626e08fbce17d20e9757400f54315';
+    r'e60c3e5f2dd2d31aa0dbf38540f48e3b993545e8';
 
 /// See also [SendUserConnectionProvider].
 @ProviderFor(SendUserConnectionProvider)

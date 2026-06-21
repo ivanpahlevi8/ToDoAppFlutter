@@ -43,4 +43,15 @@ class Apis {
   Uri sendUserConnectionURI() {
     return _buildUri(ApiUrl.sendUserConenction);
   }
+
+  // create function to generate URI for getting is connected
+  Uri getIsConenctedURI({
+    required String userId,
+    required String userConnectionId,
+  }) {
+    return _buildUri(
+      ApiUrl.getIsConnected,
+      queryParams: {"userId": userId, "userConnectedId": userConnectionId},
+    );
+  }
 }

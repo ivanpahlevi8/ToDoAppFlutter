@@ -15,6 +15,12 @@ abstract interface class SearchFriendRemoteDatasource {
   TaskEither<BaseException, ResponseModel<String>> sendUserConnection({
     required SendUserConnectionFieldModel sendUserConnection,
   });
+
+  // create fucntion to get is connected user
+  TaskEither<BaseException, ResponseModel<bool>> getIsConnected({
+    required String userId,
+    required String userConnectedId,
+  });
 }
 
 class SearchfriendRemoteDatasourceImpl extends BaseNetwork
@@ -79,6 +85,41 @@ class SearchfriendRemoteDatasourceImpl extends BaseNetwork
           (response) => TaskEither.fromEither(validator.validateMap(response)),
         ) // validate the json is a map
         .map((data) => ResponseModel.fromJson(data, (json) => json as String));
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<bool>> getIsConnected({
+    required String userId,
+    required String userConnectedId,
+  }) {
+    // create api url
+    final apiUrls = apis.getIsConenctedURI(
+      userId: userId,
+      userConnectionId: userConnectedId,
+    );
+
+    // do request
+    final response = service
+        .get(apiUrls, null)
+        // validate the body response, make sure it 200
+        .flatMap(
+          (raw_response) =>
+              TaskEither.fromEither(validator.validateBody(raw_response)),
+        )
+        // validate the json, make sure the response is json not the html format
+        .flatMap(
+          (clean_body) =>
+              TaskEither.fromEither(validator.validateJson(clean_body)),
+        )
+        // validate the map, make sure the json is a valid map object of the flutter
+        .flatMap((json) => TaskEither.fromEither(validator.validateMap(json)))
+        // return clean data, data from response as a boolean
+        .map(
+          (response) =>
+              ResponseModel.fromJson(response, (data) => data as bool),
+        );
 
     return response;
   }

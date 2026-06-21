@@ -115,23 +115,14 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
           child: searchFriendRiverpod.when(
             data: (data) {
               if (data == null) {
-                return Center(
-                  child: Text(
-                    "No Data Found",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: customColor.textTitle,
-                    ),
-                  ),
-                );
+                return SizedBox();
               }
 
               return ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) {
                   return SearchUserItemWidget(
-                    userModel: data,
+                    searchUserEntity: data,
                     sendUserFriendRequest: (userId) {
                       // send user friend request
                       ref

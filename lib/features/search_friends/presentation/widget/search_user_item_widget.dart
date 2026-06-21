@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/search_friends/domain/entities/search_user_entity.dart';
 
 class SearchUserItemWidget extends StatelessWidget {
-  final UserModel userModel;
+  final SearchUserEntity searchUserEntity;
   final Function(String) sendUserFriendRequest;
   const SearchUserItemWidget({
     super.key,
-    required this.userModel,
+    required this.searchUserEntity,
     required this.sendUserFriendRequest,
   });
 
@@ -44,7 +45,7 @@ class SearchUserItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userModel.userName,
+                  searchUserEntity.userModel.userName,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
@@ -59,7 +60,7 @@ class SearchUserItemWidget extends StatelessWidget {
                     SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        "${userModel.firstName} ${userModel.lastName}",
+                        "${searchUserEntity.userModel.firstName} ${searchUserEntity.userModel.lastName}",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -77,7 +78,7 @@ class SearchUserItemWidget extends StatelessWidget {
                     SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        userModel.email,
+                        searchUserEntity.userModel.email,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -95,7 +96,7 @@ class SearchUserItemWidget extends StatelessWidget {
                     SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        userModel.phoneNumber,
+                        searchUserEntity.userModel.phoneNumber,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -109,26 +110,53 @@ class SearchUserItemWidget extends StatelessWidget {
             ),
           ),
           SizedBox(width: 12),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              splashFactory: InkSparkle.splashFactory,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-              backgroundColor: customColor.excellentEnd,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+          if (!searchUserEntity.isSelf && !searchUserEntity.isConnected)
+            FilledButton(
+              style: FilledButton.styleFrom(
+                splashFactory: InkSparkle.splashFactory,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 8,
+                ),
+                backgroundColor: customColor.excellentEnd,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                // send request to user
+                sendUserFriendRequest(searchUserEntity.userModel.userId);
+              },
+              child: const Icon(
+                Icons.person_add_alt,
+                size: 24,
+                fontWeight: FontWeight.w900,
               ),
             ),
-            onPressed: () {
-              // send request to user
-              sendUserFriendRequest(userModel.userId);
-            },
-            child: const Icon(
-              Icons.person_add_alt,
-              size: 24,
-              fontWeight: FontWeight.w900,
+          if (searchUserEntity.isConnected)
+            FilledButton(
+              style: FilledButton.styleFrom(
+                splashFactory: InkSparkle.splashFactory,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 8,
+                ),
+                backgroundColor: customColor.errorDialogBackground,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                // send request to user
+              },
+              child: const Icon(
+                Icons.person_off_rounded,
+                size: 24,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
         ],
       ),
     );
