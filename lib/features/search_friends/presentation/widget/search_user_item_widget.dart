@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/search_friends/domain/entities/search_user_entity.dart';
 
@@ -135,26 +134,65 @@ class SearchUserItemWidget extends StatelessWidget {
               ),
             ),
           if (searchUserEntity.isConnected)
-            FilledButton(
-              style: FilledButton.styleFrom(
-                splashFactory: InkSparkle.splashFactory,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 8,
-                ),
-                backgroundColor: customColor.errorDialogBackground,
-                foregroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: customColor.excellentEnd!.withOpacity(0.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.4),
+                    offset: Offset(0.5, 1),
+                    blurRadius: 12,
+                  ),
+                ],
               ),
-              onPressed: () {
-                // send request to user
-              },
-              child: const Icon(
-                Icons.person_off_rounded,
-                size: 24,
-                fontWeight: FontWeight.w900,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.connect_without_contact_outlined,
+                    size: 24,
+                    color: customColor.textTitle,
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    "Connected",
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                      color: customColor.textTitle,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (searchUserEntity.isSelf)
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: customColor.averageEnd!.withOpacity(0.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.4),
+                    offset: Offset(0.5, 1),
+                    blurRadius: 12,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Icon(Icons.person, size: 24, color: customColor.textTitle),
+                  SizedBox(height: 2),
+                  Text(
+                    "Yourself",
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                      color: customColor.textTitle,
+                    ),
+                  ),
+                ],
               ),
             ),
         ],
