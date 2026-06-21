@@ -131,6 +131,7 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton(
     () => AuthRepositoryImpl(
       authRemoteDatasource: sl<AuthRemoteDatasourceImpl>(),
+      sharedPreferences: sharedPreferences,
     ),
   );
 
@@ -173,6 +174,7 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton(
     () => SearchFriendRemoteRepositoryImpl(
       searchFriendRemoteDatasource: sl<SearchfriendRemoteDatasourceImpl>(),
+      sharedPreferences: sharedPreferences,
     ),
   );
 

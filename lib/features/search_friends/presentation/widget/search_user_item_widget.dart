@@ -121,6 +121,7 @@ class SearchUserItemWidget extends StatelessWidget {
             ),
             onPressed: () {
               // send request to user
+              sendUserFriendRequest(userModel.userId);
             },
             child: const Icon(
               Icons.person_add_alt,

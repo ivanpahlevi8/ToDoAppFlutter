@@ -7,7 +7,7 @@ part of 'login_user_remote_provider.dart';
 // **************************************************************************
 
 String _$loginUserRemoteProviderHash() =>
-    r'bb3e2c71b0cf95a45a8d196291f35bd03a89127a';
+    r'a12ce079680f93b8b55535b55a167b78b71f3213';
 
 /// See also [LoginUserRemoteProvider].
 @ProviderFor(LoginUserRemoteProvider)

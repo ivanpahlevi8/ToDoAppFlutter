@@ -2,7 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/search_friends/domain/entities/send_user_connection_field_entity.dart';
+import 'package:to_do_app_flutter/features/search_friends/presentation/async_ui_extension.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/controller/search_user_provider.dart';
+import 'package:to_do_app_flutter/features/search_friends/presentation/controller/send_user_connection_provider.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_bar_widget.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_item_shimmer_widget.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/widget/search_user_item_widget.dart';
@@ -25,6 +28,14 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
 
     // watch search friend riverpod
     final searchFriendRiverpod = ref.watch(searchUserProviderProvider);
+
+    // listen to send connection
+    ref.listen<AsyncValue<String?>>(sendUserConnectionProviderProvider, (
+      previous,
+      next,
+    ) {
+      next.onSendUserConnection(context, ref);
+    });
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -121,7 +132,17 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
                 itemBuilder: (context, index) {
                   return SearchUserItemWidget(
                     userModel: data,
-                    sendUserFriendRequest: (userId) {},
+                    sendUserFriendRequest: (userId) {
+                      // send user friend request
+                      ref
+                          .read(sendUserConnectionProviderProvider.notifier)
+                          .sendUserConnection(
+                            sendUserConnection: SendUserConnectionFieldEntity(
+                              userConnectionId: userId,
+                              userOwnerId: "",
+                            ),
+                          );
+                    },
                   );
                 },
               );

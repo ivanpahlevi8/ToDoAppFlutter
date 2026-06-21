@@ -8,7 +8,6 @@ import 'package:to_do_app_flutter/features/Authentication/presentation/controlle
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
-import 'package:to_do_app_flutter/features/search_friends/presentation/screen/search_user_screen.dart';
 import 'package:to_do_app_flutter/features/search_friends/search_friend_route.dart';
 
 final routerProvider = Provider.autoDispose<GoRouter>((ref) {

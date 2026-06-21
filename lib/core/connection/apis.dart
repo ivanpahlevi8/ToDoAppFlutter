@@ -38,4 +38,9 @@ class Apis {
   Uri getSearchUserByUsernameURI({required String username}) {
     return _buildUri(ApiUrl.getUser, queryParams: {"userName": username});
   }
+
+  // create send user connection API
+  Uri sendUserConnectionURI() {
+    return _buildUri(ApiUrl.sendUserConenction);
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:fpdart/src/task_either.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/Authentication/data/datasource/auth_remote_datasource.dart';
@@ -9,13 +10,20 @@ import 'package:to_do_app_flutter/features/Authentication/domain/repositories/au
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
+  final SharedPreferences sharedPreferences;
 
-  AuthRepositoryImpl({required this.authRemoteDatasource});
+  AuthRepositoryImpl({
+    required this.authRemoteDatasource,
+    required this.sharedPreferences,
+  });
 
   @override
   TaskEither<BaseException, UserModel> login(LoginFieldModel loginFieldModel) {
     return authRemoteDatasource.login(loginFieldModel).flatMap((responseModel) {
       if (responseModel.isSuccess && responseModel.result != null) {
+        // set shared preferences for user id
+        sharedPreferences.setString("user_id", responseModel.result!.userId);
+
         return TaskEither.right(responseModel.result!);
       } else {
         return TaskEither.left(

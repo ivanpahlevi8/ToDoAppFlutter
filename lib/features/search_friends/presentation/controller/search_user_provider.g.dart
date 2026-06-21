@@ -7,7 +7,7 @@ part of 'search_user_provider.dart';
 // **************************************************************************
 
 String _$searchUserProviderHash() =>
-    r'9f04cd730cd69bf99baca96c6c0a43c4b03d0723';
+    r'c3c49085a1ed3587d05874865bedacbbaa45c3ab';
 
 /// See also [SearchUserProvider].
 @ProviderFor(SearchUserProvider)

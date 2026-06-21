@@ -67,10 +67,10 @@ extension AuthUserExtension on AsyncValue<UserModel?> {
             message: "Success Login with username ${data.userName}",
           );
 
-          // Future.delayed(const Duration(milliseconds: 800), () {
-          //   // go to home
-          //   context.go("/home");
-          // });
+          Future.delayed(const Duration(milliseconds: 800), () {
+            // go to home
+            context.go("/home");
+          });
         }
       },
       error: (error, stackTrace) {

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app_flutter/core/connection/apis.dart';
-import 'package:to_do_app_flutter/core/constants/constant_value.dart';
 
 class TokenInterceptor extends Interceptor {
   final Apis _apis;

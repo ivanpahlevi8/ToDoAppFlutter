@@ -3,11 +3,17 @@ import 'package:to_do_app_flutter/core/connection/base_network.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/search_friends/data/model/send_user_connection_field_model.dart';
 
 abstract interface class SearchFriendRemoteDatasource {
   // function to search user
   TaskEither<BaseException, ResponseModel<UserModel>> searchUserWithUsername({
     required String username,
+  });
+
+  // function to send connection to user
+  TaskEither<BaseException, ResponseModel<String>> sendUserConnection({
+    required SendUserConnectionFieldModel sendUserConnection,
   });
 }
 
@@ -44,6 +50,35 @@ class SearchfriendRemoteDatasourceImpl extends BaseNetwork
             (json) => UserModel.fromJson(json as Map<String, dynamic>),
           ),
         );
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> sendUserConnection({
+    required SendUserConnectionFieldModel sendUserConnection,
+  }) {
+    // create API
+    final apiUrls = apis.sendUserConnectionURI();
+
+    // do request
+    final response = service
+        .post(
+          apiUrls,
+          null,
+          headers: {"Content-Type": "application/json"},
+          body: sendUserConnection.toJson(),
+        )
+        .flatMap(
+          (response) => TaskEither.fromEither(validator.validateBody(response)),
+        ) // validate body response
+        .flatMap(
+          (response) => TaskEither.fromEither(validator.validateJson(response)),
+        ) // validate the json response, is it a valid json
+        .flatMap(
+          (response) => TaskEither.fromEither(validator.validateMap(response)),
+        ) // validate the json is a map
+        .map((data) => ResponseModel.fromJson(data, (json) => json as String));
 
     return response;
   }
