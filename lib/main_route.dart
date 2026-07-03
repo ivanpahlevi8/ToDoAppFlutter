@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_provider.dart';
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
 import 'package:to_do_app_flutter/features/search_friends/search_friend_route.dart';
@@ -67,19 +68,38 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                   Row(
                     children: [
                       Expanded(
+                        child: Divider(thickness: 1.2, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ListTile(
                               leading: const Icon(Icons.person),
-                              title: const Text('Add People'),
+                              title: const Text('Search People'),
                               onTap: () {
                                 // unshow drawer
                                 if (context.canPop()) {
                                   context.pop();
                                 }
                                 context.push("/search-user");
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.people_alt_rounded),
+                              title: const Text('Manage Connection'),
+                              onTap: () {
+                                // unshow drawer
+                                if (context.canPop()) {
+                                  context.pop();
+                                }
+                                context.push("/manage-connection");
                               },
                             ),
                           ],
@@ -109,6 +129,10 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
         },
         routes: [
           GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
+          GoRoute(
+            path: '/manage-connection',
+            builder: (cotext, state) => GetRequestConnectionByuserScreen(),
+          ),
         ],
       ),
     ],

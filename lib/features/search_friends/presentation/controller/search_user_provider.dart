@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/services/service_locator.dart';
 import 'package:to_do_app_flutter/features/search_friends/domain/entities/search_user_entity.dart';
 import 'package:to_do_app_flutter/features/search_friends/domain/usecase/search_friend_usecase.dart';

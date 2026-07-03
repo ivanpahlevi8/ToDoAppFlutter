@@ -15,6 +15,9 @@ import 'package:to_do_app_flutter/features/Authentication/data/repositories/auth
 import 'package:to_do_app_flutter/features/Authentication/data/repositories/user_login_repository_impl.dart';
 import 'package:to_do_app_flutter/features/Authentication/domain/usecase/auth_usecase.dart';
 import 'package:to_do_app_flutter/features/Authentication/domain/usecase/user_login_usecase.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/repositories/connection_remote_repository_impl.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/domain/usecase/connection_remote_usecase.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_local_datasource.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
@@ -182,6 +185,30 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton(
     () => SearchFriendUsecase(
       searchFriendRemoteRepository: sl<SearchFriendRemoteRepositoryImpl>(),
+    ),
+  );
+
+  // create instance for connection remote datasource
+  sl.registerLazySingleton(
+    () => ConnectionRemoteDatasourceImpl(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>(),
+    ),
+  );
+
+  // create instance for connection remote repository
+  sl.registerLazySingleton(
+    () => ConnectionRemoteRepositoryImpl(
+      connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>(),
+      sharedPreferences: sharedPreferences,
+    ),
+  );
+
+  // create instance for connection remote usecase
+  sl.registerLazySingleton(
+    () => ConnectionRemoteUsecase(
+      connectionRemoteRepository: sl<ConnectionRemoteRepositoryImpl>(),
     ),
   );
 }

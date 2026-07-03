@@ -54,4 +54,17 @@ class Apis {
       queryParams: {"userId": userId, "userConnectedId": userConnectionId},
     );
   }
+
+  // create fucntion to create URI for get all request connection by user
+  Uri getGetAllRequestConenctionByUser({required String loginUserId}) {
+    return _buildUri(
+      ApiUrl.getRequestConnectionByUser,
+      queryParams: {"userId": loginUserId},
+    );
+  }
+
+  // function to create URI for get user by id
+  Uri getUserByIdUrl({required String userId}) {
+    return _buildUri(ApiUrl.getUserById, queryParams: {"userId": userId});
+  }
 }
