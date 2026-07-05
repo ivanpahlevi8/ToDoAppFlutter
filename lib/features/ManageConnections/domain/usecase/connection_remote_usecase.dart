@@ -19,4 +19,13 @@ class ConnectionRemoteUsecase {
   getRequestConnectionToUser() {
     return connectionRemoteRepository.getRequestConnectionToUser();
   }
+
+  // create fucntion to remove connection
+  TaskEither<BaseException, ConnectionViewEntity> removeConnection({
+    required int connectionId,
+  }) {
+    return connectionRemoteRepository.removeConnection(
+      connectionId: connectionId,
+    );
+  }
 }

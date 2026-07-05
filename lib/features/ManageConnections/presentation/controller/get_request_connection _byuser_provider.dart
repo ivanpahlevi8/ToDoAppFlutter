@@ -14,18 +14,16 @@ class GetRequestConnectionByuserProvider
   }
 
   Future<void> getRequestConnectionByUser() async {
-    print("Update state into loading state on provider");
     state = AsyncValue.loading();
+
+    await Future.delayed(Duration(milliseconds: 700));
 
     final response = await sl<ConnectionRemoteUsecase>()
         .getRequestConnectionByUser()
         .run();
 
-    print("Finish get data in provider...");
-
     state = response.fold(
       (exception) {
-        print("Check on error : ${exception.message}");
         return AsyncValue.error(exception.message!, exception.stackTrace!);
       },
       (data) {

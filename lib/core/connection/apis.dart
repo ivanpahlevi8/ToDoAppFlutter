@@ -75,4 +75,12 @@ class Apis {
       queryParams: {"requesterId": loginUserId},
     );
   }
+
+  // function to create url for remove connection
+  Uri getRemoveConnectionUrl({required int connectionId}) {
+    return _buildUri(
+      ApiUrl.removeConnection,
+      queryParams: {"connectionId": connectionId.toString()},
+    );
+  }
 }

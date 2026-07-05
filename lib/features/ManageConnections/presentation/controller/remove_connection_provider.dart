@@ -3,28 +3,29 @@ import 'package:to_do_app_flutter/core/services/service_locator.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/usecase/connection_remote_usecase.dart';
 
-part 'get_request_connection_touser_provider.g.dart';
+part 'remove_connection_provider.g.dart';
 
 @riverpod
-class GetRequestConnectionTouserProvider
-    extends _$GetRequestConnectionTouserProvider {
+class RemoveConnectionProvider extends _$RemoveConnectionProvider {
   @override
-  FutureOr<List<ConnectionViewEntity>?> build() {
+  FutureOr<ConnectionViewEntity?> build() {
     return null;
   }
 
-  Future<void> getConnectionToUser() async {
-    // set state to laoding
+  // create function to remove connection
+  Future<void> removeConnection({required int connectionId}) async {
+    // set state into loading
     state = AsyncValue.loading();
 
-    await Future.delayed(Duration(milliseconds: 700));
+    // add delay
+    await Future.delayed(Duration(milliseconds: 500));
 
-    // get result
-    final response = await sl<ConnectionRemoteUsecase>()
-        .getRequestConnectionToUser()
+    // remove connection
+    final result = await sl<ConnectionRemoteUsecase>()
+        .removeConnection(connectionId: connectionId)
         .run();
 
-    response.fold(
+    result.fold(
       (exception) {
         state = AsyncValue.error(exception.error!, exception.stackTrace!);
       },

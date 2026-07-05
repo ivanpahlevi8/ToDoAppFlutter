@@ -4,9 +4,11 @@ import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/con
 
 class ConnectionRequestByuserItem extends StatelessWidget {
   final ConnectionViewEntity connectionViewEntity;
+  final Function(int) removeConnection;
   const ConnectionRequestByuserItem({
     super.key,
     required this.connectionViewEntity,
+    required this.removeConnection,
   });
 
   @override
@@ -116,7 +118,11 @@ class ConnectionRequestByuserItem extends StatelessWidget {
           ),
           SizedBox(width: 8),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              removeConnection(
+                connectionViewEntity.connectionEntity.connectionId,
+              );
+            },
             style: TextButton.styleFrom(
               minimumSize: Size.zero,
               backgroundColor: customColor.errorColor!,

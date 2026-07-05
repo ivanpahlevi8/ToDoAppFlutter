@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_request_connection%20_byuser_provider.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/remove_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
 
@@ -17,13 +20,10 @@ class _GetRequestConnectionByuserScreenState
   @override
   void initState() {
     // initial state to get the request connection by user
-    Future.delayed(Duration(milliseconds: 500), () async {
-      Future.microtask(() async {
-        // call provider to provide request connectiojn by user data
-        ref
-            .read(getRequestConnectionByuserProviderProvider.notifier)
-            .getRequestConnectionByUser();
-      });
+    Future.microtask(() async {
+      ref
+          .read(getRequestConnectionByuserProviderProvider.notifier)
+          .getRequestConnectionByUser();
     });
 
     super.initState();
@@ -33,6 +33,14 @@ class _GetRequestConnectionByuserScreenState
   Widget build(BuildContext context) {
     final requestConnectionByUserProvider = ref.watch(
       getRequestConnectionByuserProviderProvider,
+    );
+
+    // listen on remove connection
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      removeConnectionProviderProvider,
+      (previous, next) {
+        next.onRemoveConnection(context, ref);
+      },
     );
 
     return Scaffold(
@@ -51,6 +59,11 @@ class _GetRequestConnectionByuserScreenState
                       // show data view
                       return ConnectionRequestByuserItem(
                         connectionViewEntity: getSingleData,
+                        removeConnection: (connectionId) {
+                          ref
+                              .read(removeConnectionProviderProvider.notifier)
+                              .removeConnection(connectionId: connectionId);
+                        },
                       );
                     },
                   );

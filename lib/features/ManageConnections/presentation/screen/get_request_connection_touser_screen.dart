@@ -18,12 +18,10 @@ class _GetRequestConnectionTouserScreenState
   @override
   void initState() {
     // init data to get conenction request to login user
-    Future.delayed(Duration(milliseconds: 500), () async {
-      Future.microtask(() async {
-        ref
-            .read(getRequestConnectionTouserProviderProvider.notifier)
-            .getConnectionToUser();
-      });
+    Future.microtask(() async {
+      ref
+          .read(getRequestConnectionTouserProviderProvider.notifier)
+          .getConnectionToUser();
     });
 
     super.initState();

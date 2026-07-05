@@ -176,4 +176,60 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       );
     });
   }
+
+  @override
+  TaskEither<BaseException, ConnectionViewEntity> removeConnection({
+    required int connectionId,
+  }) {
+    // do request to remove user
+    final response = connectionRemoteDatasource.removeConnection(
+      connectionId: connectionId,
+    );
+
+    // flat mapt the response to check is request success on server or not
+    return response.flatMap((responseData) {
+      if (!responseData.isSuccess || responseData.result == null) {
+        return TaskEither.left(
+          BaseException(
+            message: "Error Happen : ${responseData.message}",
+            error: responseData.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get connection from user
+      ConnectionModel getConnection = responseData.result!;
+
+      // do request to get user from connection
+      final getUserResponse = connectionRemoteDatasource.getUserById(
+        userId: getConnection.userConnectionId,
+      );
+
+      // flat map the user response to check weather the operation success or not
+      return getUserResponse.flatMap((userResponse) {
+        if (!userResponse.isSuccess || userResponse.result == null) {
+          return TaskEither.left(
+            BaseException(
+              message: "Error Happen : ${userResponse.message}",
+              error: userResponse.message,
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        // get user model result
+        UserModel getUserModel = userResponse.result!;
+
+        // create connection view
+        ConnectionViewEntity connectionViewEntity = ConnectionViewEntity(
+          connectionEntity: getConnection.toEntity(),
+          userModel: getUserModel,
+        );
+
+        // return success
+        return TaskEither.right(connectionViewEntity);
+      });
+    });
+  }
 }

@@ -7,7 +7,7 @@ part of 'get_request_connection _byuser_provider.dart';
 // **************************************************************************
 
 String _$getRequestConnectionByuserProviderHash() =>
-    r'98df9ecfbcec96f7cb1a6a2b6e9eb313f7361b14';
+    r'f2088b611cd978510f4d35ac57a015c7f3977554';
 
 /// See also [GetRequestConnectionByuserProvider].
 @ProviderFor(GetRequestConnectionByuserProvider)
