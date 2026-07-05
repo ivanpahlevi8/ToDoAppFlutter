@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_entity.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/repositories/connection_remote_repository.dart';
 
@@ -13,5 +12,11 @@ class ConnectionRemoteUsecase {
   TaskEither<BaseException, List<ConnectionViewEntity>>
   getRequestConnectionByUser() {
     return connectionRemoteRepository.getRequestConnectionByUser();
+  }
+
+  // create function to get all connection request to login user
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getRequestConnectionToUser() {
+    return connectionRemoteRepository.getRequestConnectionToUser();
   }
 }

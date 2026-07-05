@@ -12,4 +12,6 @@ class ApiUrl {
   static const getRequestConnectionByUser =
       "todoapp/api/Connection/get-reques-connection";
   static const getUserById = "todoapp/api/Auth/get-userid";
+  static const getRequestConnectionToUser =
+      "todoapp/api/Connection/get-requested-connection";
 }

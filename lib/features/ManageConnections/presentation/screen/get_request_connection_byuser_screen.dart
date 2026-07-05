@@ -17,11 +17,13 @@ class _GetRequestConnectionByuserScreenState
   @override
   void initState() {
     // initial state to get the request connection by user
-    Future.microtask(() async {
-      // call provider to provide request connectiojn by user data
-      ref
-          .read(getRequestConnectionByuserProviderProvider.notifier)
-          .getRequestConnectionByUser();
+    Future.delayed(Duration(milliseconds: 500), () async {
+      Future.microtask(() async {
+        // call provider to provide request connectiojn by user data
+        ref
+            .read(getRequestConnectionByuserProviderProvider.notifier)
+            .getRequestConnectionByUser();
+      });
     });
 
     super.initState();
@@ -68,7 +70,13 @@ class _GetRequestConnectionByuserScreenState
                 );
               },
               loading: () {
-                return Center(child: CircularProgressIndicator());
+                return ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    // show data view
+                    return ConnectionRequestByuserItemShimmer();
+                  },
+                );
               },
             ),
           ),

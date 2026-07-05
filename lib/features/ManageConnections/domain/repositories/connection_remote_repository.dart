@@ -6,4 +6,8 @@ abstract interface class ConnectionRemoteRepository {
   // create function to get all request connection by user
   TaskEither<BaseException, List<ConnectionViewEntity>>
   getRequestConnectionByUser();
+
+  // create function to get all request connection to user
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getRequestConnectionToUser();
 }

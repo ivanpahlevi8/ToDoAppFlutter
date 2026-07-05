@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_provider.dart';
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/connections_route.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
@@ -20,6 +21,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
       onBoardRoutes,
       authPackageRoutes,
       searchFriendsRoute,
+      connectionsRoute,
       ShellRoute(
         builder: (context, state, child) {
           return Scaffold(
@@ -99,7 +101,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                                 if (context.canPop()) {
                                   context.pop();
                                 }
-                                context.push("/manage-connection");
+                                context.push("/connection-byuser");
                               },
                             ),
                           ],
@@ -129,10 +131,6 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
         },
         routes: [
           GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
-          GoRoute(
-            path: '/manage-connection',
-            builder: (cotext, state) => GetRequestConnectionByuserScreen(),
-          ),
         ],
       ),
     ],
