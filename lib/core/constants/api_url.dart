@@ -15,6 +15,8 @@ class ApiUrl {
   static const getRequestConnectionToUser =
       "todoapp/api/Connection/get-requested-connection";
   static const removeConnection = "todoapp/api/Connection/remove-connection";
+  static const declineConnectionRequest =
+      "todoapp/api/Connection/declined-connection";
   static const getConnectionRejectionByUser =
       "todoapp/api/Connection/connection-rejected-byuser";
 }

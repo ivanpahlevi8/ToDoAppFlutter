@@ -232,4 +232,59 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       });
     });
   }
+
+  @override
+  TaskEither<BaseException, ConnectionViewEntity> declineConnection({
+    required int connectionId,
+  }) {
+    // do request to decline the connection
+    final declineConnectionResponse = connectionRemoteDatasource
+        .declineConnection(connectionId: connectionId);
+
+    // flat map the response to check server response
+    return declineConnectionResponse.flatMap((connectionResponse) {
+      if (!connectionResponse.isSuccess || connectionResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            message: "Error Happen : ${connectionResponse.message}",
+            error: connectionResponse.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get connection model
+      ConnectionModel getConnection = connectionResponse.result!;
+
+      // get user from connection response
+      final getUserResponse = connectionRemoteDatasource.getUserById(
+        userId: getConnection.userOwnerId,
+      );
+
+      // map the get user response to check the server status return
+      return getUserResponse.flatMap((userResponse) {
+        if (!userResponse.isSuccess || userResponse.result == null) {
+          return TaskEither.left(
+            BaseException(
+              message: "Error Happen : ${userResponse.message}",
+              error: userResponse.message,
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        // get user model
+        UserModel getUser = userResponse.result!;
+
+        // create connection view
+        ConnectionViewEntity connectionView = ConnectionViewEntity(
+          connectionEntity: getConnection.toEntity(),
+          userModel: getUser,
+        );
+
+        // return success
+        return TaskEither.right(connectionView);
+      });
+    });
+  }
 }

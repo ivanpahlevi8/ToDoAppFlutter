@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/decline_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_request_connection_touser_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_touser_item.dart';
@@ -33,6 +35,14 @@ class _GetRequestConnectionTouserScreenState
       getRequestConnectionTouserProviderProvider,
     );
 
+    // listen do decline connection
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      declineConnectionProviderProvider,
+      (previous, next) {
+        next.onDeclineConnection(context, ref);
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -48,6 +58,11 @@ class _GetRequestConnectionTouserScreenState
                     // show data
                     return ConnectionRequestTouserItem(
                       connectionViewEntity: getData,
+                      onDeclineConnection: (connectionId) {
+                        ref
+                            .read(declineConnectionProviderProvider.notifier)
+                            .declineConnection(connectionId: connectionId);
+                      },
                     );
                   },
                 );

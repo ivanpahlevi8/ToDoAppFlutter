@@ -15,4 +15,9 @@ abstract interface class ConnectionRemoteRepository {
   TaskEither<BaseException, ConnectionViewEntity> removeConnection({
     required int connectionId,
   });
+
+  // create function to decline connection
+  TaskEither<BaseException, ConnectionViewEntity> declineConnection({
+    required int connectionId,
+  });
 }

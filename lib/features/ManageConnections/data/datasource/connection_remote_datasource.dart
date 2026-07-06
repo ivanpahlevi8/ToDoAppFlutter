@@ -23,6 +23,11 @@ abstract interface class ConnectionRemoteDatasource {
   TaskEither<BaseException, ResponseModel<ConnectionModel>> removeConnection({
     required int connectionId,
   });
+
+  // function to decline connection request
+  TaskEither<BaseException, ResponseModel<ConnectionModel>> declineConnection({
+    required int connectionId,
+  });
 }
 
 class ConnectionRemoteDatasourceImpl extends BaseNetwork
@@ -40,8 +45,6 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
     final apiUrl = apis.getGetAllRequestConenctionByUser(
       loginUserId: loginUserId,
     );
-
-    print("Check on url on get connection : $apiUrl");
 
     // do request
     final response = service
@@ -74,8 +77,6 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
   }) {
     // get api
     final getApi = apis.getUserByIdUrl(userId: userId);
-
-    print("Check on url on get userb by id : $getApi");
 
     // do request
     final response = service
@@ -161,6 +162,36 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
         });
 
     // return response
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<ConnectionModel>> declineConnection({
+    required int connectionId,
+  }) {
+    // create api
+    final apiUrl = apis.getDeclineConnectionUrl(connectionId: connectionId);
+
+    // do request
+    final response = service
+        .update(apiUrl, null, headers: {"Content-Type": "application/json"})
+        // validate the response to make sure it 200
+        .flatMap(
+          (response_body) =>
+              TaskEither.fromEither(validator.validateBody(response_body)),
+        )
+        // validate body to make sure the body response was json
+        .flatMap((body) => TaskEither.fromEither(validator.validateJson(body)))
+        // validate body to make sure the body can be mapped into an object
+        .flatMap((json) => TaskEither.fromEither(validator.validateMap(json)))
+        // map into a real object
+        .map((data_obj) {
+          return ResponseModel.fromJson(
+            data_obj,
+            (innerObj) => ConnectionModel.fromJson(innerObj as dynamic),
+          );
+        });
+
     return response;
   }
 }

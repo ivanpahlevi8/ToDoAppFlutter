@@ -4,9 +4,11 @@ import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/con
 
 class ConnectionRequestTouserItem extends StatelessWidget {
   final ConnectionViewEntity connectionViewEntity;
+  final Function(int) onDeclineConnection;
   const ConnectionRequestTouserItem({
     super.key,
     required this.connectionViewEntity,
+    required this.onDeclineConnection,
   });
 
   @override
@@ -118,7 +120,11 @@ class ConnectionRequestTouserItem extends StatelessWidget {
           Column(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  onDeclineConnection(
+                    connectionViewEntity.connectionEntity.connectionId,
+                  );
+                },
                 style: TextButton.styleFrom(
                   minimumSize: Size.zero,
                   backgroundColor: customColor.errorColor!,

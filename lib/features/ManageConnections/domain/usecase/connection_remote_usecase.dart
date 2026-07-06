@@ -28,4 +28,13 @@ class ConnectionRemoteUsecase {
       connectionId: connectionId,
     );
   }
+
+  // create function to decline connection
+  TaskEither<BaseException, ConnectionViewEntity> declineConnection({
+    required int connectionId,
+  }) {
+    return connectionRemoteRepository.declineConnection(
+      connectionId: connectionId,
+    );
+  }
 }

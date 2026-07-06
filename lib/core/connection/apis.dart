@@ -83,4 +83,12 @@ class Apis {
       queryParams: {"connectionId": connectionId.toString()},
     );
   }
+
+  // function to create url for declined connection
+  Uri getDeclineConnectionUrl({required int connectionId}) {
+    return _buildUri(
+      ApiUrl.declineConnectionRequest,
+      queryParams: {"connectionId": connectionId.toString()},
+    );
+  }
 }
