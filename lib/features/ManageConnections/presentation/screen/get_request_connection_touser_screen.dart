@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/accept_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/decline_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_request_connection_touser_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
@@ -43,6 +44,14 @@ class _GetRequestConnectionTouserScreenState
       },
     );
 
+    // listen do accept connection
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      acceptConnectionProviderProvider,
+      (previous, next) {
+        next.onAcceptConnection(context, ref);
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -62,6 +71,11 @@ class _GetRequestConnectionTouserScreenState
                         ref
                             .read(declineConnectionProviderProvider.notifier)
                             .declineConnection(connectionId: connectionId);
+                      },
+                      onAcceptConnection: (connectionId) {
+                        ref
+                            .read(acceptConnectionProviderProvider.notifier)
+                            .acceptConnection(connectionId: connectionId);
                       },
                     );
                   },

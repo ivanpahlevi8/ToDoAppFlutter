@@ -100,4 +100,50 @@ extension ActionConnectionExtension on AsyncValue<ConnectionViewEntity?> {
       },
     );
   }
+
+  Future<void> onAcceptConnection(BuildContext context, WidgetRef ref) async {
+    when(
+      data: (data) async {
+        // pop loading dialog
+        if (data != null) {
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          await Future.delayed(Duration(milliseconds: 500));
+
+          // validate again to get all request connection by user
+          ref
+              .read(getRequestConnectionTouserProviderProvider.notifier)
+              .getConnectionToUser();
+
+          // show success dialog
+          context.showSuccessSnackBar(
+            message: "Accept ${data.userModel.userName}",
+          );
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
 }

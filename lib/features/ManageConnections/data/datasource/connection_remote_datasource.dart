@@ -28,6 +28,11 @@ abstract interface class ConnectionRemoteDatasource {
   TaskEither<BaseException, ResponseModel<ConnectionModel>> declineConnection({
     required int connectionId,
   });
+
+  // function to accept connection request
+  TaskEither<BaseException, ResponseModel<ConnectionModel>> acceptConnection({
+    required int connectionId,
+  });
 }
 
 class ConnectionRemoteDatasourceImpl extends BaseNetwork
@@ -188,6 +193,38 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
         .map((data_obj) {
           return ResponseModel.fromJson(
             data_obj,
+            (innerObj) => ConnectionModel.fromJson(innerObj as dynamic),
+          );
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<ConnectionModel>> acceptConnection({
+    required int connectionId,
+  }) {
+    // create api url
+    final apiUrl = apis.getAcceptConnectionUrl(connectionId: connectionId);
+
+    // do request
+    final response = service
+        .update(apiUrl, null, headers: {"Content-Type": "application/json"})
+        // validate the body response, to make sure it return 200
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        // validate to make sure the response is in json
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        // validate to make sure json can be mapped to body
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        // map to result
+        .map((result) {
+          return ResponseModel.fromJson(
+            result,
             (innerObj) => ConnectionModel.fromJson(innerObj as dynamic),
           );
         });

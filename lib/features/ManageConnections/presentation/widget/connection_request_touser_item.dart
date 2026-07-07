@@ -5,10 +5,12 @@ import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/con
 class ConnectionRequestTouserItem extends StatelessWidget {
   final ConnectionViewEntity connectionViewEntity;
   final Function(int) onDeclineConnection;
+  final Function(int) onAcceptConnection;
   const ConnectionRequestTouserItem({
     super.key,
     required this.connectionViewEntity,
     required this.onDeclineConnection,
+    required this.onAcceptConnection,
   });
 
   @override
@@ -154,7 +156,11 @@ class ConnectionRequestTouserItem extends StatelessWidget {
               ),
               SizedBox(height: 4),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  onAcceptConnection(
+                    connectionViewEntity.connectionEntity.connectionId,
+                  );
+                },
                 style: TextButton.styleFrom(
                   minimumSize: Size.zero,
                   backgroundColor: customColor.successDialogBackground!,

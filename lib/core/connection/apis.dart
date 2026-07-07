@@ -91,4 +91,12 @@ class Apis {
       queryParams: {"connectionId": connectionId.toString()},
     );
   }
+
+  // function to create url for accept connection
+  Uri getAcceptConnectionUrl({required int connectionId}) {
+    return _buildUri(
+      ApiUrl.acceptConnectionRequest,
+      queryParams: {"connectionId": connectionId.toString()},
+    );
+  }
 }

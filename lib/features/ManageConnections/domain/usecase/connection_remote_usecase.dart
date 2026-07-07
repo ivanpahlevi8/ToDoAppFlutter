@@ -37,4 +37,13 @@ class ConnectionRemoteUsecase {
       connectionId: connectionId,
     );
   }
+
+  // create function to accept connection
+  TaskEither<BaseException, ConnectionViewEntity> acceptConnection({
+    required int connectionId,
+  }) {
+    return connectionRemoteRepository.acceptConnection(
+      connectionId: connectionId,
+    );
+  }
 }

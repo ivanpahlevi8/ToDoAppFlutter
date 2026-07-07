@@ -287,4 +287,52 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       });
     });
   }
+
+  @override
+  TaskEither<BaseException, ConnectionViewEntity> acceptConnection({
+    required int connectionId,
+  }) {
+    // accept connection and retrieve connection response
+    final acceptConnectionResponse = connectionRemoteDatasource
+        .acceptConnection(connectionId: connectionId);
+
+    return acceptConnectionResponse.flatMap((acceptConnection) {
+      if (!acceptConnection.isSuccess || acceptConnection.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: acceptConnection.message,
+            message: "Error happen : ${acceptConnection.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      ConnectionModel getConnectionResponse = acceptConnection.result!;
+
+      final getUserResponse = connectionRemoteDatasource.getUserById(
+        userId: getConnectionResponse.userConnectionId,
+      );
+
+      return getUserResponse.flatMap((getUser) {
+        if (!getUser.isSuccess || getUser.result == null) {
+          return TaskEither.left(
+            BaseException(
+              error: getUser.message,
+              message: "Error happen : ${getUser.message}",
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        UserModel userModel = getUser.result!;
+
+        return TaskEither.right(
+          ConnectionViewEntity(
+            connectionEntity: getConnectionResponse.toEntity(),
+            userModel: userModel,
+          ),
+        );
+      });
+    });
+  }
 }

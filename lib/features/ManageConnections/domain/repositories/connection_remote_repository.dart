@@ -20,4 +20,9 @@ abstract interface class ConnectionRemoteRepository {
   TaskEither<BaseException, ConnectionViewEntity> declineConnection({
     required int connectionId,
   });
+
+  // create function to accept connection
+  TaskEither<BaseException, ConnectionViewEntity> acceptConnection({
+    required int connectionId,
+  });
 }
