@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_reject_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_touser_screen.dart';
 
 final RouteBase connectionsRoute = ShellRoute(
@@ -19,6 +20,9 @@ final RouteBase connectionsRoute = ShellRoute(
         break;
       case '/connection-touser':
         currRoutePosition = 1;
+        break;
+      case '/connection-reject-byuser':
+        currRoutePosition = 2;
         break;
       default:
         currRoutePosition = 0;
@@ -96,7 +100,7 @@ final RouteBase connectionsRoute = ShellRoute(
                     SizedBox(width: 8),
                     TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: currRoutePosition == 1
+                        backgroundColor: currRoutePosition == 2
                             ? customColor.selectedPagerIndicator
                             : customColor.unselectedPagerIndicator,
                         shape: RoundedRectangleBorder(
@@ -106,10 +110,10 @@ final RouteBase connectionsRoute = ShellRoute(
                         ),
                       ),
                       onPressed: () {
-                        context.go('/connection-touser');
+                        context.go('/connection-reject-byuser');
                       },
                       child: Text(
-                        "Connection To User",
+                        "Connection Reject By User",
                         style: TextStyle(
                           color: customColor.textTitle,
                           fontSize: 16,
@@ -135,6 +139,10 @@ final RouteBase connectionsRoute = ShellRoute(
     GoRoute(
       path: '/connection-touser',
       builder: (context, state) => GetRequestConnectionTouserScreen(),
+    ),
+    GoRoute(
+      path: '/connection-reject-byuser',
+      builder: (context, state) => GetRequestConnectionRejectByuserScreen(),
     ),
   ],
 );

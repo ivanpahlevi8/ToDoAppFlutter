@@ -335,4 +335,75 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       });
     });
   }
+
+  @override
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getAllRequestConnectionRejectByUser() {
+    // get current login user
+    String loggedinUser = sharedPreferences.getString("user_id") ?? "";
+
+    // get all connection
+    final allConnectionResponse = connectionRemoteDatasource
+        .getRequestConnectionRejectByUser(userId: loggedinUser);
+
+    // check connection response status from server
+    return allConnectionResponse.flatMap((allConnection) {
+      if (!allConnection.isSuccess || allConnection.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: allConnection.message,
+            message: "Error happen : ${allConnection.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get all connection
+      final getAllConnection = allConnection.result!;
+
+      // create empty list to hold task either for being executed later
+      List<TaskEither<BaseException, ConnectionViewEntity>> processExceuted =
+          [];
+
+      // loop through all connection
+      for (int j = 0; j < getAllConnection.length; j++) {
+        // get single connection
+        ConnectionModel singleConnection = getAllConnection[j];
+
+        // get user model
+        final getUserModelResponse = connectionRemoteDatasource.getUserById(
+          userId: singleConnection.userOwnerId,
+        );
+
+        // check response
+        processExceuted.add(
+          getUserModelResponse.flatMap((getUser) {
+            if (!getUser.isSuccess || getUser.result == null) {
+              return TaskEither.left(
+                BaseException(
+                  error: getUser.message,
+                  message: "Error happen : ${getUser.message}",
+                  stackTrace: StackTrace.current,
+                ),
+              );
+            }
+
+            final getSingleUser = getUser.result!;
+
+            return TaskEither.right(
+              ConnectionViewEntity(
+                connectionEntity: singleConnection.toEntity(),
+                userModel: getSingleUser,
+              ),
+            );
+          }),
+        );
+      }
+
+      // executed
+      return TaskEither.sequenceList<BaseException, ConnectionViewEntity>(
+        processExceuted,
+      );
+    });
+  }
 }

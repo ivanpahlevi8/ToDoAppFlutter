@@ -99,4 +99,12 @@ class Apis {
       queryParams: {"connectionId": connectionId.toString()},
     );
   }
+
+  // function to create url to get all request connection rejected by user
+  Uri getAllRequestConnectionRejectedByUser({required String userId}) {
+    return _buildUri(
+      ApiUrl.getConnectionRejectionToUser,
+      queryParams: {"userId": userId},
+    );
+  }
 }

@@ -25,4 +25,8 @@ abstract interface class ConnectionRemoteRepository {
   TaskEither<BaseException, ConnectionViewEntity> acceptConnection({
     required int connectionId,
   });
+
+  // create function to get all request connection reject by user
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getAllRequestConnectionRejectByUser();
 }

@@ -46,4 +46,10 @@ class ConnectionRemoteUsecase {
       connectionId: connectionId,
     );
   }
+
+  // function to get all request connection reject by user
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getAllRequestConnectionRejectByUser() {
+    return connectionRemoteRepository.getAllRequestConnectionRejectByUser();
+  }
 }
