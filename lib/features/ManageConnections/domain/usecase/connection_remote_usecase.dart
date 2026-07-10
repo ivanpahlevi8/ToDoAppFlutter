@@ -52,4 +52,9 @@ class ConnectionRemoteUsecase {
   getAllRequestConnectionRejectByUser() {
     return connectionRemoteRepository.getAllRequestConnectionRejectByUser();
   }
+
+  // function to get all connections user
+  TaskEither<BaseException, List<ConnectionViewEntity>> getAllUserConnection() {
+    return connectionRemoteRepository.getAllConnectionUser();
+  }
 }

@@ -107,4 +107,12 @@ class Apis {
       queryParams: {"userId": userId},
     );
   }
+
+  // function to get all connection from user
+  Uri getAllConnectionUserUrl({required String userId}) {
+    return _buildUri(
+      ApiUrl.getAllConnectionUser,
+      queryParams: {"userId": userId},
+    );
+  }
 }

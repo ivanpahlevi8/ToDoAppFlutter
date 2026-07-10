@@ -21,4 +21,6 @@ class ApiUrl {
       "todoapp/api/Connection/accept-connection";
   static const getConnectionRejectionToUser =
       "todoapp/api/Connection/connection-reject-touser";
+  static const getAllConnectionUser =
+      "todoapp/api/Connection/get-all-connection";
 }

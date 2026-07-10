@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_connection_user.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_reject_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_touser_screen.dart';
@@ -23,6 +24,9 @@ final RouteBase connectionsRoute = ShellRoute(
         break;
       case '/connection-reject-byuser':
         currRoutePosition = 2;
+        break;
+      case '/connection-user':
+        currRoutePosition = 3;
         break;
       default:
         currRoutePosition = 0;
@@ -121,6 +125,30 @@ final RouteBase connectionsRoute = ShellRoute(
                         ),
                       ),
                     ),
+                    SizedBox(width: 8),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: currRoutePosition == 3
+                            ? customColor.selectedPagerIndicator
+                            : customColor.unselectedPagerIndicator,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.go('/connection-user');
+                      },
+                      child: Text(
+                        "User Connections",
+                        style: TextStyle(
+                          color: customColor.textTitle,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -143,6 +171,10 @@ final RouteBase connectionsRoute = ShellRoute(
     GoRoute(
       path: '/connection-reject-byuser',
       builder: (context, state) => GetRequestConnectionRejectByuserScreen(),
+    ),
+    GoRoute(
+      path: '/connection-user',
+      builder: (context, state) => GetConnectionUser(),
     ),
   ],
 );

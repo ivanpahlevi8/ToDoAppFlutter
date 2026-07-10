@@ -29,4 +29,7 @@ abstract interface class ConnectionRemoteRepository {
   // create function to get all request connection reject by user
   TaskEither<BaseException, List<ConnectionViewEntity>>
   getAllRequestConnectionRejectByUser();
+
+  // create function to get all user connection
+  TaskEither<BaseException, List<ConnectionViewEntity>> getAllConnectionUser();
 }

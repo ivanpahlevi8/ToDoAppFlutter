@@ -1,5 +1,6 @@
 import 'package:fpdart/src/task_either.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app_flutter/core/connection/apis.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
@@ -403,6 +404,73 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       // executed
       return TaskEither.sequenceList<BaseException, ConnectionViewEntity>(
         processExceuted,
+      );
+    });
+  }
+
+  @override
+  TaskEither<BaseException, List<ConnectionViewEntity>> getAllConnectionUser() {
+    // get login user id
+    final getUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // do request
+    final responseGetConnections = connectionRemoteDatasource
+        .getAllConnectionUser(userId: getUserId);
+
+    return responseGetConnections.flatMap((connectionsResponse) {
+      if (!connectionsResponse.isSuccess ||
+          connectionsResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: connectionsResponse.message,
+            message: "Error Happen : ${connectionsResponse.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get connections
+      List<ConnectionModel> allConnections = connectionsResponse.result!;
+
+      List<TaskEither<BaseException, ConnectionViewEntity>> executedTask = [];
+
+      allConnections.map((connection) {
+        // get user from task
+        String userId = (connection.userOwnerId == getUserId)
+            ? connection.userConnectionId
+            : connection.userOwnerId;
+
+        final getUserResponse = connectionRemoteDatasource.getUserById(
+          userId: userId,
+        );
+
+        executedTask.add(
+          getUserResponse.flatMap((getUser) {
+            if (!getUser.isSuccess || getUser.result == null) {
+              return TaskEither.left(
+                BaseException(
+                  error: getUser.message,
+                  message: "Error Happen : ${getUser.message}",
+                  stackTrace: StackTrace.current,
+                ),
+              );
+            }
+
+            UserModel getUserModel = getUser.result!;
+
+            return TaskEither.right(
+              ConnectionViewEntity(
+                connectionEntity: connection.toEntity(),
+                userModel: getUserModel,
+              ),
+            );
+          }),
+        );
+      }).toList();
+      // to list digunakan untuk menjalankan map langsung, not after this code
+
+      return TaskEither.sequenceList<BaseException, ConnectionViewEntity>(
+        executedTask,
       );
     });
   }
