@@ -32,4 +32,9 @@ abstract interface class ConnectionRemoteRepository {
 
   // create function to get all user connection
   TaskEither<BaseException, List<ConnectionViewEntity>> getAllConnectionUser();
+
+  // create function to disconnect
+  TaskEither<BaseException, ConnectionViewEntity> disconnectConnection({
+    required int connectionId,
+  });
 }

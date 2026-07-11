@@ -1,6 +1,5 @@
 import 'package:fpdart/src/task_either.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:to_do_app_flutter/core/connection/apis.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
@@ -472,6 +471,64 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       return TaskEither.sequenceList<BaseException, ConnectionViewEntity>(
         executedTask,
       );
+    });
+  }
+
+  @override
+  TaskEither<BaseException, ConnectionViewEntity> disconnectConnection({
+    required int connectionId,
+  }) {
+    // get user id
+    String loginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // do request
+    final disconnectResponse = connectionRemoteDatasource.disconnectConnection(
+      connectionId: connectionId,
+    );
+
+    return disconnectResponse.flatMap((disconnectResult) {
+      if (!disconnectResult.isSuccess || disconnectResult.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: disconnectResult.message,
+            message: "Error Happen : ${disconnectResult.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get connection
+      ConnectionModel getConnection = disconnectResult.result!;
+
+      // get user
+      String getUserId = (loginUserId == getConnection.userOwnerId)
+          ? getConnection.userConnectionId
+          : getConnection.userOwnerId;
+
+      final userResponse = connectionRemoteDatasource.getUserById(
+        userId: getUserId,
+      );
+
+      return userResponse.flatMap((userResult) {
+        if (!userResult.isSuccess || userResult.result == null) {
+          return TaskEither.left(
+            BaseException(
+              error: userResult.message,
+              message: "Error Happen When Getting User : ${userResult.message}",
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        UserModel getUserModel = userResult.result!;
+
+        return TaskEither.right(
+          ConnectionViewEntity(
+            connectionEntity: getConnection.toEntity(),
+            userModel: getUserModel,
+          ),
+        );
+      });
     });
   }
 }

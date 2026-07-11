@@ -57,4 +57,13 @@ class ConnectionRemoteUsecase {
   TaskEither<BaseException, List<ConnectionViewEntity>> getAllUserConnection() {
     return connectionRemoteRepository.getAllConnectionUser();
   }
+
+  // function to disconnect connection
+  TaskEither<BaseException, ConnectionViewEntity> disconnectConnection({
+    required int connectionId,
+  }) {
+    return connectionRemoteRepository.disconnectConnection(
+      connectionId: connectionId,
+    );
+  }
 }

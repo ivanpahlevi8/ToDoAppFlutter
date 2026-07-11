@@ -4,7 +4,12 @@ import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/con
 
 class ConnectionUserItem extends StatelessWidget {
   final ConnectionViewEntity connectionViewEntity;
-  const ConnectionUserItem({super.key, required this.connectionViewEntity});
+  final Function(int) disconnectConnection;
+  const ConnectionUserItem({
+    super.key,
+    required this.connectionViewEntity,
+    required this.disconnectConnection,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +69,14 @@ class ConnectionUserItem extends StatelessWidget {
                       color: customColor.textTitle,
                     ),
                     SizedBox(width: 2),
-                    Text(
-                      connectionViewEntity.userModel.userName,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: customColor.textTitle,
+                    Expanded(
+                      child: Text(
+                        connectionViewEntity.userModel.userName,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
                       ),
                     ),
                   ],
@@ -81,12 +88,14 @@ class ConnectionUserItem extends StatelessWidget {
                   children: [
                     Icon(Icons.mail, size: 18, color: customColor.textTitle),
                     SizedBox(width: 2),
-                    Text(
-                      connectionViewEntity.userModel.email,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: customColor.textTitle,
+                    Expanded(
+                      child: Text(
+                        connectionViewEntity.userModel.email,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
                       ),
                     ),
                   ],
@@ -98,12 +107,14 @@ class ConnectionUserItem extends StatelessWidget {
                   children: [
                     Icon(Icons.phone, size: 18, color: customColor.textTitle),
                     SizedBox(width: 2),
-                    Text(
-                      connectionViewEntity.userModel.phoneNumber,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: customColor.textTitle,
+                    Expanded(
+                      child: Text(
+                        connectionViewEntity.userModel.phoneNumber,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
                       ),
                     ),
                   ],
@@ -113,7 +124,11 @@ class ConnectionUserItem extends StatelessWidget {
           ),
           SizedBox(width: 8),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              disconnectConnection(
+                connectionViewEntity.connectionEntity.connectionId,
+              );
+            },
             style: TextButton.styleFrom(
               minimumSize: Size.zero,
               backgroundColor: customColor.errorColor!,

@@ -115,4 +115,12 @@ class Apis {
       queryParams: {"userId": userId},
     );
   }
+
+  // function to disconnect
+  Uri getDisconnectConnectionUrl({required int connectionId}) {
+    return _buildUri(
+      ApiUrl.disconnectConnection,
+      queryParams: {"connectionId": connectionId.toString()},
+    );
+  }
 }

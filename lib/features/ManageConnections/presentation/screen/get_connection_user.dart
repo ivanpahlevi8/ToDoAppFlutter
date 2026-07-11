@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/disconnect_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_user_connections_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_user_item.dart';
@@ -26,6 +28,14 @@ class _GetConnectionUserState extends ConsumerState<GetConnectionUser> {
   Widget build(BuildContext context) {
     final userConnection = ref.watch(getUserConnectionsProviderProvider);
 
+    // listen on disconnect provider
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      disconnectConnectionProviderProvider,
+      (previous, next) {
+        next.onDisconnectConnection(context, ref);
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -37,7 +47,14 @@ class _GetConnectionUserState extends ConsumerState<GetConnectionUser> {
                   itemBuilder: (context, index) {
                     ConnectionViewEntity getItem = data[index];
 
-                    return ConnectionUserItem(connectionViewEntity: getItem);
+                    return ConnectionUserItem(
+                      connectionViewEntity: getItem,
+                      disconnectConnection: (connectionId) {
+                        ref
+                            .read(disconnectConnectionProviderProvider.notifier)
+                            .disconnectConnection(connectionId: connectionId);
+                      },
+                    );
                   },
                 );
               }
