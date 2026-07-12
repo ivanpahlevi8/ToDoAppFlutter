@@ -24,4 +24,6 @@ class ApiUrl {
   static const getAllConnectionUser =
       "todoapp/api/Connection/get-all-connection";
   static const disconnectConnection = "todoapp/api/Connection/unconnect-user";
+  static const getAllConnectionDisconnectByOther =
+      "todoapp/api/Connection/connection-disconnect-touser";
 }

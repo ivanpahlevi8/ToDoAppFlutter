@@ -45,6 +45,10 @@ abstract interface class ConnectionRemoteDatasource {
   // fucntion to disconnect connection
   TaskEither<BaseException, ResponseModel<ConnectionModel>>
   disconnectConnection({required int connectionId});
+
+  // function to get all connection disconnect by other
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  getConnectionDisconnectByOther({required String userId});
 }
 
 class ConnectionRemoteDatasourceImpl extends BaseNetwork
@@ -329,6 +333,41 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
         .map((data) {
           return ResponseModel.fromJson(data, (innerData) {
             return ConnectionModel.fromJson(innerData as dynamic);
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  getConnectionDisconnectByOther({required String userId}) {
+    // get api url
+    final apiUrl = apis.getConnectionDisconnectByOther(userId: userId);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        // validate body response
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        // validate the response is a json response
+        .flatMap(
+          (json_response) =>
+              TaskEither.fromEither(validator.validateJson(json_response)),
+        )
+        // validate the response can be mapped as flutter object
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        // map into an object
+        .map((obj_data) {
+          return ResponseModel.fromJson(obj_data, (innerData) {
+            return (innerData as List<dynamic>).map((itemData) {
+              return ConnectionModel.fromJson(itemData as dynamic);
+            }).toList();
           });
         });
 

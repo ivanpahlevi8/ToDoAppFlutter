@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/disconnect_connection_byother_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_connection_user.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_reject_byuser_screen.dart';
@@ -28,6 +29,8 @@ final RouteBase connectionsRoute = ShellRoute(
       case '/connection-user':
         currRoutePosition = 3;
         break;
+      case '/disconnect-byother':
+        currRoutePosition = 4;
       default:
         currRoutePosition = 0;
         break;
@@ -149,6 +152,30 @@ final RouteBase connectionsRoute = ShellRoute(
                         ),
                       ),
                     ),
+                    SizedBox(width: 8),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: currRoutePosition == 4
+                            ? customColor.selectedPagerIndicator
+                            : customColor.unselectedPagerIndicator,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.go('/disconnect-byother');
+                      },
+                      child: Text(
+                        "Disconnect By Other",
+                        style: TextStyle(
+                          color: customColor.textTitle,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -175,6 +202,10 @@ final RouteBase connectionsRoute = ShellRoute(
     GoRoute(
       path: '/connection-user',
       builder: (context, state) => GetConnectionUser(),
+    ),
+    GoRoute(
+      path: '/disconnect-byother',
+      builder: (context, state) => DisconnectConnectionByotherScreen(),
     ),
   ],
 );

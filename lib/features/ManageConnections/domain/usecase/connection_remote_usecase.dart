@@ -66,4 +66,10 @@ class ConnectionRemoteUsecase {
       connectionId: connectionId,
     );
   }
+
+  // function to get all connection disconnect by other
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getConnectionDisconnectByOther() {
+    return connectionRemoteRepository.getDisconnectConnectionByOther();
+  }
 }
