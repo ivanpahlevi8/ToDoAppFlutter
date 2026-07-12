@@ -5,8 +5,8 @@ import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/accept_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/decline_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_request_connection_touser_provider.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_touser_item.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_touser_item_shimmer.dart';
 
 class GetRequestConnectionTouserScreen extends ConsumerStatefulWidget {
   const GetRequestConnectionTouserScreen({super.key});
@@ -85,7 +85,7 @@ class _GetRequestConnectionTouserScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionRequestTouserItemShimmer();
                 },
               );
             },
@@ -105,7 +105,7 @@ class _GetRequestConnectionTouserScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionRequestTouserItemShimmer();
                 },
               );
             },

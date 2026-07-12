@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_request_connection_reject_byuser_provider.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/remove_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_reqeust_reject_byuser_item.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_reject_byuser_item_shimmer.dart';
 
 class GetRequestConnectionRejectByuserScreen extends ConsumerStatefulWidget {
   const GetRequestConnectionRejectByuserScreen({super.key});
@@ -30,6 +33,14 @@ class _GetRequestConnectionRejectByuserScreenState
       getRequestConnectionRejectByuserProviderProvider,
     );
 
+    // listen on remove connection
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      removeConnectionProviderProvider,
+      (prev, next) {
+        next.onRemoveConnectionRejectByUser(context, ref);
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -44,6 +55,11 @@ class _GetRequestConnectionRejectByuserScreenState
                     // show connection view
                     return ConnectionReqeustRejectByuserItem(
                       connectionViewEntity: getConnection,
+                      onRemoveConnection: (connectionId) {
+                        ref
+                            .read(removeConnectionProviderProvider.notifier)
+                            .removeConnection(connectionId: connectionId);
+                      },
                     );
                   },
                 );
@@ -52,7 +68,7 @@ class _GetRequestConnectionRejectByuserScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionRequestRejectByuserItemShimmer();
                 },
               );
             },
@@ -72,7 +88,7 @@ class _GetRequestConnectionRejectByuserScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionRequestRejectByuserItemShimmer();
                 },
               );
             },

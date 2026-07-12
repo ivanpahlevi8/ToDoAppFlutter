@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_connection_disconnect_byother_provider.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/remove_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/disconnect_connection_byother_item.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/disconnect_connection_byother_item_shimmer.dart';
 
 class DisconnectConnectionByotherScreen extends ConsumerStatefulWidget {
   const DisconnectConnectionByotherScreen({super.key});
@@ -32,6 +34,15 @@ class _DisconnectConnectionByotherScreenState
     final getConnectionDisconnectByOtherProvider = ref.watch(
       getConnectionDisconnectByotherProviderProvider,
     );
+
+    // listen on connection disconnect by other
+    ref.listen<AsyncValue<ConnectionViewEntity?>>(
+      removeConnectionProviderProvider,
+      (prev, next) {
+        next.onRemoveConnectionDisconnectByOther(context, ref);
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -45,6 +56,11 @@ class _DisconnectConnectionByotherScreenState
 
                     return DisconnectConnectionByotherItem(
                       connectionViewEntity: getSingleData,
+                      onRemoveConnection: (connectionId) {
+                        ref
+                            .read(removeConnectionProviderProvider.notifier)
+                            .removeConnection(connectionId: connectionId);
+                      },
                     );
                   },
                 );
@@ -53,7 +69,7 @@ class _DisconnectConnectionByotherScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return DisconnectConnectionByotherItemShimmer();
                 },
               );
             },
@@ -73,7 +89,7 @@ class _DisconnectConnectionByotherScreenState
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return DisconnectConnectionByotherItemShimmer();
                 },
               );
             },

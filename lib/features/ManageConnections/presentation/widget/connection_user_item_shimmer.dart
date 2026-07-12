@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_view_entity.dart';
+import 'package:to_do_app_flutter/core/widget/shimmer_box_widget.dart';
 
-class DisconnectConnectionByotherItem extends StatelessWidget {
-  final ConnectionViewEntity connectionViewEntity;
-  final Function(int) onRemoveConnection;
-  const DisconnectConnectionByotherItem({
-    super.key,
-    required this.connectionViewEntity,
-    required this.onRemoveConnection,
-  });
+class ConnectionUserItemShimmer extends StatelessWidget {
+  const ConnectionUserItemShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +15,20 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
+            customColor.timeLineCardColor3!.withOpacity(0.8),
             customColor.timeLineCardColor4!.withOpacity(0.8),
-            customColor.timeLineCardColor5!.withOpacity(0.8),
           ],
           begin: AlignmentGeometry.topLeft,
           end: AlignmentGeometry.bottomRight,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
+            color: Colors.grey.withOpacity(0.5),
             offset: Offset(2, 4),
             blurRadius: 12,
           ),
         ],
+        borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -50,14 +44,7 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${connectionViewEntity.userModel.firstName} ${connectionViewEntity.userModel.lastName}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: customColor.textTitle,
-                  ),
-                ),
+                ShimmerBoxWidget(height: 45, width: 220, padValue: 8),
                 SizedBox(height: 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -69,16 +56,7 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
                       color: customColor.textTitle,
                     ),
                     SizedBox(width: 2),
-                    Expanded(
-                      child: Text(
-                        connectionViewEntity.userModel.userName,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 30, width: 150, padValue: 8),
                   ],
                 ),
                 SizedBox(height: 2),
@@ -88,16 +66,7 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
                   children: [
                     Icon(Icons.mail, size: 18, color: customColor.textTitle),
                     SizedBox(width: 2),
-                    Expanded(
-                      child: Text(
-                        connectionViewEntity.userModel.email,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 30, width: 150, padValue: 8),
                   ],
                 ),
                 SizedBox(height: 2),
@@ -107,16 +76,7 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
                   children: [
                     Icon(Icons.phone, size: 18, color: customColor.textTitle),
                     SizedBox(width: 2),
-                    Expanded(
-                      child: Text(
-                        connectionViewEntity.userModel.phoneNumber,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: customColor.textTitle,
-                        ),
-                      ),
-                    ),
+                    ShimmerBoxWidget(height: 30, width: 150, padValue: 8),
                   ],
                 ),
               ],
@@ -124,11 +84,7 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
           ),
           SizedBox(width: 8),
           TextButton(
-            onPressed: () {
-              onRemoveConnection(
-                connectionViewEntity.connectionEntity.connectionId,
-              );
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               minimumSize: Size.zero,
               backgroundColor: customColor.errorColor!,
@@ -140,13 +96,13 @@ class DisconnectConnectionByotherItem extends StatelessWidget {
             child: Column(
               children: [
                 Icon(
-                  Icons.delete_forever,
+                  Icons.person_remove,
                   size: 16,
                   color: customColor.textTitle,
                 ),
                 SizedBox(height: 1),
                 Text(
-                  "remove",
+                  "disconnect",
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w900,

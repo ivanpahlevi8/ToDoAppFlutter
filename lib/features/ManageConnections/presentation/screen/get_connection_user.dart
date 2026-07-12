@@ -4,8 +4,8 @@ import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/con
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/async_ui_extension.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/disconnect_connection_provider.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/controller/get_user_connections_provider.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_request_byuser_item_shimmer.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_user_item.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/widget/connection_user_item_shimmer.dart';
 
 class GetConnectionUser extends ConsumerStatefulWidget {
   const GetConnectionUser({super.key});
@@ -62,7 +62,7 @@ class _GetConnectionUserState extends ConsumerState<GetConnectionUser> {
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionUserItemShimmer();
                 },
               );
             },
@@ -82,7 +82,7 @@ class _GetConnectionUserState extends ConsumerState<GetConnectionUser> {
               return ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ConnectionRequestByuserItemShimmer();
+                  return ConnectionUserItemShimmer();
                 },
               );
             },
