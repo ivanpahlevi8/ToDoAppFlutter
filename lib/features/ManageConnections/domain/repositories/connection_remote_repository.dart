@@ -41,4 +41,8 @@ abstract interface class ConnectionRemoteRepository {
   // create function to get all connection disconnect by other user
   TaskEither<BaseException, List<ConnectionViewEntity>>
   getDisconnectConnectionByOther();
+
+  // function to get all conenction disconnect by you
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getDisconnectConnectioByUser();
 }

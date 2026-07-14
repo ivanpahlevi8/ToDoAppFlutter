@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/disconnect_connection_byother_screen.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/disconnect_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_connection_user.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_reject_byuser_screen.dart';
@@ -31,6 +32,8 @@ final RouteBase connectionsRoute = ShellRoute(
         break;
       case '/disconnect-byother':
         currRoutePosition = 4;
+      case '/disconnect-byuser':
+        currRoutePosition = 5;
       default:
         currRoutePosition = 0;
         break;
@@ -40,6 +43,14 @@ final RouteBase connectionsRoute = ShellRoute(
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        title: Text(
+          "Manage Connections",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+            color: customColor.textTitle!,
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             context.go("/home");
@@ -51,7 +62,7 @@ final RouteBase connectionsRoute = ShellRoute(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 12.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -168,7 +179,31 @@ final RouteBase connectionsRoute = ShellRoute(
                         context.go('/disconnect-byother');
                       },
                       child: Text(
-                        "Disconnect By Other",
+                        "Disconnect By You",
+                        style: TextStyle(
+                          color: customColor.textTitle,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: currRoutePosition == 5
+                            ? customColor.selectedPagerIndicator
+                            : customColor.unselectedPagerIndicator,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.go('/disconnect-byuser');
+                      },
+                      child: Text(
+                        "Disconnect By User",
                         style: TextStyle(
                           color: customColor.textTitle,
                           fontSize: 16,
@@ -206,6 +241,10 @@ final RouteBase connectionsRoute = ShellRoute(
     GoRoute(
       path: '/disconnect-byother',
       builder: (context, state) => DisconnectConnectionByotherScreen(),
+    ),
+    GoRoute(
+      path: '/disconnect-byuser',
+      builder: (context, state) => DisconnectConnectionByuserScreen(),
     ),
   ],
 );

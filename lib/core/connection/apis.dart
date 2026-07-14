@@ -131,4 +131,12 @@ class Apis {
       queryParams: {"userId": userId},
     );
   }
+
+  // function to get all disconnect connection by user
+  Uri getConnectionDisconnectByUser({required String userId}) {
+    return _buildUri(
+      ApiUrl.getAllConnectionDisconnectByYou,
+      queryParams: {"userId": userId},
+    );
+  }
 }

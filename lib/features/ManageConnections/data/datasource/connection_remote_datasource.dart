@@ -49,6 +49,10 @@ abstract interface class ConnectionRemoteDatasource {
   // function to get all connection disconnect by other
   TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
   getConnectionDisconnectByOther({required String userId});
+
+  // function to get all connection disconnect by user
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  getConnectionDisconnectByUser({required String userId});
 }
 
 class ConnectionRemoteDatasourceImpl extends BaseNetwork
@@ -367,6 +371,36 @@ class ConnectionRemoteDatasourceImpl extends BaseNetwork
           return ResponseModel.fromJson(obj_data, (innerData) {
             return (innerData as List<dynamic>).map((itemData) {
               return ConnectionModel.fromJson(itemData as dynamic);
+            }).toList();
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  getConnectionDisconnectByUser({required String userId}) {
+    // get api url
+    final apiUrl = apis.getConnectionDisconnectByUser(userId: userId);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        // validate response
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        // validate the response jdon
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerData) {
+            return (innerData as List<dynamic>).map((item) {
+              return ConnectionModel.fromJson(item as dynamic);
             }).toList();
           });
         });

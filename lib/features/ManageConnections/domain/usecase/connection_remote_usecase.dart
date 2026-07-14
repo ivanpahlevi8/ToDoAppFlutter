@@ -72,4 +72,10 @@ class ConnectionRemoteUsecase {
   getConnectionDisconnectByOther() {
     return connectionRemoteRepository.getDisconnectConnectionByOther();
   }
+
+  // function to get all connection disconnect by user
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getAllConnectionDisconnectByUser() {
+    return connectionRemoteRepository.getDisconnectConnectioByUser();
+  }
 }

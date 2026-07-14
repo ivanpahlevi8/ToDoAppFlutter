@@ -597,4 +597,68 @@ class ConnectionRemoteRepositoryImpl implements ConnectionRemoteRepository {
       );
     });
   }
+
+  @override
+  TaskEither<BaseException, List<ConnectionViewEntity>>
+  getDisconnectConnectioByUser() {
+    // get login user id
+    String getLoginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // get all connection
+    final getAllConnectionsTask = connectionRemoteDatasource
+        .getConnectionDisconnectByUser(userId: getLoginUserId);
+
+    return getAllConnectionsTask.flatMap((getAllConnectionResponse) {
+      if (!getAllConnectionResponse.isSuccess ||
+          getAllConnectionResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: getAllConnectionResponse.message,
+            message: getAllConnectionResponse.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      List<ConnectionModel> allConnection = getAllConnectionResponse.result!;
+
+      List<TaskEither<BaseException, ConnectionViewEntity>> executedTask = [];
+
+      allConnection.map((connection) {
+        String getUserId = (getLoginUserId == connection.userConnectionId)
+            ? connection.userOwnerId
+            : connection.userConnectionId;
+        final getUserTask = connectionRemoteDatasource.getUserById(
+          userId: getUserId,
+        );
+
+        executedTask.add(
+          getUserTask.flatMap((userResponse) {
+            if (!userResponse.isSuccess || userResponse.result == null) {
+              return TaskEither.left(
+                BaseException(
+                  error: "Error when getting user : ${userResponse.message}",
+                  message: userResponse.message,
+                  stackTrace: StackTrace.current,
+                ),
+              );
+            }
+
+            UserModel getUser = userResponse.result!;
+
+            return TaskEither.right(
+              ConnectionViewEntity(
+                connectionEntity: connection.toEntity(),
+                userModel: getUser,
+              ),
+            );
+          }),
+        );
+      }).toList();
+
+      return TaskEither.sequenceList<BaseException, ConnectionViewEntity>(
+        executedTask,
+      );
+    });
+  }
 }
