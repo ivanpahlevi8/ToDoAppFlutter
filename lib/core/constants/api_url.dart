@@ -28,4 +28,7 @@ class ApiUrl {
       "todoapp/api/Connection/connection-disconnect-touser";
   static const getAllConnectionDisconnectByYou =
       "todoapp/api/Connection/connection-disconnected-byuser";
+
+  // team manage urls
+  static const getAllTeamByUser = "todoapp/api/Team/get-all-team";
 }

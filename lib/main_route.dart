@@ -7,7 +7,7 @@ import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_provider.dart';
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/connections_route.dart';
-import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_request_connection_byuser_screen.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/team_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
 import 'package:to_do_app_flutter/features/search_friends/search_friend_route.dart';
@@ -22,6 +22,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
       authPackageRoutes,
       searchFriendsRoute,
       connectionsRoute,
+      teamsRoute,
       ShellRoute(
         builder: (context, state, child) {
           return Scaffold(
@@ -49,9 +50,12 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                       padding: EdgeInsets.zero,
                       children: <Widget>[
                         ListTile(
-                          leading: const Icon(Icons.message),
-                          title: const Text('Messages'),
-                          onTap: () {},
+                          leading: const Icon(Icons.people),
+                          title: const Text('Your Teams'),
+                          onTap: () {
+                            context.pop();
+                            context.push("/get-all-teams");
+                          },
                         ),
                         ListTile(
                           leading: const Icon(Icons.account_circle),

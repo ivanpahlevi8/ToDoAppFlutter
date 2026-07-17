@@ -18,6 +18,9 @@ import 'package:to_do_app_flutter/features/Authentication/domain/usecase/user_lo
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/repositories/connection_remote_repository_impl.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/usecase/connection_remote_usecase.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/datasource/team_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/repositories/team_remote_repository_impl.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/usecase/team_usecase.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_local_datasource.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
@@ -210,5 +213,28 @@ Future<void> setupServiceLocator() async {
     () => ConnectionRemoteUsecase(
       connectionRemoteRepository: sl<ConnectionRemoteRepositoryImpl>(),
     ),
+  );
+
+  // create instance for team remote datasource
+  sl.registerLazySingleton(
+    () => TeamRemoteDatasourceImpl(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>(),
+    ),
+  );
+
+  // create instance for team remote repository
+  sl.registerLazySingleton(
+    () => TeamRemoteRepositoryImpl(
+      teamRemoteDatasource: sl<TeamRemoteDatasourceImpl>(),
+      sharedPreferences: sharedPreferences,
+      connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>(),
+    ),
+  );
+
+  // create instance for team usecase
+  sl.registerLazySingleton(
+    () => TeamUsecase(teamRemoteRepository: sl<TeamRemoteRepositoryImpl>()),
   );
 }

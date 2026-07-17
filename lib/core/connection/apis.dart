@@ -139,4 +139,9 @@ class Apis {
       queryParams: {"userId": userId},
     );
   }
+
+  /// Url for team
+  Uri getAllTeamByUser({required String userId}) {
+    return _buildUri(ApiUrl.getAllTeamByUser, queryParams: {"userId": userId});
+  }
 }
