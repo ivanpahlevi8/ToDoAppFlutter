@@ -6,6 +6,7 @@ import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/delete_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_teams_byuserid_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget_shimmer.dart';
 
@@ -42,6 +43,11 @@ class _TeamListScreenState extends ConsumerState<TeamListScreen> {
       next.onDeleteTeam(context, ref);
     });
 
+    // listen on leave team
+    ref.listen<AsyncValue<String?>>(leaveTeamProviderProvider, (prev, next) {
+      next.onLeaveTeam(context, ref);
+    });
+
     return Column(
       children: [
         Expanded(
@@ -59,6 +65,11 @@ class _TeamListScreenState extends ConsumerState<TeamListScreen> {
                         ref
                             .read(deleteTeamProviderProvider.notifier)
                             .deleteTeam(teamId: teamId);
+                      },
+                      onLeave: (teamId) {
+                        ref
+                            .read(leaveTeamProviderProvider.notifier)
+                            .leaveTeam(teamId: teamId);
                       },
                     );
                   },

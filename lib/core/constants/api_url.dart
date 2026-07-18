@@ -33,4 +33,5 @@ class ApiUrl {
   static const getAllTeamByUser = "todoapp/api/Team/get-all-team";
   static const createTeamUrl = "todoapp/api/Team/create-team";
   static const deleteTeamUrl = "todoapp/api/Team/delete-team";
+  static const unassignUserFromTeam = "todoapp/api/Team/unassign-user-team";
 }

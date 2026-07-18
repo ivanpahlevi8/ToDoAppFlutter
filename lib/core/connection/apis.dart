@@ -155,4 +155,11 @@ class Apis {
       queryParams: {"teamId": teamId.toString()},
     );
   }
+
+  Uri unAssignUserFromTeam({required String userId, required int teamId}) {
+    return _buildUri(
+      ApiUrl.unassignUserFromTeam,
+      queryParams: {"userId": userId.toString(), "teamId": teamId.toString()},
+    );
+  }
 }

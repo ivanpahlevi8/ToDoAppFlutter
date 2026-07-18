@@ -22,6 +22,12 @@ abstract interface class TeamRemoteDatasource {
   TaskEither<BaseException, ResponseModel<String>> deleteTeam({
     required int teamId,
   });
+
+  // function to unassign user from team
+  TaskEither<BaseException, ResponseModel<String>> unAssignUserFromTeam({
+    required String userId,
+    required int teamId,
+  });
 }
 
 class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
@@ -118,6 +124,33 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
         .map((data) {
           return ResponseModel.fromJson(data, (innerData) {
             return innerData as String;
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> unAssignUserFromTeam({
+    required String userId,
+    required int teamId,
+  }) {
+    // get api url
+    final apiUrl = apis.unAssignUserFromTeam(userId: userId, teamId: teamId);
+
+    final response = service
+        .post(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerdata) {
+            return innerdata as String;
           });
         });
 

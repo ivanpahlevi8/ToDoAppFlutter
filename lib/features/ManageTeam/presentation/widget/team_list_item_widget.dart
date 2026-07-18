@@ -5,10 +5,12 @@ import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_
 class TeamListItemWidget extends StatefulWidget {
   final TeamListViewEntity teamListViewEntity;
   final Function(int) onDelete;
+  final Function(int) onLeave;
   const TeamListItemWidget({
     super.key,
     required this.teamListViewEntity,
     required this.onDelete,
+    required this.onLeave,
   });
 
   @override
@@ -257,7 +259,11 @@ class _TeamListItemWidgetState extends State<TeamListItemWidget> {
                       ),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.onLeave(
+                        widget.teamListViewEntity.teamEntity.teamId,
+                      );
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

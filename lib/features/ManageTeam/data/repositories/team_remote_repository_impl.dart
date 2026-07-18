@@ -150,4 +150,33 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       return TaskEither.right(response.result!);
     });
   }
+
+  @override
+  TaskEither<BaseException, String> unAssignUserFromTeam({
+    required String userId,
+    required int teamId,
+  }) {
+    final getUserId = userId == ""
+        ? sharedPreferences.getString("user_id") ?? ""
+        : userId;
+
+    final unAssignTask = teamRemoteDatasource.unAssignUserFromTeam(
+      userId: getUserId,
+      teamId: teamId,
+    );
+
+    return unAssignTask.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: "Error Happen : ${response.message}",
+            message: response.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      return TaskEither.right(response.result!);
+    });
+  }
 }

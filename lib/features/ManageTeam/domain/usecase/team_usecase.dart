@@ -26,4 +26,15 @@ class TeamUsecase {
   TaskEither<BaseException, String> deleteTeam({required int teamId}) {
     return teamRemoteRepository.deleteTeam(teamId: teamId);
   }
+
+  // function to un assign user from team
+  TaskEither<BaseException, String> unAssignUserTeam({
+    required String userId,
+    required int teamId,
+  }) {
+    return teamRemoteRepository.unAssignUserFromTeam(
+      userId: userId,
+      teamId: teamId,
+    );
+  }
 }
