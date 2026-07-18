@@ -1,5 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/repositories/team_remote_repository.dart';
 
@@ -11,5 +13,12 @@ class TeamUsecase {
   // function to get all team by userid
   TaskEither<BaseException, List<TeamListViewEntity>> getAllTeamByUserId() {
     return teamRemoteRepository.getAllTeamByUser();
+  }
+
+  // function to create team
+  TaskEither<BaseException, TeamEntity> createTeam({
+    required CreateTeamEntity createTeamEntity,
+  }) {
+    return teamRemoteRepository.createNewTeam(createTeam: createTeamEntity);
   }
 }

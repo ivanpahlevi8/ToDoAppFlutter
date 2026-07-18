@@ -6,7 +6,10 @@ import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/datasource/team_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/repositories/team_remote_repository.dart';
 
@@ -81,6 +84,49 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       return TaskEither.sequenceList<BaseException, TeamListViewEntity>(
         executedTask,
       );
+    });
+  }
+
+  @override
+  TaskEither<BaseException, TeamEntity> createNewTeam({
+    required CreateTeamEntity createTeam,
+  }) {
+    // get login user id
+    String loginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    if (loginUserId == "") {
+      return TaskEither.left(
+        BaseException(
+          message: "No Login User Id",
+          error: "No Login User Id",
+          stackTrace: StackTrace.current,
+        ),
+      );
+    }
+
+    // get team model
+    CreateTeamModel createTeamModel = CreateTeamModel(
+      teamName: createTeam.teamName,
+      teamDescription: createTeam.teamDescription,
+      teamLeader: loginUserId,
+    );
+
+    final responseTask = teamRemoteDatasource.createTeam(
+      createTeamModel: createTeamModel,
+    );
+
+    return responseTask.flatMap((teamResponse) {
+      if (!teamResponse.isSuccess || teamResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            message: teamResponse.message,
+            error: "Error Happen : ${teamResponse.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      return TaskEither.right(teamResponse.result!.toEntity());
     });
   }
 }

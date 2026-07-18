@@ -1,11 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_team_provider.dart';
 
-class CreateTeamDialog extends StatelessWidget {
+class CreateTeamDialog extends ConsumerWidget {
   const CreateTeamDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
 
     // create input
@@ -150,7 +154,22 @@ class CreateTeamDialog extends StatelessWidget {
                 minimumSize: Size.zero,
                 padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               ),
-              onPressed: () {},
+              onPressed: () {
+                // pop dialog
+                if (context.canPop()) {
+                  context.pop();
+                }
+
+                // create team
+                CreateTeamEntity createTeam = CreateTeamEntity(
+                  teamName: teamNameInput.text,
+                  teamDescription: teamDescriptionInput.text,
+                );
+
+                ref
+                    .read(createTeamProviderProvider.notifier)
+                    .createTeam(createTeam: createTeam);
+              },
               child: Text(
                 "Create Team",
                 style: TextStyle(

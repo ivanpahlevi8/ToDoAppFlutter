@@ -21,7 +21,7 @@ TeamModel _$TeamModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TeamModel {
   @JsonKey(name: "teamId")
-  int get teamId => throw _privateConstructorUsedError;
+  int? get teamId => throw _privateConstructorUsedError;
   @JsonKey(name: "teamName")
   String get teamName => throw _privateConstructorUsedError;
   @JsonKey(name: "teamDescription")
@@ -43,7 +43,7 @@ abstract class $TeamModelCopyWith<$Res> {
       _$TeamModelCopyWithImpl<$Res, TeamModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "teamId") int teamId,
+      {@JsonKey(name: "teamId") int? teamId,
       @JsonKey(name: "teamName") String teamName,
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
@@ -63,17 +63,17 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? teamId = null,
+    Object? teamId = freezed,
     Object? teamName = null,
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      teamId: null == teamId
+      teamId: freezed == teamId
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       teamName: null == teamName
           ? _value.teamName
           : teamName // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$TeamModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "teamId") int teamId,
+      {@JsonKey(name: "teamId") int? teamId,
       @JsonKey(name: "teamName") String teamName,
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
@@ -121,17 +121,17 @@ class __$$TeamModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? teamId = null,
+    Object? teamId = freezed,
     Object? teamName = null,
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
   }) {
     return _then(_$TeamModelImpl(
-      teamId: null == teamId
+      teamId: freezed == teamId
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       teamName: null == teamName
           ? _value.teamName
           : teamName // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ class _$TeamModelImpl implements _TeamModel {
 
   @override
   @JsonKey(name: "teamId")
-  final int teamId;
+  final int? teamId;
   @override
   @JsonKey(name: "teamName")
   final String teamName;
@@ -223,7 +223,7 @@ class _$TeamModelImpl implements _TeamModel {
 
 abstract class _TeamModel implements TeamModel {
   factory _TeamModel(
-      {@JsonKey(name: "teamId") required final int teamId,
+      {@JsonKey(name: "teamId") required final int? teamId,
       @JsonKey(name: "teamName") required final String teamName,
       @JsonKey(name: "teamDescription") required final String teamDescription,
       @JsonKey(name: "teamLeader") required final String teamLeaderId,
@@ -235,7 +235,7 @@ abstract class _TeamModel implements TeamModel {
 
   @override
   @JsonKey(name: "teamId")
-  int get teamId;
+  int? get teamId;
   @override
   @JsonKey(name: "teamName")
   String get teamName;

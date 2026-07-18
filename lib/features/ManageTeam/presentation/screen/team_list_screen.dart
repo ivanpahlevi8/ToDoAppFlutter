@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_teams_byuserid_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget_shimmer.dart';
@@ -24,6 +27,14 @@ class _TeamListScreenState extends ConsumerState<TeamListScreen> {
   @override
   Widget build(BuildContext context) {
     final getAllTeamProvider = ref.watch(getTeamsByuseridProviderProvider);
+
+    // listne on create team
+    ref.listen<AsyncValue<TeamEntity?>>(createTeamProviderProvider, (
+      prev,
+      next,
+    ) {
+      next.onCreateTeam(context, ref);
+    });
 
     return Column(
       children: [

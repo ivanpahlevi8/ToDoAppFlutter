@@ -144,4 +144,8 @@ class Apis {
   Uri getAllTeamByUser({required String userId}) {
     return _buildUri(ApiUrl.getAllTeamByUser, queryParams: {"userId": userId});
   }
+
+  Uri createTeam() {
+    return _buildUri(ApiUrl.createTeamUrl);
+  }
 }

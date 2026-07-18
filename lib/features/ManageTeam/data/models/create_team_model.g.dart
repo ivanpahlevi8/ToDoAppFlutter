@@ -1,25 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'team_model.dart';
+part of 'create_team_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TeamModelImpl _$$TeamModelImplFromJson(Map<String, dynamic> json) =>
-    _$TeamModelImpl(
-      teamId: (json['teamId'] as num?)?.toInt(),
+_$CreateTeamModelImpl _$$CreateTeamModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateTeamModelImpl(
       teamName: json['teamName'] as String,
       teamDescription: json['teamDescription'] as String,
-      teamLeaderId: json['teamLeader'] as String,
-      createdAt: json['createdAt'] as String,
+      teamLeader: json['teamLeader'] as String,
     );
 
-Map<String, dynamic> _$$TeamModelImplToJson(_$TeamModelImpl instance) =>
+Map<String, dynamic> _$$CreateTeamModelImplToJson(
+        _$CreateTeamModelImpl instance) =>
     <String, dynamic>{
-      'teamId': instance.teamId,
       'teamName': instance.teamName,
       'teamDescription': instance.teamDescription,
-      'teamLeader': instance.teamLeaderId,
-      'createdAt': instance.createdAt,
+      'teamLeader': instance.teamLeader,
     };
