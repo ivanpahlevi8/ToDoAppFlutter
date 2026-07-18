@@ -163,37 +163,114 @@ class _TeamListItemWidgetState extends State<TeamListItemWidget> {
           ),
           SizedBox(width: 6),
           if (!showDescription)
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: customColor.averageEnd,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                minimumSize: Size.zero,
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              onPressed: () {},
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.details,
-                    size: 14,
-                    fontWeight: FontWeight.w800,
-                    color: customColor.textTitle,
+            Column(
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: customColor.averageEnd,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  SizedBox(height: 1),
-                  Text(
-                    "detail",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      color: customColor.textTitle,
+                  onPressed: () {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.details,
+                        size: 14,
+                        fontWeight: FontWeight.w800,
+                        color: customColor.textTitle,
+                      ),
+                      SizedBox(height: 1),
+                      Text(
+                        "detail",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 6),
+                if (widget.teamListViewEntity.isTeamLead)
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: customColor.errorColor!,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {},
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.delete,
+                          size: 14,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
+                        SizedBox(height: 1),
+                        Text(
+                          "delete",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: customColor.textTitle,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                if (!widget.teamListViewEntity.isTeamLead)
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: customColor.errorColor!,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {},
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          size: 14,
+                          fontWeight: FontWeight.w800,
+                          color: customColor.textTitle,
+                        ),
+                        SizedBox(height: 1),
+                        Text(
+                          "leave",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: customColor.textTitle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
         ],
       ),

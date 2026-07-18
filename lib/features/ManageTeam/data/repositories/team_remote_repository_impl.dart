@@ -75,6 +75,7 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
               TeamListViewEntity(
                 teamEntity: team.toEntity(),
                 teamLeader: getUser,
+                isTeamLead: getUserLoginId == getUser.userId,
               ),
             );
           }),

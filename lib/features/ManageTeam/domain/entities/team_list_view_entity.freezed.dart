@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TeamListViewEntity {
   TeamEntity get teamEntity => throw _privateConstructorUsedError;
   UserModel get teamLeader => throw _privateConstructorUsedError;
+  bool get isTeamLead => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TeamListViewEntityCopyWith<TeamListViewEntity> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $TeamListViewEntityCopyWith<$Res> {
           TeamListViewEntity value, $Res Function(TeamListViewEntity) then) =
       _$TeamListViewEntityCopyWithImpl<$Res, TeamListViewEntity>;
   @useResult
-  $Res call({TeamEntity teamEntity, UserModel teamLeader});
+  $Res call({TeamEntity teamEntity, UserModel teamLeader, bool isTeamLead});
 
   $TeamEntityCopyWith<$Res> get teamEntity;
   $UserModelCopyWith<$Res> get teamLeader;
@@ -51,6 +52,7 @@ class _$TeamListViewEntityCopyWithImpl<$Res, $Val extends TeamListViewEntity>
   $Res call({
     Object? teamEntity = null,
     Object? teamLeader = null,
+    Object? isTeamLead = null,
   }) {
     return _then(_value.copyWith(
       teamEntity: null == teamEntity
@@ -61,6 +63,10 @@ class _$TeamListViewEntityCopyWithImpl<$Res, $Val extends TeamListViewEntity>
           ? _value.teamLeader
           : teamLeader // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      isTeamLead: null == isTeamLead
+          ? _value.isTeamLead
+          : isTeamLead // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -89,7 +95,7 @@ abstract class _$$TeamListViewEntityImplCopyWith<$Res>
       __$$TeamListViewEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TeamEntity teamEntity, UserModel teamLeader});
+  $Res call({TeamEntity teamEntity, UserModel teamLeader, bool isTeamLead});
 
   @override
   $TeamEntityCopyWith<$Res> get teamEntity;
@@ -110,6 +116,7 @@ class __$$TeamListViewEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? teamEntity = null,
     Object? teamLeader = null,
+    Object? isTeamLead = null,
   }) {
     return _then(_$TeamListViewEntityImpl(
       teamEntity: null == teamEntity
@@ -120,6 +127,10 @@ class __$$TeamListViewEntityImplCopyWithImpl<$Res>
           ? _value.teamLeader
           : teamLeader // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      isTeamLead: null == isTeamLead
+          ? _value.isTeamLead
+          : isTeamLead // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -128,16 +139,20 @@ class __$$TeamListViewEntityImplCopyWithImpl<$Res>
 
 class _$TeamListViewEntityImpl implements _TeamListViewEntity {
   _$TeamListViewEntityImpl(
-      {required this.teamEntity, required this.teamLeader});
+      {required this.teamEntity,
+      required this.teamLeader,
+      required this.isTeamLead});
 
   @override
   final TeamEntity teamEntity;
   @override
   final UserModel teamLeader;
+  @override
+  final bool isTeamLead;
 
   @override
   String toString() {
-    return 'TeamListViewEntity(teamEntity: $teamEntity, teamLeader: $teamLeader)';
+    return 'TeamListViewEntity(teamEntity: $teamEntity, teamLeader: $teamLeader, isTeamLead: $isTeamLead)';
   }
 
   @override
@@ -148,11 +163,14 @@ class _$TeamListViewEntityImpl implements _TeamListViewEntity {
             (identical(other.teamEntity, teamEntity) ||
                 other.teamEntity == teamEntity) &&
             (identical(other.teamLeader, teamLeader) ||
-                other.teamLeader == teamLeader));
+                other.teamLeader == teamLeader) &&
+            (identical(other.isTeamLead, isTeamLead) ||
+                other.isTeamLead == isTeamLead));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, teamEntity, teamLeader);
+  int get hashCode =>
+      Object.hash(runtimeType, teamEntity, teamLeader, isTeamLead);
 
   @JsonKey(ignore: true)
   @override
@@ -165,12 +183,15 @@ class _$TeamListViewEntityImpl implements _TeamListViewEntity {
 abstract class _TeamListViewEntity implements TeamListViewEntity {
   factory _TeamListViewEntity(
       {required final TeamEntity teamEntity,
-      required final UserModel teamLeader}) = _$TeamListViewEntityImpl;
+      required final UserModel teamLeader,
+      required final bool isTeamLead}) = _$TeamListViewEntityImpl;
 
   @override
   TeamEntity get teamEntity;
   @override
   UserModel get teamLeader;
+  @override
+  bool get isTeamLead;
   @override
   @JsonKey(ignore: true)
   _$$TeamListViewEntityImplCopyWith<_$TeamListViewEntityImpl> get copyWith =>

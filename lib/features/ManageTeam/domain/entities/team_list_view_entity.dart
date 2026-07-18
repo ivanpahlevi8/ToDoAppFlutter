@@ -9,5 +9,6 @@ class TeamListViewEntity with _$TeamListViewEntity {
   factory TeamListViewEntity({
     required TeamEntity teamEntity,
     required UserModel teamLeader,
+    required bool isTeamLead,
   }) = _TeamListViewEntity;
 }
