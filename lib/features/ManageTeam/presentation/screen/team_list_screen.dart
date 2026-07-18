@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entit
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_team_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/delete_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_teams_byuserid_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_list_item_widget_shimmer.dart';
@@ -36,6 +37,11 @@ class _TeamListScreenState extends ConsumerState<TeamListScreen> {
       next.onCreateTeam(context, ref);
     });
 
+    // listen on create team
+    ref.listen<AsyncValue<String?>>(deleteTeamProviderProvider, (prev, next) {
+      next.onDeleteTeam(context, ref);
+    });
+
     return Column(
       children: [
         Expanded(
@@ -47,7 +53,14 @@ class _TeamListScreenState extends ConsumerState<TeamListScreen> {
                   itemBuilder: (context, index) {
                     TeamListViewEntity getTeam = data[index];
 
-                    return TeamListItemWidget(teamListViewEntity: getTeam);
+                    return TeamListItemWidget(
+                      teamListViewEntity: getTeam,
+                      onDelete: (teamId) {
+                        ref
+                            .read(deleteTeamProviderProvider.notifier)
+                            .deleteTeam(teamId: teamId);
+                      },
+                    );
                   },
                 );
               }

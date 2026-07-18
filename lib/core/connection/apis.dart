@@ -148,4 +148,11 @@ class Apis {
   Uri createTeam() {
     return _buildUri(ApiUrl.createTeamUrl);
   }
+
+  Uri deleteTeam({required int teamId}) {
+    return _buildUri(
+      ApiUrl.deleteTeamUrl,
+      queryParams: {"teamId": teamId.toString()},
+    );
+  }
 }

@@ -130,4 +130,24 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       return TaskEither.right(teamResponse.result!.toEntity());
     });
   }
+
+  @override
+  TaskEither<BaseException, String> deleteTeam({required int teamId}) {
+    // delete
+    final deleteTask = teamRemoteDatasource.deleteTeam(teamId: teamId);
+
+    return deleteTask.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: response.message,
+            message: response.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      return TaskEither.right(response.result!);
+    });
+  }
 }

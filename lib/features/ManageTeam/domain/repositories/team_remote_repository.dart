@@ -9,4 +9,5 @@ abstract interface class TeamRemoteRepository {
   TaskEither<BaseException, TeamEntity> createNewTeam({
     required CreateTeamEntity createTeam,
   });
+  TaskEither<BaseException, String> deleteTeam({required int teamId});
 }

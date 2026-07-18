@@ -52,3 +52,47 @@ extension CreateTeamExtension on AsyncValue<TeamEntity?> {
     );
   }
 }
+
+extension DeleteTeamExtension on AsyncValue<String?> {
+  Future<void> onDeleteTeam(BuildContext context, WidgetRef ref) async {
+    when(
+      data: (data) {
+        // pop loading dialog
+        if (data != null) {
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // invalidate the get all team
+          ref
+              .read(getTeamsByuseridProviderProvider.notifier)
+              .getTeamsByUserId();
+
+          // show success dialog
+          context.showSuccessSnackBar(message: data);
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
+}

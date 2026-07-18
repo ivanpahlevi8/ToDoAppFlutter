@@ -21,4 +21,9 @@ class TeamUsecase {
   }) {
     return teamRemoteRepository.createNewTeam(createTeam: createTeamEntity);
   }
+
+  // function to delete team
+  TaskEither<BaseException, String> deleteTeam({required int teamId}) {
+    return teamRemoteRepository.deleteTeam(teamId: teamId);
+  }
 }
