@@ -30,6 +30,10 @@ mixin _$TeamModel {
   String get teamLeaderId => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
   String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "userMember")
+  List<UserModel>? get userMembers => throw _privateConstructorUsedError;
+  @JsonKey(name: "roleMember")
+  List<TeamRoleModel>? get teamRoles => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +51,9 @@ abstract class $TeamModelCopyWith<$Res> {
       @JsonKey(name: "teamName") String teamName,
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
-      @JsonKey(name: "createdAt") String createdAt});
+      @JsonKey(name: "createdAt") String createdAt,
+      @JsonKey(name: "userMember") List<UserModel>? userMembers,
+      @JsonKey(name: "roleMember") List<TeamRoleModel>? teamRoles});
 }
 
 /// @nodoc
@@ -68,6 +74,8 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
+    Object? userMembers = freezed,
+    Object? teamRoles = freezed,
   }) {
     return _then(_value.copyWith(
       teamId: freezed == teamId
@@ -90,6 +98,14 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      userMembers: freezed == userMembers
+          ? _value.userMembers
+          : userMembers // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
+      teamRoles: freezed == teamRoles
+          ? _value.teamRoles
+          : teamRoles // ignore: cast_nullable_to_non_nullable
+              as List<TeamRoleModel>?,
     ) as $Val);
   }
 }
@@ -107,7 +123,9 @@ abstract class _$$TeamModelImplCopyWith<$Res>
       @JsonKey(name: "teamName") String teamName,
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
-      @JsonKey(name: "createdAt") String createdAt});
+      @JsonKey(name: "createdAt") String createdAt,
+      @JsonKey(name: "userMember") List<UserModel>? userMembers,
+      @JsonKey(name: "roleMember") List<TeamRoleModel>? teamRoles});
 }
 
 /// @nodoc
@@ -126,6 +144,8 @@ class __$$TeamModelImplCopyWithImpl<$Res>
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
+    Object? userMembers = freezed,
+    Object? teamRoles = freezed,
   }) {
     return _then(_$TeamModelImpl(
       teamId: freezed == teamId
@@ -148,6 +168,14 @@ class __$$TeamModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      userMembers: freezed == userMembers
+          ? _value._userMembers
+          : userMembers // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
+      teamRoles: freezed == teamRoles
+          ? _value._teamRoles
+          : teamRoles // ignore: cast_nullable_to_non_nullable
+              as List<TeamRoleModel>?,
     ));
   }
 }
@@ -160,7 +188,11 @@ class _$TeamModelImpl implements _TeamModel {
       @JsonKey(name: "teamName") required this.teamName,
       @JsonKey(name: "teamDescription") required this.teamDescription,
       @JsonKey(name: "teamLeader") required this.teamLeaderId,
-      @JsonKey(name: "createdAt") required this.createdAt});
+      @JsonKey(name: "createdAt") required this.createdAt,
+      @JsonKey(name: "userMember") final List<UserModel>? userMembers,
+      @JsonKey(name: "roleMember") final List<TeamRoleModel>? teamRoles})
+      : _userMembers = userMembers,
+        _teamRoles = teamRoles;
 
   factory _$TeamModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TeamModelImplFromJson(json);
@@ -180,10 +212,31 @@ class _$TeamModelImpl implements _TeamModel {
   @override
   @JsonKey(name: "createdAt")
   final String createdAt;
+  final List<UserModel>? _userMembers;
+  @override
+  @JsonKey(name: "userMember")
+  List<UserModel>? get userMembers {
+    final value = _userMembers;
+    if (value == null) return null;
+    if (_userMembers is EqualUnmodifiableListView) return _userMembers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<TeamRoleModel>? _teamRoles;
+  @override
+  @JsonKey(name: "roleMember")
+  List<TeamRoleModel>? get teamRoles {
+    final value = _teamRoles;
+    if (value == null) return null;
+    if (_teamRoles is EqualUnmodifiableListView) return _teamRoles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'TeamModel(teamId: $teamId, teamName: $teamName, teamDescription: $teamDescription, teamLeaderId: $teamLeaderId, createdAt: $createdAt)';
+    return 'TeamModel(teamId: $teamId, teamName: $teamName, teamDescription: $teamDescription, teamLeaderId: $teamLeaderId, createdAt: $createdAt, userMembers: $userMembers, teamRoles: $teamRoles)';
   }
 
   @override
@@ -199,13 +252,24 @@ class _$TeamModelImpl implements _TeamModel {
             (identical(other.teamLeaderId, teamLeaderId) ||
                 other.teamLeaderId == teamLeaderId) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._userMembers, _userMembers) &&
+            const DeepCollectionEquality()
+                .equals(other._teamRoles, _teamRoles));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, teamId, teamName, teamDescription, teamLeaderId, createdAt);
+      runtimeType,
+      teamId,
+      teamName,
+      teamDescription,
+      teamLeaderId,
+      createdAt,
+      const DeepCollectionEquality().hash(_userMembers),
+      const DeepCollectionEquality().hash(_teamRoles));
 
   @JsonKey(ignore: true)
   @override
@@ -227,8 +291,10 @@ abstract class _TeamModel implements TeamModel {
       @JsonKey(name: "teamName") required final String teamName,
       @JsonKey(name: "teamDescription") required final String teamDescription,
       @JsonKey(name: "teamLeader") required final String teamLeaderId,
-      @JsonKey(name: "createdAt")
-      required final String createdAt}) = _$TeamModelImpl;
+      @JsonKey(name: "createdAt") required final String createdAt,
+      @JsonKey(name: "userMember") final List<UserModel>? userMembers,
+      @JsonKey(name: "roleMember")
+      final List<TeamRoleModel>? teamRoles}) = _$TeamModelImpl;
 
   factory _TeamModel.fromJson(Map<String, dynamic> json) =
       _$TeamModelImpl.fromJson;
@@ -248,6 +314,12 @@ abstract class _TeamModel implements TeamModel {
   @override
   @JsonKey(name: "createdAt")
   String get createdAt;
+  @override
+  @JsonKey(name: "userMember")
+  List<UserModel>? get userMembers;
+  @override
+  @JsonKey(name: "roleMember")
+  List<TeamRoleModel>? get teamRoles;
   @override
   @JsonKey(ignore: true)
   _$$TeamModelImplCopyWith<_$TeamModelImpl> get copyWith =>

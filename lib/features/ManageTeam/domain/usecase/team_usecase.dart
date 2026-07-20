@@ -37,4 +37,11 @@ class TeamUsecase {
       teamId: teamId,
     );
   }
+
+  // function to get team detail
+  TaskEither<BaseException, TeamListViewEntity> getTeamDetail({
+    required int teamId,
+  }) {
+    return teamRemoteRepository.getTeamDetail(teamId: teamId);
+  }
 }

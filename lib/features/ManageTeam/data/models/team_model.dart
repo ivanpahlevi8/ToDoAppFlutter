@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_role_model.dart';
 
 part 'team_model.freezed.dart';
 part 'team_model.g.dart';
@@ -11,6 +13,8 @@ class TeamModel with _$TeamModel {
     @JsonKey(name: "teamDescription") required String teamDescription,
     @JsonKey(name: "teamLeader") required String teamLeaderId,
     @JsonKey(name: "createdAt") required String createdAt,
+    @JsonKey(name: "userMember") List<UserModel>? userMembers,
+    @JsonKey(name: "roleMember") List<TeamRoleModel>? teamRoles,
   }) = _TeamModel;
 
   factory TeamModel.fromJson(Map<String, dynamic> json) =>

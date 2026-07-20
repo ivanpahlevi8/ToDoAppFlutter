@@ -28,6 +28,11 @@ abstract interface class TeamRemoteDatasource {
     required String userId,
     required int teamId,
   });
+
+  // function to get team detail
+  TaskEither<BaseException, ResponseModel<TeamModel>> getTeamDetail({
+    required int teamId,
+  });
 }
 
 class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
@@ -151,6 +156,33 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
         .map((data) {
           return ResponseModel.fromJson(data, (innerdata) {
             return innerdata as String;
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<TeamModel>> getTeamDetail({
+    required int teamId,
+  }) {
+    // get api url
+    final ApiUrl = apis.getTeamDetail(teamId: teamId);
+
+    // do request
+    final response = service
+        .get(ApiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (data) {
+            return TeamModel.fromJson(data as dynamic);
           });
         });
 

@@ -162,4 +162,11 @@ class Apis {
       queryParams: {"userId": userId.toString(), "teamId": teamId.toString()},
     );
   }
+
+  Uri getTeamDetail({required int teamId}) {
+    return _buildUri(
+      ApiUrl.getTeamDetail,
+      queryParams: {"teamId": teamId.toString()},
+    );
+  }
 }

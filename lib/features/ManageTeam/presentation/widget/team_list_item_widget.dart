@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 
@@ -182,7 +183,12 @@ class _TeamListItemWidgetState extends State<TeamListItemWidget> {
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // navigate to teamd etail
+                    context.push(
+                      '/team-detail/${widget.teamListViewEntity.teamEntity.teamId}',
+                    );
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

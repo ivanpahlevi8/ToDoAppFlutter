@@ -21,6 +21,8 @@ mixin _$TeamEntity {
   String get teamDescription => throw _privateConstructorUsedError;
   String get teamLeaderId => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
+  List<UserModel>? get userMembers => throw _privateConstructorUsedError;
+  List<RoleTeamEntity>? get teamRoles => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TeamEntityCopyWith<TeamEntity> get copyWith =>
@@ -38,7 +40,9 @@ abstract class $TeamEntityCopyWith<$Res> {
       String teamName,
       String teamDescription,
       String teamLeaderId,
-      String createdAt});
+      String createdAt,
+      List<UserModel>? userMembers,
+      List<RoleTeamEntity>? teamRoles});
 }
 
 /// @nodoc
@@ -59,6 +63,8 @@ class _$TeamEntityCopyWithImpl<$Res, $Val extends TeamEntity>
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
+    Object? userMembers = freezed,
+    Object? teamRoles = freezed,
   }) {
     return _then(_value.copyWith(
       teamId: null == teamId
@@ -81,6 +87,14 @@ class _$TeamEntityCopyWithImpl<$Res, $Val extends TeamEntity>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      userMembers: freezed == userMembers
+          ? _value.userMembers
+          : userMembers // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
+      teamRoles: freezed == teamRoles
+          ? _value.teamRoles
+          : teamRoles // ignore: cast_nullable_to_non_nullable
+              as List<RoleTeamEntity>?,
     ) as $Val);
   }
 }
@@ -98,7 +112,9 @@ abstract class _$$TeamEntityImplCopyWith<$Res>
       String teamName,
       String teamDescription,
       String teamLeaderId,
-      String createdAt});
+      String createdAt,
+      List<UserModel>? userMembers,
+      List<RoleTeamEntity>? teamRoles});
 }
 
 /// @nodoc
@@ -117,6 +133,8 @@ class __$$TeamEntityImplCopyWithImpl<$Res>
     Object? teamDescription = null,
     Object? teamLeaderId = null,
     Object? createdAt = null,
+    Object? userMembers = freezed,
+    Object? teamRoles = freezed,
   }) {
     return _then(_$TeamEntityImpl(
       teamId: null == teamId
@@ -139,6 +157,14 @@ class __$$TeamEntityImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      userMembers: freezed == userMembers
+          ? _value._userMembers
+          : userMembers // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
+      teamRoles: freezed == teamRoles
+          ? _value._teamRoles
+          : teamRoles // ignore: cast_nullable_to_non_nullable
+              as List<RoleTeamEntity>?,
     ));
   }
 }
@@ -151,7 +177,11 @@ class _$TeamEntityImpl implements _TeamEntity {
       required this.teamName,
       required this.teamDescription,
       required this.teamLeaderId,
-      required this.createdAt});
+      required this.createdAt,
+      final List<UserModel>? userMembers,
+      final List<RoleTeamEntity>? teamRoles})
+      : _userMembers = userMembers,
+        _teamRoles = teamRoles;
 
   @override
   final int teamId;
@@ -163,10 +193,29 @@ class _$TeamEntityImpl implements _TeamEntity {
   final String teamLeaderId;
   @override
   final String createdAt;
+  final List<UserModel>? _userMembers;
+  @override
+  List<UserModel>? get userMembers {
+    final value = _userMembers;
+    if (value == null) return null;
+    if (_userMembers is EqualUnmodifiableListView) return _userMembers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<RoleTeamEntity>? _teamRoles;
+  @override
+  List<RoleTeamEntity>? get teamRoles {
+    final value = _teamRoles;
+    if (value == null) return null;
+    if (_teamRoles is EqualUnmodifiableListView) return _teamRoles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'TeamEntity(teamId: $teamId, teamName: $teamName, teamDescription: $teamDescription, teamLeaderId: $teamLeaderId, createdAt: $createdAt)';
+    return 'TeamEntity(teamId: $teamId, teamName: $teamName, teamDescription: $teamDescription, teamLeaderId: $teamLeaderId, createdAt: $createdAt, userMembers: $userMembers, teamRoles: $teamRoles)';
   }
 
   @override
@@ -182,12 +231,23 @@ class _$TeamEntityImpl implements _TeamEntity {
             (identical(other.teamLeaderId, teamLeaderId) ||
                 other.teamLeaderId == teamLeaderId) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._userMembers, _userMembers) &&
+            const DeepCollectionEquality()
+                .equals(other._teamRoles, _teamRoles));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, teamId, teamName, teamDescription, teamLeaderId, createdAt);
+      runtimeType,
+      teamId,
+      teamName,
+      teamDescription,
+      teamLeaderId,
+      createdAt,
+      const DeepCollectionEquality().hash(_userMembers),
+      const DeepCollectionEquality().hash(_teamRoles));
 
   @JsonKey(ignore: true)
   @override
@@ -202,7 +262,9 @@ abstract class _TeamEntity implements TeamEntity {
       required final String teamName,
       required final String teamDescription,
       required final String teamLeaderId,
-      required final String createdAt}) = _$TeamEntityImpl;
+      required final String createdAt,
+      final List<UserModel>? userMembers,
+      final List<RoleTeamEntity>? teamRoles}) = _$TeamEntityImpl;
 
   @override
   int get teamId;
@@ -214,6 +276,10 @@ abstract class _TeamEntity implements TeamEntity {
   String get teamLeaderId;
   @override
   String get createdAt;
+  @override
+  List<UserModel>? get userMembers;
+  @override
+  List<RoleTeamEntity>? get teamRoles;
   @override
   @JsonKey(ignore: true)
   _$$TeamEntityImplCopyWith<_$TeamEntityImpl> get copyWith =>

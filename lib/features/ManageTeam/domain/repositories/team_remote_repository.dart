@@ -14,4 +14,7 @@ abstract interface class TeamRemoteRepository {
     required String userId,
     required int teamId,
   });
+  TaskEither<BaseException, TeamListViewEntity> getTeamDetail({
+    required int teamId,
+  });
 }

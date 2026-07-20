@@ -179,4 +179,56 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       return TaskEither.right(response.result!);
     });
   }
+
+  @override
+  TaskEither<BaseException, TeamListViewEntity> getTeamDetail({
+    required int teamId,
+  }) {
+    // get team detail
+    final getTeamDetailTask = teamRemoteDatasource.getTeamDetail(
+      teamId: teamId,
+    );
+
+    return getTeamDetailTask.flatMap((teamDetailResponse) {
+      if (!teamDetailResponse.isSuccess || teamDetailResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: "Error happen : ${teamDetailResponse.message}",
+            message: teamDetailResponse.message,
+          ),
+        );
+      }
+
+      TeamModel getTeamModelData = teamDetailResponse.result!;
+
+      final getTeamLeadTask = connectionRemoteDatasource.getUserById(
+        userId: getTeamModelData.teamLeaderId,
+      );
+
+      return getTeamLeadTask.flatMap((teamLeadResponse) {
+        if (!teamLeadResponse.isSuccess || teamLeadResponse.result == null) {
+          return TaskEither.left(
+            BaseException(
+              error:
+                  "Error happen when getting team lead : ${teamLeadResponse.message}",
+              message: teamLeadResponse.message,
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        UserModel getTeamLead = teamLeadResponse.result!;
+
+        return TaskEither.right(
+          TeamListViewEntity(
+            teamEntity: getTeamModelData.toEntity(),
+            teamLeader: getTeamLead,
+            isTeamLead:
+                (sharedPreferences.getString("user_id") ?? "") ==
+                getTeamLead.userId,
+          ),
+        );
+      });
+    });
+  }
 }
