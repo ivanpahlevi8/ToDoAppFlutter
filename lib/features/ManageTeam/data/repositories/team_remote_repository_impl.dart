@@ -76,6 +76,7 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
                 teamEntity: team.toEntity(),
                 teamLeader: getUser,
                 isTeamLead: getUserLoginId == getUser.userId,
+                loginUserId: sharedPreferences.getString("user_id") ?? "",
               ),
             );
           }),
@@ -190,6 +191,8 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
     );
 
     return getTeamDetailTask.flatMap((teamDetailResponse) {
+      print("Finish get team detail, check on response...");
+      print("Check on result : ${teamDetailResponse.result}");
       if (!teamDetailResponse.isSuccess || teamDetailResponse.result == null) {
         return TaskEither.left(
           BaseException(
@@ -201,6 +204,7 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
 
       TeamModel getTeamModelData = teamDetailResponse.result!;
 
+      print("Check on team lead user id : ${getTeamModelData.teamLeaderId}");
       final getTeamLeadTask = connectionRemoteDatasource.getUserById(
         userId: getTeamModelData.teamLeaderId,
       );
@@ -219,6 +223,11 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
 
         UserModel getTeamLead = teamLeadResponse.result!;
 
+        print("Check on team role model : ${getTeamModelData.teamRoles}");
+        print(
+          "Check on team role entity : ${getTeamModelData.toEntity().teamRoles}",
+        );
+
         return TaskEither.right(
           TeamListViewEntity(
             teamEntity: getTeamModelData.toEntity(),
@@ -226,6 +235,7 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
             isTeamLead:
                 (sharedPreferences.getString("user_id") ?? "") ==
                 getTeamLead.userId,
+            loginUserId: sharedPreferences.getString("user_id") ?? "",
           ),
         );
       });

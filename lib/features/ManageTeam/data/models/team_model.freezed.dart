@@ -31,7 +31,8 @@ mixin _$TeamModel {
   @JsonKey(name: "createdAt")
   String get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "userMember")
-  List<UserModel>? get userMembers => throw _privateConstructorUsedError;
+  List<UserTeamMemberModel>? get userMembers =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: "roleMember")
   List<TeamRoleModel>? get teamRoles => throw _privateConstructorUsedError;
 
@@ -52,7 +53,7 @@ abstract class $TeamModelCopyWith<$Res> {
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
       @JsonKey(name: "createdAt") String createdAt,
-      @JsonKey(name: "userMember") List<UserModel>? userMembers,
+      @JsonKey(name: "userMember") List<UserTeamMemberModel>? userMembers,
       @JsonKey(name: "roleMember") List<TeamRoleModel>? teamRoles});
 }
 
@@ -101,7 +102,7 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
       userMembers: freezed == userMembers
           ? _value.userMembers
           : userMembers // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>?,
+              as List<UserTeamMemberModel>?,
       teamRoles: freezed == teamRoles
           ? _value.teamRoles
           : teamRoles // ignore: cast_nullable_to_non_nullable
@@ -124,7 +125,7 @@ abstract class _$$TeamModelImplCopyWith<$Res>
       @JsonKey(name: "teamDescription") String teamDescription,
       @JsonKey(name: "teamLeader") String teamLeaderId,
       @JsonKey(name: "createdAt") String createdAt,
-      @JsonKey(name: "userMember") List<UserModel>? userMembers,
+      @JsonKey(name: "userMember") List<UserTeamMemberModel>? userMembers,
       @JsonKey(name: "roleMember") List<TeamRoleModel>? teamRoles});
 }
 
@@ -171,7 +172,7 @@ class __$$TeamModelImplCopyWithImpl<$Res>
       userMembers: freezed == userMembers
           ? _value._userMembers
           : userMembers // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>?,
+              as List<UserTeamMemberModel>?,
       teamRoles: freezed == teamRoles
           ? _value._teamRoles
           : teamRoles // ignore: cast_nullable_to_non_nullable
@@ -189,7 +190,7 @@ class _$TeamModelImpl implements _TeamModel {
       @JsonKey(name: "teamDescription") required this.teamDescription,
       @JsonKey(name: "teamLeader") required this.teamLeaderId,
       @JsonKey(name: "createdAt") required this.createdAt,
-      @JsonKey(name: "userMember") final List<UserModel>? userMembers,
+      @JsonKey(name: "userMember") final List<UserTeamMemberModel>? userMembers,
       @JsonKey(name: "roleMember") final List<TeamRoleModel>? teamRoles})
       : _userMembers = userMembers,
         _teamRoles = teamRoles;
@@ -212,10 +213,10 @@ class _$TeamModelImpl implements _TeamModel {
   @override
   @JsonKey(name: "createdAt")
   final String createdAt;
-  final List<UserModel>? _userMembers;
+  final List<UserTeamMemberModel>? _userMembers;
   @override
   @JsonKey(name: "userMember")
-  List<UserModel>? get userMembers {
+  List<UserTeamMemberModel>? get userMembers {
     final value = _userMembers;
     if (value == null) return null;
     if (_userMembers is EqualUnmodifiableListView) return _userMembers;
@@ -292,7 +293,7 @@ abstract class _TeamModel implements TeamModel {
       @JsonKey(name: "teamDescription") required final String teamDescription,
       @JsonKey(name: "teamLeader") required final String teamLeaderId,
       @JsonKey(name: "createdAt") required final String createdAt,
-      @JsonKey(name: "userMember") final List<UserModel>? userMembers,
+      @JsonKey(name: "userMember") final List<UserTeamMemberModel>? userMembers,
       @JsonKey(name: "roleMember")
       final List<TeamRoleModel>? teamRoles}) = _$TeamModelImpl;
 
@@ -316,7 +317,7 @@ abstract class _TeamModel implements TeamModel {
   String get createdAt;
   @override
   @JsonKey(name: "userMember")
-  List<UserModel>? get userMembers;
+  List<UserTeamMemberModel>? get userMembers;
   @override
   @JsonKey(name: "roleMember")
   List<TeamRoleModel>? get teamRoles;

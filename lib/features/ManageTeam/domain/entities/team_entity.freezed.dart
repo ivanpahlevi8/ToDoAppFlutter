@@ -21,7 +21,8 @@ mixin _$TeamEntity {
   String get teamDescription => throw _privateConstructorUsedError;
   String get teamLeaderId => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
-  List<UserModel>? get userMembers => throw _privateConstructorUsedError;
+  List<UserTeamMemberEntity>? get userMembers =>
+      throw _privateConstructorUsedError;
   List<RoleTeamEntity>? get teamRoles => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -41,7 +42,7 @@ abstract class $TeamEntityCopyWith<$Res> {
       String teamDescription,
       String teamLeaderId,
       String createdAt,
-      List<UserModel>? userMembers,
+      List<UserTeamMemberEntity>? userMembers,
       List<RoleTeamEntity>? teamRoles});
 }
 
@@ -90,7 +91,7 @@ class _$TeamEntityCopyWithImpl<$Res, $Val extends TeamEntity>
       userMembers: freezed == userMembers
           ? _value.userMembers
           : userMembers // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>?,
+              as List<UserTeamMemberEntity>?,
       teamRoles: freezed == teamRoles
           ? _value.teamRoles
           : teamRoles // ignore: cast_nullable_to_non_nullable
@@ -113,7 +114,7 @@ abstract class _$$TeamEntityImplCopyWith<$Res>
       String teamDescription,
       String teamLeaderId,
       String createdAt,
-      List<UserModel>? userMembers,
+      List<UserTeamMemberEntity>? userMembers,
       List<RoleTeamEntity>? teamRoles});
 }
 
@@ -160,7 +161,7 @@ class __$$TeamEntityImplCopyWithImpl<$Res>
       userMembers: freezed == userMembers
           ? _value._userMembers
           : userMembers // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>?,
+              as List<UserTeamMemberEntity>?,
       teamRoles: freezed == teamRoles
           ? _value._teamRoles
           : teamRoles // ignore: cast_nullable_to_non_nullable
@@ -178,7 +179,7 @@ class _$TeamEntityImpl implements _TeamEntity {
       required this.teamDescription,
       required this.teamLeaderId,
       required this.createdAt,
-      final List<UserModel>? userMembers,
+      final List<UserTeamMemberEntity>? userMembers,
       final List<RoleTeamEntity>? teamRoles})
       : _userMembers = userMembers,
         _teamRoles = teamRoles;
@@ -193,9 +194,9 @@ class _$TeamEntityImpl implements _TeamEntity {
   final String teamLeaderId;
   @override
   final String createdAt;
-  final List<UserModel>? _userMembers;
+  final List<UserTeamMemberEntity>? _userMembers;
   @override
-  List<UserModel>? get userMembers {
+  List<UserTeamMemberEntity>? get userMembers {
     final value = _userMembers;
     if (value == null) return null;
     if (_userMembers is EqualUnmodifiableListView) return _userMembers;
@@ -263,7 +264,7 @@ abstract class _TeamEntity implements TeamEntity {
       required final String teamDescription,
       required final String teamLeaderId,
       required final String createdAt,
-      final List<UserModel>? userMembers,
+      final List<UserTeamMemberEntity>? userMembers,
       final List<RoleTeamEntity>? teamRoles}) = _$TeamEntityImpl;
 
   @override
@@ -277,7 +278,7 @@ abstract class _TeamEntity implements TeamEntity {
   @override
   String get createdAt;
   @override
-  List<UserModel>? get userMembers;
+  List<UserTeamMemberEntity>? get userMembers;
   @override
   List<RoleTeamEntity>? get teamRoles;
   @override

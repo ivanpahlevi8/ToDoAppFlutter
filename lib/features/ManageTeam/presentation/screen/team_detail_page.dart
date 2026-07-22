@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_role_item.dart';
 
 class TeamDetailPage extends StatefulWidget {
   final TeamListViewEntity teamDetail;
@@ -416,44 +418,71 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                           ),
 
                           // button to create new role
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  customColor.successDialogBackground!,
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 4,
-                                horizontal: 8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                          if (widget.teamDetail.isTeamLead)
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    customColor.successDialogBackground!,
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 4,
+                                  horizontal: 8,
                                 ),
-                              ),
-                            ),
-                            onPressed: () {
-                              // open add role dialog
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  size: 22,
-                                  fontWeight: FontWeight.w900,
-                                  color: customColor.textTitle!,
-                                ),
-                                SizedBox(height: 1),
-                                Text(
-                                  "create",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w900,
-                                    color: customColor.textTitle,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
                                   ),
                                 ),
-                              ],
+                              ),
+                              onPressed: () {
+                                // open add role dialog
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: customColor.textTitle!,
+                                  ),
+                                  SizedBox(height: 1),
+                                  Text(
+                                    "create",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w900,
+                                      color: customColor.textTitle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      // list of role on team
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                // Map your team roles list directly into widgets
+                                children: widget
+                                    .teamDetail
+                                    .teamEntity
+                                    .teamRoles!
+                                    .map((getItem) {
+                                      return TeamRoleItem(
+                                        roleTeam: getItem,
+                                        isTeamLeader:
+                                            widget.teamDetail.isTeamLead,
+                                      );
+                                    })
+                                    .toList(),
+                              ),
                             ),
                           ),
                         ],
