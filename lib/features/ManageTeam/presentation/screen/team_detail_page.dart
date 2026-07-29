@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/user_team_member_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/add_teamrole_dialog.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_role_item.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/user_member_team_widget.dart';
 
@@ -446,6 +447,14 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                               ),
                               onPressed: () {
                                 // open add role dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AddTeamroleDialog(
+                                      onCreateRole: (roleName) {},
+                                    );
+                                  },
+                                );
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
