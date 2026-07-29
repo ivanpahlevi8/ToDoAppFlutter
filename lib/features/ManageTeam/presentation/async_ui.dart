@@ -137,4 +137,51 @@ extension ActionTeamExtension on AsyncValue<String?> {
       },
     );
   }
+
+  Future<void> onLeaveTeamDetail(BuildContext context, WidgetRef ref) async {
+    when(
+      data: (data) {
+        // pop loading dialog
+        if (data != null) {
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // pop back to previous page
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // invalidate the get all team
+          ref
+              .read(getTeamsByuseridProviderProvider.notifier)
+              .getTeamsByUserId();
+
+          // show success dialog
+          context.showSuccessSnackBar(message: "Success leave from group");
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
 }

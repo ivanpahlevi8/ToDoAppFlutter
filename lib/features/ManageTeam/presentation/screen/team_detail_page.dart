@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
-import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/user_team_member_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/team_role_item.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/user_member_team_widget.dart';
 
 class TeamDetailPage extends StatefulWidget {
   final TeamListViewEntity teamDetail;
-  const TeamDetailPage({super.key, required this.teamDetail});
+  final Function(String) onUserDetail;
+  final Function(String) onRemoveUser;
+  final Function(int) onLeaveGroup;
+  const TeamDetailPage({
+    super.key,
+    required this.teamDetail,
+    required this.onUserDetail,
+    required this.onRemoveUser,
+    required this.onLeaveGroup,
+  });
 
   @override
   State<TeamDetailPage> createState() => _TeamDetailPageState();
@@ -492,6 +502,134 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 20),
+          // container for team member
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    customColor.timeLineCardColor5!,
+                    customColor.timeLineCardColor6!,
+                  ],
+                  begin: AlignmentGeometry.topLeft,
+                  end: AlignmentGeometry.bottomRight,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          gradient: LinearGradient(
+                            colors: [
+                              customColor.timeLineCardColor1!,
+                              customColor.timeLineCardColor2!,
+                            ],
+                            begin: AlignmentGeometry.topLeft,
+                            end: AlignmentGeometry.bottomRight,
+                          ),
+                        ),
+                        child: Text(
+                          "Team Members",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: customColor.textTitle!,
+                          ),
+                        ),
+                      ),
+
+                      if (widget.teamDetail.isTeamLead)
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                customColor.successDialogBackground!,
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 8,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            // open add role dialog
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                size: 22,
+                                fontWeight: FontWeight.w900,
+                                color: customColor.textTitle!,
+                              ),
+                              SizedBox(height: 1),
+                              Text(
+                                "create",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                  color: customColor.textTitle,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount:
+                          widget.teamDetail.teamEntity.userMembers!.length,
+                      itemBuilder: (context, index) {
+                        UserTeamMemberEntity getUserTeam =
+                            widget.teamDetail.teamEntity.userMembers![index];
+
+                        return UserMemberTeamWidget(
+                          userMember: getUserTeam,
+                          isTeamLead: widget.teamDetail.isTeamLead,
+                          loginUserId: widget.teamDetail.loginUserId,
+                          onUserDetail: (userId) {
+                            // user detail
+                            widget.onUserDetail(userId);
+                          },
+                          onRemoveUser: (userId) {
+                            // remove user from group
+                            widget.onRemoveUser(userId);
+                          },
+                          onLeaveUser: () {
+                            // leae from group
+                            widget.onLeaveGroup(
+                              widget.teamDetail.teamEntity.teamId,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

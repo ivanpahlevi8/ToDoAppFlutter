@@ -1,9 +1,11 @@
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_role_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/user_team_member_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/user_team_member_entity.dart';
 
 extension TeamModelMapper on TeamModel {
   TeamEntity toEntity() {
@@ -13,6 +15,7 @@ extension TeamModelMapper on TeamModel {
       teamDescription: teamDescription,
       teamLeaderId: teamLeaderId,
       teamRoles: teamRoles?.map((role) => role.toEntity()).toList(),
+      userMembers: userMembers?.map((user) => user.toEntity()).toList(),
       createdAt: createdAt,
     );
   }
@@ -65,6 +68,30 @@ extension CreateTeamRoleModelMapper on RoleTeamEntity {
       teamRoleId: teamRoleId,
       roleName: teamRoleName,
       teamId: teamId,
+    );
+  }
+}
+
+extension CreateUserTeamMemberEntityMapper on UserTeamMemberModel {
+  UserTeamMemberEntity toEntity() {
+    return UserTeamMemberEntity(
+      userId: userId,
+      email: userEmail,
+      firstName: firstName,
+      lastName: lastName,
+      createdAt: createdAt,
+    );
+  }
+}
+
+extension CreateUserTeamMemberModelMapper on UserTeamMemberEntity {
+  UserTeamMemberModel toModel() {
+    return UserTeamMemberModel(
+      userId: userId,
+      userEmail: email,
+      firstName: firstName,
+      lastName: lastName,
+      createdAt: createdAt,
     );
   }
 }

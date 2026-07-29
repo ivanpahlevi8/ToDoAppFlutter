@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/screen/team_detail_page.dart';
 
 class TeamDetailScreen extends ConsumerStatefulWidget {
@@ -27,13 +29,32 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
   Widget build(BuildContext context) {
     final teamDetailProvider = ref.watch(getTeamDetailProviderProvider);
 
+    // listen to team leave on detail
+    ref.listen<AsyncValue<String?>>(leaveTeamProviderProvider, (prev, next) {
+      next.onLeaveTeamDetail(context, ref);
+    });
+
     return Column(
       children: [
         Expanded(
           child: teamDetailProvider.when(
             data: (data) {
               if (data != null) {
-                return TeamDetailPage(teamDetail: data);
+                return TeamDetailPage(
+                  teamDetail: data,
+                  onUserDetail: (userId) {
+                    // user detail
+                  },
+                  onRemoveUser: (userId) {
+                    // remove user from group
+                  },
+                  onLeaveGroup: (teamId) {
+                    // user leave group
+                    ref
+                        .read(leaveTeamProviderProvider.notifier)
+                        .leaveTeam(teamId: teamId);
+                  },
+                );
               }
 
               return Center(child: CircularProgressIndicator());
