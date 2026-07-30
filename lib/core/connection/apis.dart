@@ -169,4 +169,8 @@ class Apis {
       queryParams: {"teamId": teamId.toString()},
     );
   }
+
+  Uri createTeamRole() {
+    return _buildUri(ApiUrl.createTeamRole);
+  }
 }

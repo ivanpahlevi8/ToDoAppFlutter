@@ -21,11 +21,13 @@ TeamRoleModel _$TeamRoleModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TeamRoleModel {
   @JsonKey(name: "teamRoleId")
-  int get teamRoleId => throw _privateConstructorUsedError;
+  int? get teamRoleId => throw _privateConstructorUsedError;
   @JsonKey(name: "roleName")
   String get roleName => throw _privateConstructorUsedError;
   @JsonKey(name: "teamId")
   int get teamId => throw _privateConstructorUsedError;
+  @JsonKey(name: "createdAt")
+  String? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,9 +42,10 @@ abstract class $TeamRoleModelCopyWith<$Res> {
       _$TeamRoleModelCopyWithImpl<$Res, TeamRoleModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "teamRoleId") int teamRoleId,
+      {@JsonKey(name: "teamRoleId") int? teamRoleId,
       @JsonKey(name: "roleName") String roleName,
-      @JsonKey(name: "teamId") int teamId});
+      @JsonKey(name: "teamId") int teamId,
+      @JsonKey(name: "createdAt") String? createdAt});
 }
 
 /// @nodoc
@@ -58,15 +61,16 @@ class _$TeamRoleModelCopyWithImpl<$Res, $Val extends TeamRoleModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? teamRoleId = null,
+    Object? teamRoleId = freezed,
     Object? roleName = null,
     Object? teamId = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      teamRoleId: null == teamRoleId
+      teamRoleId: freezed == teamRoleId
           ? _value.teamRoleId
           : teamRoleId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       roleName: null == roleName
           ? _value.roleName
           : roleName // ignore: cast_nullable_to_non_nullable
@@ -75,6 +79,10 @@ class _$TeamRoleModelCopyWithImpl<$Res, $Val extends TeamRoleModel>
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -88,9 +96,10 @@ abstract class _$$TeamRoleModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "teamRoleId") int teamRoleId,
+      {@JsonKey(name: "teamRoleId") int? teamRoleId,
       @JsonKey(name: "roleName") String roleName,
-      @JsonKey(name: "teamId") int teamId});
+      @JsonKey(name: "teamId") int teamId,
+      @JsonKey(name: "createdAt") String? createdAt});
 }
 
 /// @nodoc
@@ -104,15 +113,16 @@ class __$$TeamRoleModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? teamRoleId = null,
+    Object? teamRoleId = freezed,
     Object? roleName = null,
     Object? teamId = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$TeamRoleModelImpl(
-      teamRoleId: null == teamRoleId
+      teamRoleId: freezed == teamRoleId
           ? _value.teamRoleId
           : teamRoleId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       roleName: null == roleName
           ? _value.roleName
           : roleName // ignore: cast_nullable_to_non_nullable
@@ -121,6 +131,10 @@ class __$$TeamRoleModelImplCopyWithImpl<$Res>
           ? _value.teamId
           : teamId // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -131,24 +145,28 @@ class _$TeamRoleModelImpl implements _TeamRoleModel {
   _$TeamRoleModelImpl(
       {@JsonKey(name: "teamRoleId") required this.teamRoleId,
       @JsonKey(name: "roleName") required this.roleName,
-      @JsonKey(name: "teamId") required this.teamId});
+      @JsonKey(name: "teamId") required this.teamId,
+      @JsonKey(name: "createdAt") required this.createdAt});
 
   factory _$TeamRoleModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TeamRoleModelImplFromJson(json);
 
   @override
   @JsonKey(name: "teamRoleId")
-  final int teamRoleId;
+  final int? teamRoleId;
   @override
   @JsonKey(name: "roleName")
   final String roleName;
   @override
   @JsonKey(name: "teamId")
   final int teamId;
+  @override
+  @JsonKey(name: "createdAt")
+  final String? createdAt;
 
   @override
   String toString() {
-    return 'TeamRoleModel(teamRoleId: $teamRoleId, roleName: $roleName, teamId: $teamId)';
+    return 'TeamRoleModel(teamRoleId: $teamRoleId, roleName: $roleName, teamId: $teamId, createdAt: $createdAt)';
   }
 
   @override
@@ -160,12 +178,15 @@ class _$TeamRoleModelImpl implements _TeamRoleModel {
                 other.teamRoleId == teamRoleId) &&
             (identical(other.roleName, roleName) ||
                 other.roleName == roleName) &&
-            (identical(other.teamId, teamId) || other.teamId == teamId));
+            (identical(other.teamId, teamId) || other.teamId == teamId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, teamRoleId, roleName, teamId);
+  int get hashCode =>
+      Object.hash(runtimeType, teamRoleId, roleName, teamId, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -183,9 +204,10 @@ class _$TeamRoleModelImpl implements _TeamRoleModel {
 
 abstract class _TeamRoleModel implements TeamRoleModel {
   factory _TeamRoleModel(
-          {@JsonKey(name: "teamRoleId") required final int teamRoleId,
+          {@JsonKey(name: "teamRoleId") required final int? teamRoleId,
           @JsonKey(name: "roleName") required final String roleName,
-          @JsonKey(name: "teamId") required final int teamId}) =
+          @JsonKey(name: "teamId") required final int teamId,
+          @JsonKey(name: "createdAt") required final String? createdAt}) =
       _$TeamRoleModelImpl;
 
   factory _TeamRoleModel.fromJson(Map<String, dynamic> json) =
@@ -193,13 +215,16 @@ abstract class _TeamRoleModel implements TeamRoleModel {
 
   @override
   @JsonKey(name: "teamRoleId")
-  int get teamRoleId;
+  int? get teamRoleId;
   @override
   @JsonKey(name: "roleName")
   String get roleName;
   @override
   @JsonKey(name: "teamId")
   int get teamId;
+  @override
+  @JsonKey(name: "createdAt")
+  String? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$TeamRoleModelImplCopyWith<_$TeamRoleModelImpl> get copyWith =>

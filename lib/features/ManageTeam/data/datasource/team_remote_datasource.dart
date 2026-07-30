@@ -5,7 +5,9 @@ import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_role_model.dart';
 
 abstract interface class TeamRemoteDatasource {
   // function to get all team
@@ -32,6 +34,11 @@ abstract interface class TeamRemoteDatasource {
   // function to get team detail
   TaskEither<BaseException, ResponseModel<TeamModel>> getTeamDetail({
     required int teamId,
+  });
+
+  // function
+  TaskEither<BaseException, ResponseModel<TeamRoleModel>> createRoleTeam({
+    required RoleTeamInputModel roleTeamInput,
   });
 }
 
@@ -183,6 +190,38 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
         .map((data) {
           return ResponseModel.fromJson(data, (data) {
             return TeamModel.fromJson(data as dynamic);
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<TeamRoleModel>> createRoleTeam({
+    required RoleTeamInputModel roleTeamInput,
+  }) {
+    // get api url
+    final getApiUrl = apis.createTeamRole();
+
+    // do request
+    final response = service
+        .post(
+          getApiUrl,
+          null,
+          headers: {"Content-Type": "application/json"},
+          body: roleTeamInput.toJson(),
+        )
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerData) {
+            return TeamRoleModel.fromJson(innerData as dynamic);
           });
         });
 

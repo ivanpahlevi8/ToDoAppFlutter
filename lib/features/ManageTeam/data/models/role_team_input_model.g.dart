@@ -1,23 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'team_role_model.dart';
+part of 'role_team_input_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TeamRoleModelImpl _$$TeamRoleModelImplFromJson(Map<String, dynamic> json) =>
-    _$TeamRoleModelImpl(
-      teamRoleId: (json['teamRoleId'] as num?)?.toInt(),
+_$RoleTeamInputModelImpl _$$RoleTeamInputModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RoleTeamInputModelImpl(
       roleName: json['roleName'] as String,
       teamId: (json['teamId'] as num).toInt(),
-      createdAt: json['createdAt'] as String?,
     );
 
-Map<String, dynamic> _$$TeamRoleModelImplToJson(_$TeamRoleModelImpl instance) =>
+Map<String, dynamic> _$$RoleTeamInputModelImplToJson(
+        _$RoleTeamInputModelImpl instance) =>
     <String, dynamic>{
-      'teamRoleId': instance.teamRoleId,
       'roleName': instance.roleName,
       'teamId': instance.teamId,
-      'createdAt': instance.createdAt,
     };

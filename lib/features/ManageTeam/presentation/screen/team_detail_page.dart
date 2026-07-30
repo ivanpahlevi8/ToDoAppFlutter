@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/user_team_member_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/add_teamrole_dialog.dart';
@@ -11,12 +12,14 @@ class TeamDetailPage extends StatefulWidget {
   final Function(String) onUserDetail;
   final Function(String) onRemoveUser;
   final Function(int) onLeaveGroup;
+  final Function(RoleTeamInputEntity) onCreateRoleTeam;
   const TeamDetailPage({
     super.key,
     required this.teamDetail,
     required this.onUserDetail,
     required this.onRemoveUser,
     required this.onLeaveGroup,
+    required this.onCreateRoleTeam,
   });
 
   @override
@@ -451,7 +454,20 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                                   context: context,
                                   builder: (context) {
                                     return AddTeamroleDialog(
-                                      onCreateRole: (roleName) {},
+                                      onCreateRole: (roleName) {
+                                        // craete role team input
+                                        final roleTeamInput =
+                                            RoleTeamInputEntity(
+                                              teamId: widget
+                                                  .teamDetail
+                                                  .teamEntity
+                                                  .teamId,
+                                              roleName: roleName,
+                                            );
+
+                                        // create new role team
+                                        widget.onCreateRoleTeam(roleTeamInput);
+                                      },
                                     );
                                   },
                                 );

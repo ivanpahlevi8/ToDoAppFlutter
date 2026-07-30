@@ -15,9 +15,9 @@ class TeamRoleItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
     return Container(
-      width: 200,
+      width: 220,
       margin: EdgeInsets.symmetric(horizontal: 8),
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         gradient: LinearGradient(

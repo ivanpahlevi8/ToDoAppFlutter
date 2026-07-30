@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_role_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/user_team_member_model.dart';
 

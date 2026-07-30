@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/screen/team_detail_page.dart';
@@ -34,6 +37,14 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
       next.onLeaveTeamDetail(context, ref);
     });
 
+    // listen to create team role
+    ref.listen<AsyncValue<RoleTeamEntity?>>(createRoleTeamProviderProvider, (
+      prev,
+      next,
+    ) {
+      next.onCreateTeam(context, ref);
+    });
+
     return Column(
       children: [
         Expanded(
@@ -53,6 +64,14 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
                     ref
                         .read(leaveTeamProviderProvider.notifier)
                         .leaveTeam(teamId: teamId);
+                  },
+                  onCreateRoleTeam: (teamRole) {
+                    // pop dialog
+                    context.pop();
+
+                    ref
+                        .read(createRoleTeamProviderProvider.notifier)
+                        .createRoleTeam(roleTeamInput: teamRole);
                   },
                 );
               }

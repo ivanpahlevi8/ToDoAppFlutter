@@ -7,8 +7,11 @@ import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/con
 import 'package:to_do_app_flutter/features/ManageTeam/data/datasource/team_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/repositories/team_remote_repository.dart';
@@ -239,6 +242,34 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
           ),
         );
       });
+    });
+  }
+
+  @override
+  TaskEither<BaseException, RoleTeamEntity> createTeamRole({
+    required RoleTeamInputEntity roleTeamInput,
+  }) {
+    // parse input from entity to model
+    RoleTeamInputModel inputModel = roleTeamInput.toModel();
+
+    // create role on team
+    final createRoleResponseTask = teamRemoteDatasource.createRoleTeam(
+      roleTeamInput: inputModel,
+    );
+
+    return createRoleResponseTask.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            stackTrace: StackTrace.current,
+            error: "Error happen : ${response.message}",
+            message: response.message,
+          ),
+        );
+      }
+
+      // return response
+      return TaskEither.right(response.result!.toEntity());
     });
   }
 }

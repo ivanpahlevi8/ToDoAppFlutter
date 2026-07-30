@@ -1,9 +1,11 @@
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_role_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/user_team_member_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/user_team_member_entity.dart';
 
@@ -55,7 +57,7 @@ extension CreateTeamEntityMapper on CreateTeamEntity {
 extension CreateTeamRoleEntityMapper on TeamRoleModel {
   RoleTeamEntity toEntity() {
     return RoleTeamEntity(
-      teamRoleId: teamRoleId,
+      teamRoleId: teamRoleId ?? -1,
       teamRoleName: roleName,
       teamId: teamId,
     );
@@ -68,6 +70,7 @@ extension CreateTeamRoleModelMapper on RoleTeamEntity {
       teamRoleId: teamRoleId,
       roleName: teamRoleName,
       teamId: teamId,
+      createdAt: "",
     );
   }
 }
@@ -93,5 +96,17 @@ extension CreateUserTeamMemberModelMapper on UserTeamMemberEntity {
       lastName: lastName,
       createdAt: createdAt,
     );
+  }
+}
+
+extension InputRoleTeamEntityMapper on RoleTeamInputEntity {
+  RoleTeamInputModel toModel() {
+    return RoleTeamInputModel(roleName: roleName, teamId: teamId);
+  }
+}
+
+extension InputRoleTeamModelMapper on RoleTeamInputModel {
+  RoleTeamInputEntity toEntity() {
+    return RoleTeamInputEntity(teamId: teamId, roleName: roleName);
   }
 }

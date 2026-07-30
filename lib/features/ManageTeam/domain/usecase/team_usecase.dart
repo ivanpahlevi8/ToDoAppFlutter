@@ -1,6 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_list_view_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/repositories/team_remote_repository.dart';
@@ -43,5 +45,12 @@ class TeamUsecase {
     required int teamId,
   }) {
     return teamRemoteRepository.getTeamDetail(teamId: teamId);
+  }
+
+  // function to create team role
+  TaskEither<BaseException, RoleTeamEntity> createRoleTeam({
+    required RoleTeamInputEntity roleTeamInput,
+  }) {
+    return teamRemoteRepository.createTeamRole(roleTeamInput: roleTeamInput);
   }
 }
