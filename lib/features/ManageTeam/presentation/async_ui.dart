@@ -233,3 +233,51 @@ extension CreateRoleTeamExtension on AsyncValue<RoleTeamEntity?> {
     );
   }
 }
+
+extension RemoveTeamExtension on AsyncValue<String?> {
+  Future<void> onRemoveRoleTeam(
+    BuildContext context,
+    WidgetRef ref,
+    int teamId,
+  ) async {
+    when(
+      data: (data) {
+        if (data != null) {
+          // pop the loading dialog
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // invalidate the get all team
+          ref
+              .read(getTeamDetailProviderProvider.notifier)
+              .getTeamDetail(teamId: teamId);
+
+          // show success dialog
+          context.showSuccessSnackBar(message: data);
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
+}

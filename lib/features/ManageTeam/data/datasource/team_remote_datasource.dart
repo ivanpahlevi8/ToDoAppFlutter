@@ -40,6 +40,11 @@ abstract interface class TeamRemoteDatasource {
   TaskEither<BaseException, ResponseModel<TeamRoleModel>> createRoleTeam({
     required RoleTeamInputModel roleTeamInput,
   });
+
+  // function to delete team role
+  TaskEither<BaseException, ResponseModel<String>> deleteRoleTeam({
+    required int roleTeamId,
+  });
 }
 
 class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
@@ -222,6 +227,35 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
         .map((data) {
           return ResponseModel.fromJson(data, (innerData) {
             return TeamRoleModel.fromJson(innerData as dynamic);
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> deleteRoleTeam({
+    required int roleTeamId,
+  }) {
+    // get uri
+    final getUri = apis.deleteTeamRole(teamRoleId: roleTeamId);
+
+    // do request
+    final response = service
+        .delete(getUri, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap(
+          ((json) => TaskEither.fromEither(validator.validateJson(json))),
+        )
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerData) {
+            return innerData as String;
           });
         });
 

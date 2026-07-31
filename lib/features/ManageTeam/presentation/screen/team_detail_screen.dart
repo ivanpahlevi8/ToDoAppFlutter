@@ -6,6 +6,7 @@ import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/remove_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/screen/team_detail_page.dart';
 
 class TeamDetailScreen extends ConsumerStatefulWidget {
@@ -45,6 +46,14 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
       next.onCreateTeam(context, ref);
     });
 
+    // listen to create
+    ref.listen<AsyncValue<String?>>(removeRoleTeamProviderProvider, (
+      prev,
+      next,
+    ) {
+      next.onRemoveRoleTeam(context, ref, widget.teamId);
+    });
+
     return Column(
       children: [
         Expanded(
@@ -72,6 +81,11 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
                     ref
                         .read(createRoleTeamProviderProvider.notifier)
                         .createRoleTeam(roleTeamInput: teamRole);
+                  },
+                  onRemoveTeamRole: (teamRoleId) {
+                    ref
+                        .read(removeRoleTeamProviderProvider.notifier)
+                        .removeRoleTeam(roleTeamId: teamRoleId);
                   },
                 );
               }

@@ -22,4 +22,5 @@ abstract interface class TeamRemoteRepository {
   TaskEither<BaseException, RoleTeamEntity> createTeamRole({
     required RoleTeamInputEntity roleTeamInput,
   });
+  TaskEither<BaseException, String> removeTeamRole({required int roleTeamId});
 }

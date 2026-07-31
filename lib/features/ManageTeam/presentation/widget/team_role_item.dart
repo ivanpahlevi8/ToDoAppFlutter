@@ -5,10 +5,12 @@ import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_
 class TeamRoleItem extends StatelessWidget {
   final RoleTeamEntity roleTeam;
   final bool isTeamLeader;
+  final Function(int) onRemoveTeamRole;
   const TeamRoleItem({
     super.key,
     required this.roleTeam,
     required this.isTeamLeader,
+    required this.onRemoveTeamRole,
   });
 
   @override
@@ -45,7 +47,17 @@ class TeamRoleItem extends StatelessWidget {
           ),
           if (isTeamLeader)
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                onRemoveTeamRole(roleTeam.teamRoleId);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: customColor.errorColor!,
+                minimumSize: Size.zero,
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

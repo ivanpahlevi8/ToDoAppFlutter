@@ -272,4 +272,26 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       return TaskEither.right(response.result!.toEntity());
     });
   }
+
+  @override
+  TaskEither<BaseException, String> removeTeamRole({required int roleTeamId}) {
+    // remove team role
+    final responseRemoveTeamRole = teamRemoteDatasource.deleteRoleTeam(
+      roleTeamId: roleTeamId,
+    );
+
+    return responseRemoveTeamRole.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: "Error Happen : ${response.message}",
+            stackTrace: StackTrace.current,
+            message: "",
+          ),
+        );
+      }
+
+      return TaskEither.right(response.result!);
+    });
+  }
 }

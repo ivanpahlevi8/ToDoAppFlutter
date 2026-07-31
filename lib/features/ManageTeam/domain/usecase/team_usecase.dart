@@ -53,4 +53,9 @@ class TeamUsecase {
   }) {
     return teamRemoteRepository.createTeamRole(roleTeamInput: roleTeamInput);
   }
+
+  // function to remove team role
+  TaskEither<BaseException, String> removeRoleTeam({required int roleTeamId}) {
+    return teamRemoteRepository.removeTeamRole(roleTeamId: roleTeamId);
+  }
 }

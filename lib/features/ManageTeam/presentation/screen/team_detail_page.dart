@@ -13,6 +13,7 @@ class TeamDetailPage extends StatefulWidget {
   final Function(String) onRemoveUser;
   final Function(int) onLeaveGroup;
   final Function(RoleTeamInputEntity) onCreateRoleTeam;
+  final Function(int) onRemoveTeamRole;
   const TeamDetailPage({
     super.key,
     required this.teamDetail,
@@ -20,6 +21,7 @@ class TeamDetailPage extends StatefulWidget {
     required this.onRemoveUser,
     required this.onLeaveGroup,
     required this.onCreateRoleTeam,
+    required this.onRemoveTeamRole,
   });
 
   @override
@@ -514,6 +516,9 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                                         roleTeam: getItem,
                                         isTeamLeader:
                                             widget.teamDetail.isTeamLead,
+                                        onRemoveTeamRole: (teamRoleId) {
+                                          widget.onRemoveTeamRole(teamRoleId);
+                                        },
                                       );
                                     })
                                     .toList(),

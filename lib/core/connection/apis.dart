@@ -173,4 +173,11 @@ class Apis {
   Uri createTeamRole() {
     return _buildUri(ApiUrl.createTeamRole);
   }
+
+  Uri deleteTeamRole({required int teamRoleId}) {
+    return _buildUri(
+      ApiUrl.deleteTeamRole,
+      queryParams: {"teamRoleId": teamRoleId.toString()},
+    );
+  }
 }
