@@ -180,4 +180,14 @@ class Apis {
       queryParams: {"teamRoleId": teamRoleId.toString()},
     );
   }
+
+  Uri searchConnectionUser({
+    required String name,
+    required String loginUserId,
+  }) {
+    return _buildUri(
+      ApiUrl.searchConnectionUser,
+      queryParams: {"name": name, "userId": loginUserId},
+    );
+  }
 }

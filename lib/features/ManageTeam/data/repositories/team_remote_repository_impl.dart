@@ -2,8 +2,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:fpdart/src/task_either.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/models/connection_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/datasource/team_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
@@ -194,8 +196,6 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
     );
 
     return getTeamDetailTask.flatMap((teamDetailResponse) {
-      print("Finish get team detail, check on response...");
-      print("Check on result : ${teamDetailResponse.result}");
       if (!teamDetailResponse.isSuccess || teamDetailResponse.result == null) {
         return TaskEither.left(
           BaseException(
@@ -207,7 +207,6 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
 
       TeamModel getTeamModelData = teamDetailResponse.result!;
 
-      print("Check on team lead user id : ${getTeamModelData.teamLeaderId}");
       final getTeamLeadTask = connectionRemoteDatasource.getUserById(
         userId: getTeamModelData.teamLeaderId,
       );
@@ -225,11 +224,6 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
         }
 
         UserModel getTeamLead = teamLeadResponse.result!;
-
-        print("Check on team role model : ${getTeamModelData.teamRoles}");
-        print(
-          "Check on team role entity : ${getTeamModelData.toEntity().teamRoles}",
-        );
 
         return TaskEither.right(
           TeamListViewEntity(
@@ -292,6 +286,68 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       }
 
       return TaskEither.right(response.result!);
+    });
+  }
+
+  @override
+  TaskEither<BaseException, List<UserModel>> searchConnectionUser({
+    required String name,
+  }) {
+    // get login user id
+    String loginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // get all search connection
+    final allConnectionTask = teamRemoteDatasource.searchConnectionUser(
+      name: name,
+      loginUserId: loginUserId,
+    );
+
+    return allConnectionTask.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            message: response.message,
+            error: "Error happen when getting connection : ${response.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get all connection
+      List<ConnectionModel> allConnection = response.result!;
+
+      List<TaskEither<BaseException, UserModel>> executeTask = [];
+
+      allConnection.map((connection) {
+        // get connection user id
+        String getConnectionUserId = (connection.userOwnerId == loginUserId)
+            ? connection.userConnectionId
+            : connection.userOwnerId;
+
+        // get user
+        TaskEither<BaseException, ResponseModel<UserModel>> getUserTask =
+            connectionRemoteDatasource.getUserById(userId: getConnectionUserId);
+
+        // check response
+        executeTask.add(
+          getUserTask.flatMap((getUserResponse) {
+            if (!getUserResponse.isSuccess || getUserResponse.result == null) {
+              return TaskEither.left(
+                BaseException(
+                  message: getUserResponse.message,
+                  error:
+                      "Error happen when getting user : ${getUserResponse.message}",
+                  stackTrace: StackTrace.current,
+                ),
+              );
+            }
+
+            return TaskEither.right(getUserResponse.result!);
+          }),
+        );
+      }).toList();
+
+      return TaskEither.sequenceList(executeTask);
     });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
@@ -57,5 +58,12 @@ class TeamUsecase {
   // function to remove team role
   TaskEither<BaseException, String> removeRoleTeam({required int roleTeamId}) {
     return teamRemoteRepository.removeTeamRole(roleTeamId: roleTeamId);
+  }
+
+  // function to search connection user
+  TaskEither<BaseException, List<UserModel>> searchConnectionUser({
+    required String name,
+  }) {
+    return teamRemoteRepository.searchConnectionUser(name: name);
   }
 }

@@ -88,7 +88,7 @@ class UserMemberTeamWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 4),
-                Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -101,7 +101,7 @@ class UserMemberTeamWidget extends StatelessWidget {
                         style: TextButton.styleFrom(
                           minimumSize: Size.zero,
                           padding: EdgeInsets.symmetric(
-                            vertical: 6,
+                            vertical: 4,
                             horizontal: 12,
                           ),
                           backgroundColor: customColor.averageStart!
@@ -119,7 +119,7 @@ class UserMemberTeamWidget extends StatelessWidget {
                               size: 18,
                               color: customColor.textTitle!,
                             ),
-                            SizedBox(height: 3),
+                            SizedBox(height: 1),
                             Text(
                               "info",
                               style: TextStyle(
@@ -132,6 +132,7 @@ class UserMemberTeamWidget extends StatelessWidget {
                         ),
                       ),
                     // check condition if its team leader or not
+                    if (isTeamLead) SizedBox(width: 4),
                     if (isTeamLead)
                       // show remove button
                       TextButton(
@@ -141,8 +142,8 @@ class UserMemberTeamWidget extends StatelessWidget {
                         style: TextButton.styleFrom(
                           minimumSize: Size.zero,
                           padding: EdgeInsets.symmetric(
-                            vertical: 6,
-                            horizontal: 12,
+                            vertical: 4,
+                            horizontal: 8,
                           ),
                           backgroundColor: customColor.errorColor!.withOpacity(
                             0.6,
@@ -160,7 +161,7 @@ class UserMemberTeamWidget extends StatelessWidget {
                               size: 18,
                               fontWeight: FontWeight.w900,
                             ),
-                            SizedBox(height: 3),
+                            SizedBox(height: 1),
                             Text(
                               "remove",
                               style: TextStyle(

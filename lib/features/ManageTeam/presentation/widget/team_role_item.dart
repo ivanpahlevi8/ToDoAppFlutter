@@ -53,7 +53,7 @@ class TeamRoleItem extends StatelessWidget {
               style: TextButton.styleFrom(
                 backgroundColor: customColor.errorColor!,
                 minimumSize: Size.zero,
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
                 ),
@@ -66,13 +66,13 @@ class TeamRoleItem extends StatelessWidget {
                     Icons.delete,
                     fontWeight: FontWeight.w900,
                     color: customColor.textTitle!,
-                    size: 20,
+                    size: 18,
                   ),
                   SizedBox(height: 2),
                   Text(
                     "delete",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w800,
                       color: customColor.textTitle!,
                     ),

@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/core/connection/network_service.dart';
 import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/models/connection_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
@@ -45,6 +46,10 @@ abstract interface class TeamRemoteDatasource {
   TaskEither<BaseException, ResponseModel<String>> deleteRoleTeam({
     required int roleTeamId,
   });
+
+  // function to search connection user
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  searchConnectionUser({required String name, required String loginUserId});
 }
 
 class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
@@ -256,6 +261,37 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
         .map((data) {
           return ResponseModel.fromJson(data, (innerData) {
             return innerData as String;
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
+  searchConnectionUser({required String name, required String loginUserId}) {
+    // create api
+    final getApi = apis.searchConnectionUser(
+      name: name,
+      loginUserId: loginUserId,
+    );
+
+    // do request
+    final response = service
+        .get(getApi, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerData) {
+            return (innerData as List<dynamic>).map((item) {
+              return ConnectionModel.fromJson(item);
+            }).toList();
           });
         });
 

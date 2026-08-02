@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/create_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_input_entity.dart';
@@ -23,4 +24,7 @@ abstract interface class TeamRemoteRepository {
     required RoleTeamInputEntity roleTeamInput,
   });
   TaskEither<BaseException, String> removeTeamRole({required int roleTeamId});
+  TaskEither<BaseException, List<UserModel>> searchConnectionUser({
+    required String name,
+  });
 }

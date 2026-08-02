@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/remove_role_team_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/search_connection_user_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/screen/team_detail_page.dart';
 
 class TeamDetailScreen extends ConsumerStatefulWidget {
@@ -53,6 +55,14 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
     ) {
       next.onRemoveRoleTeam(context, ref, widget.teamId);
     });
+
+    // listne to search connection user
+    ref.listen<AsyncValue<List<UserModel>?>>(
+      searchConnectionUserProviderProvider,
+      (prev, next) {
+        next.onSearchConnection(context, ref);
+      },
+    );
 
     return Column(
       children: [
