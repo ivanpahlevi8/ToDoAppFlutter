@@ -15,6 +15,7 @@ class TeamDetailPage extends StatefulWidget {
   final Function(int) onLeaveGroup;
   final Function(RoleTeamInputEntity) onCreateRoleTeam;
   final Function(int) onRemoveTeamRole;
+  final Function(String) onSelectUser;
   const TeamDetailPage({
     super.key,
     required this.teamDetail,
@@ -23,6 +24,7 @@ class TeamDetailPage extends StatefulWidget {
     required this.onLeaveGroup,
     required this.onCreateRoleTeam,
     required this.onRemoveTeamRole,
+    required this.onSelectUser,
   });
 
   @override
@@ -605,7 +607,9 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return AddTeamMemberDialog();
+                                return AddTeamMemberDialog(
+                                  onSelectUser: widget.onSelectUser,
+                                );
                               },
                             );
                           },

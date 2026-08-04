@@ -8,6 +8,7 @@ import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/con
 import 'package:to_do_app_flutter/features/ManageConnections/data/models/connection_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/datasource/team_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/assign_user_response_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
@@ -348,6 +349,85 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
       }).toList();
 
       return TaskEither.sequenceList(executeTask);
+    });
+  }
+
+  @override
+  TaskEither<BaseException, UserModel> assigUserToTeam({
+    required String userId,
+    required int teamId,
+    required int roleTeamId,
+  }) {
+    // assign user
+    final assignUserTask = teamRemoteDatasource.assignUserToTeam(
+      userId: userId,
+      teamId: teamId,
+      teamRoleId: roleTeamId,
+    );
+
+    return assignUserTask.flatMap((response) {
+      if (!response.isSuccess || response.result == null) {
+        return TaskEither.left(
+          BaseException(
+            message: response.message,
+            error: "Error happen : ${response.message}",
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      // get assign user model response
+      AssignUserResponseModel getAssignResponse = response.result!;
+
+      // get user model
+      final getUserTask = connectionRemoteDatasource.getUserById(
+        userId: userId,
+      );
+
+      return getUserTask.flatMap((getUserResponse) {
+        if (!getUserResponse.isSuccess || getUserResponse.result == null) {
+          return TaskEither.left(
+            BaseException(
+              error:
+                  "Error happen when getting user : ${getUserResponse.message}",
+              message: getUserResponse.message,
+              stackTrace: StackTrace.current,
+            ),
+          );
+        }
+
+        return TaskEither.right(getUserResponse.result!);
+      });
+    });
+  }
+
+  @override
+  TaskEither<BaseException, List<RoleTeamEntity>> getAllTeamRoles({
+    required int teamId,
+  }) {
+    // get allt eam roles task
+    final getAllTeamRolesTask = teamRemoteDatasource.getAllTeamRoles(
+      teamId: teamId,
+    );
+
+    return getAllTeamRolesTask.flatMap((teamRolesResponse) {
+      if (!teamRolesResponse.isSuccess || teamRolesResponse.result == null) {
+        return TaskEither.left(
+          BaseException(
+            error: "Error Happen : ${teamRolesResponse.message}",
+            message: teamRolesResponse.message,
+            stackTrace: StackTrace.current,
+          ),
+        );
+      }
+
+      final getTeamRolesModel = teamRolesResponse.result!;
+
+      return TaskEither.right(
+        getTeamRolesModel.map((item) {
+          return item.toEntity();
+        }).toList(),
+      );
     });
   }
 }

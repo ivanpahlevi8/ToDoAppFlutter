@@ -3,8 +3,13 @@ import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 
 class SearchConnectionUserItem extends StatelessWidget {
+  final Function(String) onSelectUser;
   final UserModel userModel;
-  const SearchConnectionUserItem({super.key, required this.userModel});
+  const SearchConnectionUserItem({
+    super.key,
+    required this.userModel,
+    required this.onSelectUser,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +99,7 @@ class SearchConnectionUserItem extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   // assign user to team
+                  onSelectUser(userModel.userId);
                 },
                 style: TextButton.styleFrom(
                   minimumSize: Size.zero,

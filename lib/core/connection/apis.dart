@@ -190,4 +190,26 @@ class Apis {
       queryParams: {"name": name, "userId": loginUserId},
     );
   }
+
+  Uri assignUserToTeam({
+    required String userId,
+    required int teamId,
+    required int teamRoleId,
+  }) {
+    return _buildUri(
+      ApiUrl.assignUserToTeam,
+      queryParams: {
+        "userId": userId,
+        "teamId": teamId.toString(),
+        "teamRoleId": teamRoleId.toString(),
+      },
+    );
+  }
+
+  Uri getTeamRoles({required int teamId}) {
+    return _buildUri(
+      ApiUrl.getAllTeamRoles,
+      queryParams: {"teamId": teamId.toString()},
+    );
+  }
 }

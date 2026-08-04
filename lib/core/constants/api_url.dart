@@ -39,4 +39,6 @@ class ApiUrl {
   static const deleteTeamRole = "todoapp/api/TeamRole/delete-teamrole";
   static const searchConnectionUser =
       "todoapp/api/Connection/search-connection";
+  static const assignUserToTeam = "todoapp/api/Team/assign-user-team";
+  static const getAllTeamRoles = "todoapp/api/TeamRole/get-teamroles";
 }

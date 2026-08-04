@@ -27,4 +27,12 @@ abstract interface class TeamRemoteRepository {
   TaskEither<BaseException, List<UserModel>> searchConnectionUser({
     required String name,
   });
+  TaskEither<BaseException, UserModel> assigUserToTeam({
+    required String userId,
+    required int teamId,
+    required int roleTeamId,
+  });
+  TaskEither<BaseException, List<RoleTeamEntity>> getAllTeamRoles({
+    required int teamId,
+  });
 }

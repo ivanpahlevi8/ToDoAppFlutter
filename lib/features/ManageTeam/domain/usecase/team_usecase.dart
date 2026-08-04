@@ -66,4 +66,24 @@ class TeamUsecase {
   }) {
     return teamRemoteRepository.searchConnectionUser(name: name);
   }
+
+  // function to assign user to team
+  TaskEither<BaseException, UserModel> assignUserToTeam({
+    required String userId,
+    required int teamId,
+    required int teamRoleId,
+  }) {
+    return teamRemoteRepository.assigUserToTeam(
+      userId: userId,
+      teamId: teamId,
+      roleTeamId: teamRoleId,
+    );
+  }
+
+  // function to get all team roles
+  TaskEither<BaseException, List<RoleTeamEntity>> getAllTeamRoles({
+    required int teamId,
+  }) {
+    return teamRemoteRepository.getAllTeamRoles(teamId: teamId);
+  }
 }

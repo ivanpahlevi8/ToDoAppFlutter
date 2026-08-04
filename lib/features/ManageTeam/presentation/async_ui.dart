@@ -8,6 +8,7 @@ import 'package:to_do_app_flutter/core/widget/custom_loading_dialog.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_roles_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_teams_byuserid_provider.dart';
 
 extension CreateTeamExtension on AsyncValue<TeamEntity?> {
@@ -292,6 +293,98 @@ extension SearchConnectionConnection on AsyncValue<List<UserModel>?> {
           if (context.canPop()) {
             context.pop();
           }
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
+}
+
+extension GetTeamRolesExtension on AsyncValue<List<RoleTeamEntity>?> {
+  Future<void> onGetTeamRoles(
+    BuildContext context,
+    WidgetRef ref,
+    Function(List<RoleTeamEntity>) showSelectTeamRoleDialog,
+  ) async {
+    when(
+      data: (data) {
+        if (data != null) {
+          // pop the loading dialog
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // show dialog
+          showSelectTeamRoleDialog(data);
+        }
+      },
+      error: (error, stackTrace) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // show error dialog
+        context.showErrorSnackBar(
+          message: "Error happen : ${error.toString()}",
+        );
+      },
+      loading: () {
+        // show loading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const CustomLoadingDialog();
+          },
+        );
+      },
+    );
+  }
+}
+
+extension AssignUserTeamExtension on AsyncValue<UserModel?> {
+  Future<void> onAssignUserTeam(
+    BuildContext context,
+    WidgetRef ref,
+    int teamId,
+  ) async {
+    when(
+      data: (data) {
+        if (data != null) {
+          // pop the loading dialog
+          if (context.canPop()) {
+            context.pop();
+          }
+
+          // invalidate team detail
+          ref
+              .read(getTeamDetailProviderProvider.notifier)
+              .getTeamDetail(teamId: teamId);
+
+          context.showSuccessSnackBar(
+            message: "Success assign team : ${data.userName}",
+          );
         }
       },
       error: (error, stackTrace) {

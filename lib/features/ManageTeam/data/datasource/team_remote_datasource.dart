@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/models/connection_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/assign_user_response_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/role_team_input_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/models/team_model.dart';
@@ -50,6 +51,18 @@ abstract interface class TeamRemoteDatasource {
   // function to search connection user
   TaskEither<BaseException, ResponseModel<List<ConnectionModel>>>
   searchConnectionUser({required String name, required String loginUserId});
+
+  // function to assign user to to team
+  TaskEither<BaseException, ResponseModel<AssignUserResponseModel>>
+  assignUserToTeam({
+    required String userId,
+    required int teamId,
+    required int teamRoleId,
+  });
+
+  // function to get all team roles within team
+  TaskEither<BaseException, ResponseModel<List<TeamRoleModel>>>
+  getAllTeamRoles({required int teamId});
 }
 
 class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
@@ -291,6 +304,68 @@ class TeamRemoteDatasourceImpl implements TeamRemoteDatasource {
           return ResponseModel.fromJson(data, (innerData) {
             return (innerData as List<dynamic>).map((item) {
               return ConnectionModel.fromJson(item);
+            }).toList();
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<AssignUserResponseModel>>
+  assignUserToTeam({
+    required String userId,
+    required int teamId,
+    required int teamRoleId,
+  }) {
+    // create api
+    final apiUrl = apis.assignUserToTeam(
+      userId: userId,
+      teamId: teamId,
+      teamRoleId: teamRoleId,
+    );
+
+    // do request
+    final response = service
+        .post(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerUser) {
+            return AssignUserResponseModel.fromJson(innerUser as dynamic);
+          });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<List<TeamRoleModel>>>
+  getAllTeamRoles({required int teamId}) {
+    // get api url
+    final apiUrl = apis.getTeamRoles(teamId: teamId);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap(
+          (body_response) =>
+              TaskEither.fromEither(validator.validateBody(body_response)),
+        )
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+          (mapped) => TaskEither.fromEither(validator.validateMap(mapped)),
+        )
+        .map((data) {
+          return ResponseModel.fromJson(data, (innerData) {
+            return (innerData as List<dynamic>).map((dataList) {
+              return TeamRoleModel.fromJson(dataList);
             }).toList();
           });
         });

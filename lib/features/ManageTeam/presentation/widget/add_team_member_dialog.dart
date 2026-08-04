@@ -6,7 +6,8 @@ import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/se
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/search_connection_user_item.dart';
 
 class AddTeamMemberDialog extends ConsumerWidget {
-  const AddTeamMemberDialog({super.key});
+  final Function(String) onSelectUser;
+  const AddTeamMemberDialog({super.key, required this.onSelectUser});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -115,6 +116,9 @@ class AddTeamMemberDialog extends ConsumerWidget {
 
                           return SearchConnectionUserItem(
                             userModel: getUserModel,
+                            onSelectUser: (userId) {
+                              onSelectUser(userId);
+                            },
                           );
                         },
                       );

@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/async_ui.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/assign_user_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/create_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_roles_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/leave_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/remove_role_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/search_connection_user_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/screen/team_detail_page.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/presentation/widget/select_user_role_dialog.dart';
 
 class TeamDetailScreen extends ConsumerStatefulWidget {
   final int teamId;
@@ -21,6 +24,9 @@ class TeamDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
+  // create state for input assign user to team
+  String userId = "";
+
   @override
   void initState() {
     Future.microtask(() {
@@ -64,6 +70,49 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
       },
     );
 
+    // listen to assign user to team
+    ref.listen<AsyncValue<UserModel?>>(assignUserTeamProviderProvider, (
+      prev,
+      next,
+    ) {
+      next.onAssignUserTeam(context, ref, widget.teamId);
+    });
+
+    // listen to get team roles
+    ref.listen<AsyncValue<List<RoleTeamEntity>?>>(
+      getTeamRolesProviderProvider,
+      (prev, next) {
+        next.onGetTeamRoles(context, ref, (data) {
+          // show dialog to select roles
+          showDialog(
+            context: context,
+            builder: (context) {
+              return SelectUserRoleDialog(
+                teamRolesList: data,
+                onSelectRole: (roleId) {
+                  // pop current select role
+                  print("Pop the selected dialog");
+                  if (context.canPop()) {
+                    context.pop();
+                  }
+
+                  // assign user to team
+                  print("Init search...");
+                  ref
+                      .read(assignUserTeamProviderProvider.notifier)
+                      .assigUserToTeam(
+                        userId: userId,
+                        teamId: widget.teamId,
+                        teamRoleId: roleId,
+                      );
+                },
+              );
+            },
+          );
+        });
+      },
+    );
+
     return Column(
       children: [
         Expanded(
@@ -96,6 +145,19 @@ class _TeamDetailScreenState extends ConsumerState<TeamDetailScreen> {
                     ref
                         .read(removeRoleTeamProviderProvider.notifier)
                         .removeRoleTeam(roleTeamId: teamRoleId);
+                  },
+                  onSelectUser: (selectedUserId) {
+                    userId = selectedUserId;
+
+                    // pop the current dialog
+                    if (context.canPop()) {
+                      context.pop();
+                    }
+
+                    // init search of roles
+                    ref
+                        .read(getTeamRolesProviderProvider.notifier)
+                        .getTeamRoles(teamId: widget.teamId);
                   },
                 );
               }
