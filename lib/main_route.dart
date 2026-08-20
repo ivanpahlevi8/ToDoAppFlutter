@@ -7,6 +7,7 @@ import 'package:to_do_app_flutter/features/Authentication/auth_route.dart';
 import 'package:to_do_app_flutter/features/Authentication/presentation/controller/login_user_provider.dart';
 import 'package:to_do_app_flutter/features/Home/presentation/screen/home_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/connections_route.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/manage_project_route.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/team_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
@@ -23,6 +24,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
       searchFriendsRoute,
       connectionsRoute,
       teamsRoute,
+      manageProjectRoute,
       ShellRoute(
         builder: (context, state, child) {
           return Scaffold(
@@ -161,8 +163,7 @@ String? authRedirectGuard(
   }
 
   // get status for is on boarding
-  final isUserOnBoarding =
-      onboardState.whenOrNull(
+  final isUserOnBoarding = onboardState.whenOrNull(
         data: (hasOnBoard) {
           return hasOnBoard;
         },
@@ -170,8 +171,7 @@ String? authRedirectGuard(
       false;
 
   // get status of is login
-  final isUserLogin =
-      loginState.whenOrNull(
+  final isUserLogin = loginState.whenOrNull(
         data: (isLogin) {
           return isLogin;
         },

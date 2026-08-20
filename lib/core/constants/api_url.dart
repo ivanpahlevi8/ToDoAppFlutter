@@ -41,4 +41,8 @@ class ApiUrl {
       "todoapp/api/Connection/search-connection";
   static const assignUserToTeam = "todoapp/api/Team/assign-user-team";
   static const getAllTeamRoles = "todoapp/api/TeamRole/get-teamroles";
+
+  // project manage urls
+  static const getAllProjectByTeam =
+      "todoapp/api/Project/get-all-project-byteam";
 }

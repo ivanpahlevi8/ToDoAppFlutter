@@ -14,7 +14,7 @@ final RouteBase teamsRoute = ShellRoute(
     int currentRoutePosition = 0;
 
     switch (currentRoute) {
-      case '/get-all-team':
+      case '/get-all-teams':
         currentRoutePosition = 0;
         break;
       default:
@@ -46,6 +46,21 @@ final RouteBase teamsRoute = ShellRoute(
           },
           icon: Icon(Icons.arrow_back),
         ),
+        actions: [
+          if (currentRoutePosition == 1)
+            IconButton(
+                onPressed: () {
+                  // get team id from current route
+                  final Map<String, String> getCurrentParam =
+                      GoRouterState.of(context).pathParameters;
+
+                  String teamId = getCurrentParam["teamId"] ?? "";
+
+                  // navigate to team projects
+                  context.push("/team-project/$teamId");
+                },
+                icon: Icon(Icons.check))
+        ],
       ),
       floatingActionButton: currentRoutePosition == 0
           ? FloatingActionButton(

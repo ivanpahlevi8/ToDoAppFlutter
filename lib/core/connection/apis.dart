@@ -18,9 +18,8 @@ class Apis {
       scheme: 'https',
       host: ApiUrl.baseUrls,
       path: [endPoint, ...pathName].join('/').replaceAll('//', '/'),
-      queryParameters: (queryParams != null && queryParams.isNotEmpty)
-          ? queryParams
-          : null,
+      queryParameters:
+          (queryParams != null && queryParams.isNotEmpty) ? queryParams : null,
     );
   }
 
@@ -211,5 +210,11 @@ class Apis {
       ApiUrl.getAllTeamRoles,
       queryParams: {"teamId": teamId.toString()},
     );
+  }
+
+  // uri for get all project within team
+  Uri getAllProjectByTeam({required int teamId}) {
+    return _buildUri(ApiUrl.getAllProjectByTeam,
+        queryParams: {"teamId": teamId.toString()});
   }
 }

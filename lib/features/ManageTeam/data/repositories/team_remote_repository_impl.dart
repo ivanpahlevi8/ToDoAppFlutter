@@ -381,7 +381,7 @@ class TeamRemoteRepositoryImpl implements TeamRemoteRepository {
 
       // get user model
       final getUserTask = connectionRemoteDatasource.getUserById(
-        userId: userId,
+        userId: getAssignResponse.userId,
       );
 
       return getUserTask.flatMap((getUserResponse) {

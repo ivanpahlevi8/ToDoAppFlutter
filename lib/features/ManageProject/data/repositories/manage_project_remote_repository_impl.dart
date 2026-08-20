@@ -1,0 +1,71 @@
+import 'package:fpdart/src/task_either.dart';
+import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/datasource/manage_project_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/repositories/manage_project_remote_repository.dart';
+
+class ManageProjectRemoteRepositoryImpl
+    implements ManageProjectRemoteRepository {
+  // create instance for datasource
+  final ManageProjectRemoteDatasource manageProjectRemoteDatasource;
+  final ConnectionRemoteDatasource connectionRemoteDatasource;
+
+  ManageProjectRemoteRepositoryImpl(
+      {required this.manageProjectRemoteDatasource,
+      required this.connectionRemoteDatasource});
+
+  @override
+  TaskEither<BaseException, List<ProjectEntity>> getAllProjectWithinTeam(
+      {required int teamId}) {
+    // get all project task
+    final getAllProjectTask =
+        manageProjectRemoteDatasource.getAllProjectByTeam(teamId: teamId);
+
+    // return project
+    return getAllProjectTask.flatMap((projectListResponse) {
+      // check on response
+      if (!projectListResponse.isSuccess &&
+          projectListResponse.result == null) {
+        return TaskEither.left(BaseException(
+            error:
+                "Error happen when get all project : ${projectListResponse.message}",
+            message: projectListResponse.message,
+            stackTrace: StackTrace.current));
+      }
+
+      // get all project list
+      List<ProjectModel> allprojectList = projectListResponse.result!;
+
+      // create list of executed task
+      List<TaskEither<BaseException, ProjectEntity>> executedTask = [];
+
+      // loop through all project list
+      allprojectList.map((projectModel) {
+        // get user from project model
+        final getUserTask = connectionRemoteDatasource.getUserById(
+            userId: projectModel.projectUserLeadId);
+
+        // check for response
+        executedTask.add(getUserTask.flatMap((getUserResponse) {
+          if (!getUserResponse.isSuccess && getUserResponse.result == null) {
+            return TaskEither.left(BaseException(
+              error: "Error Happen When Get User : ${getUserResponse.message}",
+              message: getUserResponse.message,
+              stackTrace: StackTrace.current,
+            ));
+          }
+
+          // get user model
+          final getUser = getUserResponse.result!;
+
+          return TaskEither.right(projectModel.toEntity(getUser));
+        }));
+      }).toList();
+
+      return TaskEither.sequenceList(executedTask);
+    });
+  }
+}

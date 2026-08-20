@@ -8,7 +8,6 @@ import 'package:to_do_app_flutter/core/widget/custom_loading_dialog.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/role_team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_detail_provider.dart';
-import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_team_roles_provider.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/presentation/controller/get_teams_byuserid_provider.dart';
 
 extension CreateTeamExtension on AsyncValue<TeamEntity?> {
