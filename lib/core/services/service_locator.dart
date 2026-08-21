@@ -251,7 +251,8 @@ Future<void> setupServiceLocator() async {
   // create instance for manage project remote repository
   sl.registerLazySingleton(() => ManageProjectRemoteRepositoryImpl(
       manageProjectRemoteDatasource: sl<ManageProjectRemoteDatasourceImpl>(),
-      connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>()));
+      connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>(),
+      sharedPreferences: sl<SharedPreferences>()));
 
   // create instance for manage project remote usecase
   sl.registerLazySingleton(() => ManageProjectUsecase(

@@ -1,9 +1,11 @@
 import 'package:fpdart/src/task_either.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/datasource/manage_project_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/repositories/manage_project_remote_repository.dart';
 
@@ -12,10 +14,12 @@ class ManageProjectRemoteRepositoryImpl
   // create instance for datasource
   final ManageProjectRemoteDatasource manageProjectRemoteDatasource;
   final ConnectionRemoteDatasource connectionRemoteDatasource;
+  final SharedPreferences sharedPreferences;
 
   ManageProjectRemoteRepositoryImpl(
       {required this.manageProjectRemoteDatasource,
-      required this.connectionRemoteDatasource});
+      required this.connectionRemoteDatasource,
+      required this.sharedPreferences});
 
   @override
   TaskEither<BaseException, List<ProjectEntity>> getAllProjectWithinTeam(
@@ -66,6 +70,38 @@ class ManageProjectRemoteRepositoryImpl
       }).toList();
 
       return TaskEither.sequenceList(executedTask);
+    });
+  }
+
+  @override
+  TaskEither<BaseException, String> createProjectWithinTeam(
+      {required CreateProjectEntity projectEntity}) {
+    // create copy for project entity
+    CreateProjectEntity createProjectEntity = CreateProjectEntity(
+        projectName: projectEntity.projectName,
+        projectDescription: projectEntity.projectDescription,
+        projectUserLeadId: sharedPreferences.getString("user_id") ?? "",
+        projectStatus: "CREATED",
+        projectTeamId: projectEntity.projectTeamId);
+
+    // do request
+    final response = manageProjectRemoteDatasource.createProjectWithinTeam(
+        createProject: createProjectEntity.toModel());
+
+    // return response
+    return response.flatMap((responseResult) {
+      // check response result
+      if (!responseResult.isSuccess && responseResult.result == null) {
+        return TaskEither.left(BaseException(
+            message: responseResult.message,
+            error: "Error Happen : ${responseResult.message}",
+            stackTrace: StackTrace.current));
+      }
+
+      // get result
+      String getResult = responseResult.result!;
+
+      return TaskEither.right(getResult);
     });
   }
 }

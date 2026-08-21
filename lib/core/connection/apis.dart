@@ -217,4 +217,9 @@ class Apis {
     return _buildUri(ApiUrl.getAllProjectByTeam,
         queryParams: {"teamId": teamId.toString()});
   }
+
+  // uri for create project within team
+  Uri createProjectWithinTeam() {
+    return _buildUri(ApiUrl.createProjectWithinTeam);
+  }
 }

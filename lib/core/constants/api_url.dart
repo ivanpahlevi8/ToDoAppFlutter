@@ -45,4 +45,5 @@ class ApiUrl {
   // project manage urls
   static const getAllProjectByTeam =
       "todoapp/api/Project/get-all-project-byteam";
+  static const createProjectWithinTeam = "todoapp/api/Project/create-project";
 }

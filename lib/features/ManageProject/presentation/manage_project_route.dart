@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/screen/project_list_teams_screen.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/create_project_dialog.dart';
 
 final RouteBase manageProjectRoute = ShellRoute(
   builder: (context, state, child) {
@@ -26,6 +27,21 @@ final RouteBase manageProjectRoute = ShellRoute(
           icon: Icon(Icons.arrow_back),
         ),
       ),
+      floatingActionButton: IconButton(
+          onPressed: () {
+            // get team id from route
+            String getTeamId = state.pathParameters["teamId"] ?? "0";
+
+            // show create project dialog
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CreateProjectDialog(
+                    teamId: int.parse(getTeamId),
+                  );
+                });
+          },
+          icon: Icon(Icons.add)),
       body: SafeArea(
         child: Column(
           children: [

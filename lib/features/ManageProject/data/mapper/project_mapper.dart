@@ -1,5 +1,7 @@
 import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/create_project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
 
 extension ProjectModelMapper on ProjectModel {
@@ -27,5 +29,27 @@ extension ProjectEntityMapper on ProjectEntity {
         projectStatus: projectStatus,
         projectTeamId: projectTeamId,
         createdAt: createdAt);
+  }
+}
+
+extension CreateProjectModelMapper on CreateProjectModel {
+  CreateProjectEntity toEntity() {
+    return CreateProjectEntity(
+        projectName: projectName,
+        projectDescription: projectDescription,
+        projectUserLeadId: projectUserLead,
+        projectStatus: projectStatus,
+        projectTeamId: projectTeamId);
+  }
+}
+
+extension CreateProjectEntityMapper on CreateProjectEntity {
+  CreateProjectModel toModel() {
+    return CreateProjectModel(
+        projectName: projectName,
+        projectDescription: projectDescription,
+        projectUserLead: projectUserLeadId,
+        projectStatus: projectStatus,
+        projectTeamId: projectTeamId);
   }
 }

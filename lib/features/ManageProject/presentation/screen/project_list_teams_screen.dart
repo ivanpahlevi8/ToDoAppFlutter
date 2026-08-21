@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/async_ui.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/create_project_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_project_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/project_item_widget.dart';
 
@@ -32,6 +33,12 @@ class _ProjectListTeamsScreenState
   Widget build(BuildContext context) {
     // watch get project team provider
     final getProjectTeamProvider = ref.watch(getProjectTeamProviderProvider);
+
+    // listen to create project provider
+    ref.listen<AsyncValue<String?>>(createProjectTeamProviderProvider,
+        (prev, next) {
+      next.onCreateProject(context, ref, widget.teamId);
+    });
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

@@ -4,11 +4,17 @@ import 'package:to_do_app_flutter/core/connection/network_service.dart';
 import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/create_project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 
 abstract interface class ManageProjectRemoteDatasource {
   TaskEither<BaseException, ResponseModel<List<ProjectModel>>>
       getAllProjectByTeam({required int teamId});
+
+  // function to create project within team
+  TaskEither<BaseException, ResponseModel<String>> createProjectWithinTeam(
+      {required CreateProjectModel createProject});
 }
 
 class ManageProjectRemoteDatasourceImpl
@@ -40,6 +46,30 @@ class ManageProjectRemoteDatasourceImpl
             }).toList();
           });
         });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> createProjectWithinTeam(
+      {required CreateProjectModel createProject}) {
+    // get api
+    final getApi = apis.createProjectWithinTeam();
+
+    // do request
+    final response = service
+        .post(getApi, null,
+            headers: {"Content-Type": "application/json"},
+            body: createProject.toJson())
+        .flatMap((body) => TaskEither.fromEither(validator.validateBody(body)))
+        .flatMap((json) => TaskEither.fromEither(validator.validateJson(json)))
+        .flatMap(
+            (mapped) => TaskEither.fromEither(validator.validateMap(mapped)))
+        .map((data) {
+      return ResponseModel.fromJson(data, (json) {
+        return json as String;
+      });
+    });
 
     return response;
   }
