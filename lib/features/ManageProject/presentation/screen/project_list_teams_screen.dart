@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/async_ui.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/create_project_team_provider.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/delete_project_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_project_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/project_item_widget.dart';
 
@@ -38,6 +39,12 @@ class _ProjectListTeamsScreenState
     ref.listen<AsyncValue<String?>>(createProjectTeamProviderProvider,
         (prev, next) {
       next.onCreateProject(context, ref, widget.teamId);
+    });
+
+    // listen to delete project provider
+    ref.listen<AsyncValue<String?>>(deleteProjectProviderProvider,
+        (prev, next) {
+      next.onDeleteProject(context, ref, widget.teamId);
     });
 
     return Column(

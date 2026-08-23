@@ -45,4 +45,43 @@ extension ActionProjectExtension on AsyncValue<String?> {
       );
     });
   }
+
+  Future<void> onDeleteProject(
+      BuildContext context, WidgetRef ref, int teamId) async {
+    when(data: (data) {
+      // check on data
+      if (data != null) {
+        // pop loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // invalidate get all project
+        ref
+            .read(getProjectTeamProviderProvider.notifier)
+            .getAllProjectByTeam(teamId: teamId);
+
+        // show success message
+        context.showSuccessSnackBar(message: data);
+      }
+    }, error: ((error, stackTrace) {
+      // pop loading dialog
+      if (context.canPop()) {
+        context.pop();
+      }
+
+      // show error message
+      context.showErrorSnackBar(
+          message: "Error : ${error.toString()}, ${stackTrace.toString()}");
+    }), loading: () {
+      // show loading
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const CustomLoadingDialog();
+        },
+      );
+    });
+  }
 }

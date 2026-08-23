@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/delete_project_provider.dart';
 
 class ProjectItemWIdget extends ConsumerStatefulWidget {
   final ProjectEntity projectEntity;
@@ -301,7 +302,11 @@ class _ProjectItemWIdgetState extends ConsumerState<ProjectItemWIdget> {
                           borderRadius:
                               BorderRadiusGeometry.all(Radius.circular(10)))),
                   onPressed: () {
-                    // detail project
+                    // delete current project
+                    ref
+                        .read(deleteProjectProviderProvider.notifier)
+                        .deleteProject(
+                            projectId: widget.projectEntity.projectId);
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,

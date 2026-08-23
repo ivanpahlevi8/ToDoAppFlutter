@@ -104,4 +104,25 @@ class ManageProjectRemoteRepositoryImpl
       return TaskEither.right(getResult);
     });
   }
+
+  @override
+  TaskEither<BaseException, String> deleteProject({required int projectId}) {
+    // delete project
+    final responseTask =
+        manageProjectRemoteDatasource.deleteProject(projectId: projectId);
+
+    return responseTask.flatMap((projectResponse) {
+      if (!projectResponse.isSuccess || projectResponse.result == null) {
+        return TaskEither.left(BaseException(
+            message: projectResponse.message,
+            error: "Error Happen : ${projectResponse.message}",
+            stackTrace: StackTrace.current));
+      }
+
+      // get result
+      final result = projectResponse.result!;
+
+      return TaskEither.right(result);
+    });
+  }
 }

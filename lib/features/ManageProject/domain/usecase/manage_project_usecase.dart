@@ -22,4 +22,9 @@ class ManageProjectUsecase {
     return manageProjectRemoteRepository.createProjectWithinTeam(
         projectEntity: createProject);
   }
+
+  // function to remove project
+  TaskEither<BaseException, String> removeProject({required int projectId}) {
+    return manageProjectRemoteRepository.deleteProject(projectId: projectId);
+  }
 }

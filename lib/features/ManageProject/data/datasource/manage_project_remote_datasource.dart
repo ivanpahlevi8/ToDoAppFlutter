@@ -6,7 +6,6 @@ import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/create_project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
-import 'package:to_do_app_flutter/features/ManageTeam/data/models/create_team_model.dart';
 
 abstract interface class ManageProjectRemoteDatasource {
   TaskEither<BaseException, ResponseModel<List<ProjectModel>>>
@@ -15,6 +14,10 @@ abstract interface class ManageProjectRemoteDatasource {
   // function to create project within team
   TaskEither<BaseException, ResponseModel<String>> createProjectWithinTeam(
       {required CreateProjectModel createProject});
+
+  // function to remove project
+  TaskEither<BaseException, ResponseModel<String>> deleteProject(
+      {required int projectId});
 }
 
 class ManageProjectRemoteDatasourceImpl
@@ -70,6 +73,28 @@ class ManageProjectRemoteDatasourceImpl
         return json as String;
       });
     });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> deleteProject(
+      {required int projectId}) {
+    // get api
+    final getApiUrl = apis.deleteProject(projectId: projectId);
+
+    // do request
+    final response = service
+        .delete(getApiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((response) =>
+            TaskEither.fromEither(validator.validateBody(response)))
+        .flatMap((response) =>
+            TaskEither.fromEither(validator.validateJson(response)))
+        .flatMap((response) =>
+            TaskEither.fromEither(validator.validateMap(response)))
+        .map((data) {
+          return ResponseModel.fromJson(data, (json) => json as String);
+        });
 
     return response;
   }

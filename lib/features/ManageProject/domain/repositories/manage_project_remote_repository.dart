@@ -11,4 +11,7 @@ abstract interface class ManageProjectRemoteRepository {
   // function to create project within team
   TaskEither<BaseException, String> createProjectWithinTeam(
       {required CreateProjectEntity projectEntity});
+
+  // function to delete project
+  TaskEither<BaseException, String> deleteProject({required int projectId});
 }

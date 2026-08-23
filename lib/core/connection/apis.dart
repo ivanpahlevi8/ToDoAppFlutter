@@ -222,4 +222,10 @@ class Apis {
   Uri createProjectWithinTeam() {
     return _buildUri(ApiUrl.createProjectWithinTeam);
   }
+
+  // uri for delete project
+  Uri deleteProject({required int projectId}) {
+    return _buildUri(ApiUrl.deleteProject,
+        queryParams: {"projectId": projectId.toString()});
+  }
 }
