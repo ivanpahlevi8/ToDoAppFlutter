@@ -74,12 +74,14 @@ class UserMemberTeamWidget extends StatelessWidget {
                             color: customColor.textTitle!,
                           ),
                           SizedBox(width: 4),
-                          Text(
-                            userMember.email,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: customColor.textTitle!,
+                          Expanded(
+                            child: Text(
+                              userMember.email,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                color: customColor.textTitle!,
+                              ),
                             ),
                           ),
                         ],
@@ -104,8 +106,8 @@ class UserMemberTeamWidget extends StatelessWidget {
                             vertical: 4,
                             horizontal: 12,
                           ),
-                          backgroundColor: customColor.averageStart!
-                              .withOpacity(0.6),
+                          backgroundColor:
+                              customColor.averageStart!.withOpacity(0.6),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

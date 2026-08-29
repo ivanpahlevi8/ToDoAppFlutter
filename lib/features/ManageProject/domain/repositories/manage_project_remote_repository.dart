@@ -14,4 +14,8 @@ abstract interface class ManageProjectRemoteRepository {
 
   // function to delete project
   TaskEither<BaseException, String> deleteProject({required int projectId});
+
+  // function to get project detail
+  TaskEither<BaseException, ProjectEntity> getProjectDetail(
+      {required int projectId});
 }

@@ -228,4 +228,10 @@ class Apis {
     return _buildUri(ApiUrl.deleteProject,
         queryParams: {"projectId": projectId.toString()});
   }
+
+  // Uri for detail project
+  Uri detailProject({required int projectId}) {
+    return _buildUri(ApiUrl.getProjectDetail,
+        queryParams: {"projectId": projectId.toString()});
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/delete_project_provider.dart';
@@ -163,12 +164,14 @@ class _ProjectItemWIdgetState extends ConsumerState<ProjectItemWIdget> {
                       SizedBox(
                         width: 4,
                       ),
-                      Text(
-                        "Lead By : ${widget.projectEntity.userModel!.userName}",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: customColor.textTitle!,
+                      Expanded(
+                        child: Text(
+                          "Lead By : ${widget.projectEntity.userModel!.userName}",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            color: customColor.textTitle!,
+                          ),
                         ),
                       )
                     ],
@@ -264,6 +267,8 @@ class _ProjectItemWIdgetState extends ConsumerState<ProjectItemWIdget> {
                               BorderRadiusGeometry.all(Radius.circular(10)))),
                   onPressed: () {
                     // detail project with to do inside
+                    context.push(
+                        "/project-detail/${widget.projectEntity.projectId}");
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,

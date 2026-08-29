@@ -125,4 +125,45 @@ class ManageProjectRemoteRepositoryImpl
       return TaskEither.right(result);
     });
   }
+
+  @override
+  TaskEither<BaseException, ProjectEntity> getProjectDetail(
+      {required int projectId}) {
+    // get project result
+    final getProjectTask =
+        manageProjectRemoteDatasource.getProjectDetail(projectId: projectId);
+
+    return getProjectTask.flatMap((projectResponse) {
+      if (!projectResponse.isSuccess || projectResponse.result == null) {
+        return TaskEither.left(BaseException(
+          error: "Error Happen : ${projectResponse.message}",
+          message: projectResponse.message,
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get reuslt
+      ProjectModel getResult = projectResponse.result!;
+
+      // get user model task
+      final getUserTask = connectionRemoteDatasource.getUserById(
+          userId: getResult.projectUserLeadId);
+
+      return getUserTask.flatMap((getUserResponse) {
+        if (!getUserResponse.isSuccess || getUserResponse.result == null) {
+          return TaskEither.left(BaseException(
+              error:
+                  "Error when getting project lead user : ${getUserResponse.message}",
+              message: getUserResponse.message,
+              stackTrace: StackTrace.current));
+        }
+
+        // get user result
+        final getUserResult = getUserResponse.result!;
+
+        // return project entity
+        return TaskEither.right(getResult.toEntity(getUserResult));
+      });
+    });
+  }
 }

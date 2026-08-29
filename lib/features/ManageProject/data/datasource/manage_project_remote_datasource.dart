@@ -18,6 +18,10 @@ abstract interface class ManageProjectRemoteDatasource {
   // function to remove project
   TaskEither<BaseException, ResponseModel<String>> deleteProject(
       {required int projectId});
+
+  // function to get project detail
+  TaskEither<BaseException, ResponseModel<ProjectModel>> getProjectDetail(
+      {required int projectId});
 }
 
 class ManageProjectRemoteDatasourceImpl
@@ -94,6 +98,26 @@ class ManageProjectRemoteDatasourceImpl
             TaskEither.fromEither(validator.validateMap(response)))
         .map((data) {
           return ResponseModel.fromJson(data, (json) => json as String);
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<ProjectModel>> getProjectDetail(
+      {required int projectId}) {
+    // get api url
+    final getApiUrl = apis.detailProject(projectId: projectId);
+
+    // do request
+    final response = service
+        .get(getApiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((r) {
+          return ResponseModel.fromJson(
+              r, (json) => ProjectModel.fromJson(json as dynamic));
         });
 
     return response;

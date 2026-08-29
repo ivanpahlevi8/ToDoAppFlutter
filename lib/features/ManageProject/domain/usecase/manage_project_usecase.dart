@@ -27,4 +27,10 @@ class ManageProjectUsecase {
   TaskEither<BaseException, String> removeProject({required int projectId}) {
     return manageProjectRemoteRepository.deleteProject(projectId: projectId);
   }
+
+  // function to get project detail
+  TaskEither<BaseException, ProjectEntity> getProjectDetail(
+      {required int projectId}) {
+    return manageProjectRemoteRepository.getProjectDetail(projectId: projectId);
+  }
 }
