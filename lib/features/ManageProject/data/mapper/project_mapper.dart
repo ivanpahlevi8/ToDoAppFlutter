@@ -1,8 +1,10 @@
 import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/create_project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/to_do_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 
 extension ProjectModelMapper on ProjectModel {
   ProjectEntity toEntity(UserModel userModel) {
@@ -51,5 +53,17 @@ extension CreateProjectEntityMapper on CreateProjectEntity {
         projectUserLead: projectUserLeadId,
         projectStatus: projectStatus,
         projectTeamId: projectTeamId);
+  }
+}
+
+extension ToDoModelMapper on ToDoModel {
+  ToDoEntity toEntity() {
+    return ToDoEntity(
+        toDoId: toDoID,
+        projectId: projectId,
+        todoName: toDoName,
+        toDoDescription: toDoDescription,
+        toDoState: toDoState,
+        toDoCreatedAt: createdAt);
   }
 }

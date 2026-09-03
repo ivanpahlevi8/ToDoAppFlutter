@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/project_detail_provider.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/todo_stream_proider.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/drop_area_widget.dart';
 
 class ProjectDetailScreen extends ConsumerStatefulWidget {
   final int projectId;
@@ -33,6 +35,9 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
 
     // watch project detail
     final projectDetailProvider = ref.watch(projectDetailProviderProvider);
+
+    // watch socket
+    final toDoSocketProvider = ref.watch(toDoNotifier);
 
     return projectDetailProvider.when(
       data: (data) {
@@ -362,7 +367,16 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                   ),
                 ],
               ),
-            )
+            ),
+            if (toDoSocketProvider != null)
+              Expanded(
+                  child: DropAreaWidget(
+                onCreatedItem: toDoSocketProvider.data.createdToDo,
+                onGoingItem: toDoSocketProvider.data.onGoingToDo,
+                onFinishedItem: toDoSocketProvider.data.doneToDO,
+                grabbedItem: toDoSocketProvider.data.grabbed,
+                grabbedToDo: toDoSocketProvider.data.grabbed,
+              ))
           ],
         );
       },
