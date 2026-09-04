@@ -6,6 +6,7 @@ import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/create_project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/to_do_model.dart';
 
 abstract interface class ManageProjectRemoteDatasource {
   TaskEither<BaseException, ResponseModel<List<ProjectModel>>>
@@ -21,6 +22,10 @@ abstract interface class ManageProjectRemoteDatasource {
 
   // function to get project detail
   TaskEither<BaseException, ResponseModel<ProjectModel>> getProjectDetail(
+      {required int projectId});
+
+  // function to get all todo within project
+  TaskEither<BaseException, ResponseModel<List<ToDoModel>>> getAllToDoProject(
       {required int projectId});
 }
 
@@ -118,6 +123,29 @@ class ManageProjectRemoteDatasourceImpl
         .map((r) {
           return ResponseModel.fromJson(
               r, (json) => ProjectModel.fromJson(json as dynamic));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<List<ToDoModel>>> getAllToDoProject(
+      {required int projectId}) {
+    // get api url
+    final getApiUrl = apis.getToDoProject(projectId: projectId);
+
+    // do request
+    final response = service
+        .get(getApiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((r) {
+          return ResponseModel.fromJson(r, (json) {
+            return (json as List<dynamic>).map((e) {
+              return ToDoModel.fromJson(e);
+            }).toList();
+          });
         });
 
     return response;

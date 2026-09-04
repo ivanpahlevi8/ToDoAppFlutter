@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_todo_project_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/project_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/todo_stream_proider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/drop_area_widget.dart';
@@ -38,6 +39,9 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
 
     // watch socket
     final toDoSocketProvider = ref.watch(toDoNotifier);
+
+    // wathc to do project
+    final toDoProject = ref.watch(getToDoProjectProviderProvider);
 
     return projectDetailProvider.when(
       data: (data) {
@@ -368,15 +372,37 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                 ],
               ),
             ),
-            if (toDoSocketProvider != null)
-              Expanded(
-                  child: DropAreaWidget(
-                onCreatedItem: toDoSocketProvider.data.createdToDo,
-                onGoingItem: toDoSocketProvider.data.onGoingToDo,
-                onFinishedItem: toDoSocketProvider.data.doneToDO,
-                grabbedItem: toDoSocketProvider.data.grabbed,
-                grabbedToDo: toDoSocketProvider.data.grabbed,
-              ))
+            Expanded(
+                child: toDoProject.when(data: (data) {
+              if (data != null) {
+                return DropAreaWidget(
+                  onCreatedItem: toDoSocketProvider!.data.createdToDo,
+                  onGoingItem: toDoSocketProvider.data.onGoingToDo,
+                  onFinishedItem: toDoSocketProvider.data.doneToDO,
+                  grabbedItem: toDoSocketProvider.data.grabbed,
+                  grabbedToDo: toDoSocketProvider.data.grabbed,
+                );
+              }
+
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }, error: (error, stackTrace) {
+              return Center(
+                child: Text(
+                  "${error.toString()}, ${stackTrace.toString()}",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: customColor.errorColor!,
+                  ),
+                ),
+              );
+            }, loading: () {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }))
           ],
         );
       },

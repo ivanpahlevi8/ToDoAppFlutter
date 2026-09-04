@@ -3,6 +3,7 @@ import 'package:to_do_app_flutter/core/services/service_locator.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/usecase/manage_project_socket_usecase.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/usecase/manage_project_usecase.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_todo_project_provider.dart';
 
 part 'project_detail_provider.g.dart';
 
@@ -28,10 +29,10 @@ class ProjectDetailProvider extends _$ProjectDetailProvider {
     getResult.fold((exception) {
       state = AsyncValue.error(exception.error!, exception.stackTrace!);
     }, (data) {
-      // do connect to the socket server
-      print("Called to connect...");
-      sl<ManageProjectSocketUsecase>()
-          .connectTOSocketServer(projectId: projectId);
+      // get to do form project
+      ref
+          .read(getToDoProjectProviderProvider.notifier)
+          .getToDoProject(projectId: projectId);
 
       // update state to success state
       state = AsyncValue.data(data);

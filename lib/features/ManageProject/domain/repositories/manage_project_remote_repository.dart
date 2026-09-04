@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 
 abstract interface class ManageProjectRemoteRepository {
   // function to get all project within team
@@ -17,5 +18,9 @@ abstract interface class ManageProjectRemoteRepository {
 
   // function to get project detail
   TaskEither<BaseException, ProjectEntity> getProjectDetail(
+      {required int projectId});
+
+  // function to get all to do within project
+  TaskEither<BaseException, List<ToDoEntity>> getAllToDoProject(
       {required int projectId});
 }

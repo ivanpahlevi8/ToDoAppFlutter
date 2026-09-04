@@ -234,4 +234,10 @@ class Apis {
     return _buildUri(ApiUrl.getProjectDetail,
         queryParams: {"projectId": projectId.toString()});
   }
+
+  // Uri to get to do within project
+  Uri getToDoProject({required int projectId}) {
+    return _buildUri(ApiUrl.getToDoProject,
+        queryParams: {"projectId": projectId.toString()});
+  }
 }

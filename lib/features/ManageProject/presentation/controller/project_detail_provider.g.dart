@@ -7,7 +7,7 @@ part of 'project_detail_provider.dart';
 // **************************************************************************
 
 String _$projectDetailProviderHash() =>
-    r'064bd9772b35009d92d5cd61103287166a1426da';
+    r'4af085baa94832d5e5363f0efb51e29e3dae01d1';
 
 /// See also [ProjectDetailProvider].
 @ProviderFor(ProjectDetailProvider)

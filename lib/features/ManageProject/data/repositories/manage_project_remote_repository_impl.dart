@@ -7,6 +7,7 @@ import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_map
 import 'package:to_do_app_flutter/features/ManageProject/data/models/project_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/repositories/manage_project_remote_repository.dart';
 
 class ManageProjectRemoteRepositoryImpl
@@ -164,6 +165,33 @@ class ManageProjectRemoteRepositoryImpl
         // return project entity
         return TaskEither.right(getResult.toEntity(getUserResult));
       });
+    });
+  }
+
+  @override
+  TaskEither<BaseException, List<ToDoEntity>> getAllToDoProject(
+      {required int projectId}) {
+    // do request
+    final responseTask =
+        manageProjectRemoteDatasource.getAllToDoProject(projectId: projectId);
+
+    return responseTask.flatMap((projectResponse) {
+      if (!projectResponse.isSuccess || projectResponse.result == null) {
+        return TaskEither.left(BaseException(
+          error: "Error Happen : ${projectResponse.message}",
+          stackTrace: StackTrace.current,
+          message: projectResponse.message,
+        ));
+      }
+
+      // get all todo model
+      final getAllToDo = projectResponse.result!;
+
+      final getAllToDoEntity = (getAllToDo).map((entity) {
+        return entity.toEntity();
+      }).toList();
+
+      return TaskEither.right(getAllToDoEntity);
     });
   }
 }

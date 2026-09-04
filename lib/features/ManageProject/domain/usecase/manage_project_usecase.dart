@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/create_project_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/repositories/manage_project_remote_repository.dart';
 
 class ManageProjectUsecase {
@@ -32,5 +33,12 @@ class ManageProjectUsecase {
   TaskEither<BaseException, ProjectEntity> getProjectDetail(
       {required int projectId}) {
     return manageProjectRemoteRepository.getProjectDetail(projectId: projectId);
+  }
+
+  // function to get all to do within project
+  TaskEither<BaseException, List<ToDoEntity>> getToDoProject(
+      {required int projectId}) {
+    return manageProjectRemoteRepository.getAllToDoProject(
+        projectId: projectId);
   }
 }

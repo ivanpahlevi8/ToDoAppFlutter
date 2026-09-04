@@ -32,20 +32,48 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
 
   ToDoNotifier()
       : super(ToDoState(
-            status: "connectiing",
+            status: "connecting",
             data: ToDoPointerData(
-                createdToDo: [], onGoingToDo: [], doneToDO: [], grabbed: []))) {
-    _init();
-  }
+                createdToDo: [], onGoingToDo: [], doneToDO: [], grabbed: [])));
 
-  void _init() {
+  void initDataStream(List<ToDoEntity> initialData) {
+    // get current state
+    ToDoPointerData currState = state.data;
+
+    // loop through all initial data
+    for (var element in initialData) {
+      // check for element status
+      switch (element.toDoState) {
+        case "CREATED_TO_DO":
+          // created to do target, add new to do to created
+          currState.createdToDo.add(ToDoPointerEntity(
+              toDoPointerState: "", targetToDoState: "", toDoItem: element));
+          break;
+        case "PROCESSED_TO_DO":
+          // processed to do target, add new to do to processed
+          currState.onGoingToDo.add(ToDoPointerEntity(
+              toDoPointerState: "", targetToDoState: "", toDoItem: element));
+          break;
+        case "FINISHED_TO_DO":
+          // process finish to do
+          currState.doneToDO.add(ToDoPointerEntity(
+              toDoPointerState: "", targetToDoState: "", toDoItem: element));
+          break;
+      }
+    }
+
+    // update the state
+    state = ToDoState(status: "connecting", data: currState);
+
     streamSubs = sl<ManageProjectSocketUsecase>().getSocketStream().listen(
       (toDoPointer) {
+        print("incoming....");
         // check on message
         if (toDoPointer != null) {
           // check what state is being doing, is this dropping dragging or else
           switch (toDoPointer.toDoPointerState) {
             case "GRABBED":
+              print("Grabbed");
               // grabbed case, update state
               final getCurrentGrabbed = List<int>.from(state.data.grabbed)
                 ..add(toDoPointer.toDoItem.toDoId);
@@ -149,16 +177,16 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
               final updatedOnGoingToDo =
                   List<ToDoPointerEntity>.from(state.data.onGoingToDo);
               updatedOnGoingToDo.removeWhere((element) =>
-                  element.toDoItem.toDoId == toDoPointer!.toDoItem.toDoId);
+                  element.toDoItem.toDoId == toDoPointer.toDoItem.toDoId);
 
               final updatedDoneToDo =
                   List<ToDoPointerEntity>.from(state.data.doneToDO);
               updatedDoneToDo.removeWhere((element) =>
-                  element.toDoItem.toDoId == toDoPointer!.toDoItem.toDoId);
+                  element.toDoItem.toDoId == toDoPointer.toDoItem.toDoId);
 
               final updatedGrabbed = List<int>.from(state.data.grabbed);
               updatedGrabbed.removeWhere(
-                  (element) => element == toDoPointer!.toDoItem.toDoId);
+                  (element) => element == toDoPointer.toDoItem.toDoId);
 
               state = ToDoState(
                   status: "connected",
@@ -172,18 +200,12 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
         }
       },
       onError: (_) {
-        state = ToDoState(
-          status: "error",
-          data: ToDoPointerData(
-              createdToDo: [], onGoingToDo: [], doneToDO: [], grabbed: []),
-        );
+        print("On errorrr...");
+        state = state;
       },
       onDone: () {
-        state = ToDoState(
-          status: "disconnect",
-          data: ToDoPointerData(
-              createdToDo: [], onGoingToDo: [], doneToDO: [], grabbed: []),
-        );
+        print("on doneeee");
+        state = state;
       },
     );
   }
