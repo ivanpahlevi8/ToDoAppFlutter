@@ -9,12 +9,14 @@ class DropAreaItem extends StatelessWidget {
   final String titleColumn;
   final List<ToDoPointerEntity> dataList;
   final List<int> grabbedToDo;
+  final Function(ToDoPointerEntity) onDelete;
   const DropAreaItem(
       {super.key,
       required this.inputColor,
       required this.titleColumn,
       required this.dataList,
-      required this.grabbedToDo});
+      required this.grabbedToDo,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class DropAreaItem extends StatelessWidget {
                   return TargetDraggedItem(
                     toDoData: getData,
                     isGrabbed: isGrabbed,
+                    onDelete: onDelete,
                   );
                 },
               ),

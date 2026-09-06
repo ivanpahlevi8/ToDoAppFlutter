@@ -9,5 +9,5 @@ abstract interface class ProjectSocketRemoteRepository {
   Stream<ToDoPointerEntity?> getStreamData();
 
   // create function to send data
-  void sendData(ToDoEntity toDoData);
+  void sendData(ToDoPointerEntity toDoData);
 }

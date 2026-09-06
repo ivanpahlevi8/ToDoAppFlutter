@@ -59,6 +59,7 @@ class ProjectSocketDatasourceImpl implements ProjectSocketDatasource {
 
   @override
   void sendData(String data) {
+    print("Sending data : $data");
     channel?.sink.add(data);
   }
 

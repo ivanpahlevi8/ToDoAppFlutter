@@ -153,10 +153,15 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
                       grabbed: getCurrentGrabbed));
               break;
             case "CREATED":
+              print(
+                  "Check on current created to do : ${state.data.createdToDo.length}");
               // created case
               final getUpdateCreatedToDo =
                   List<ToDoPointerEntity>.from(state.data.createdToDo)
                     ..add(toDoPointer);
+
+              print(
+                  "Check after being addedd : ${state.data.createdToDo.length}");
 
               // update state
               state = ToDoState(
@@ -210,6 +215,70 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
     );
   }
 
+  // function to handle delete function
+  void handleDeleteSocket({required ToDoEntity toDo}) {
+    // update local state by remove local state
+    switch (toDo.toDoState) {
+      case "CREATED_TO_DO":
+        // remove from created
+        final updatedList = state.data.createdToDo;
+        updatedList
+            .removeWhere((element) => element.toDoItem.toDoId == toDo.toDoId);
+
+        // update state
+        state = ToDoState(
+            status: "connected",
+            data: ToDoPointerData(
+                grabbed: state.data.grabbed,
+                createdToDo: updatedList,
+                onGoingToDo: state.data.onGoingToDo,
+                doneToDO: state.data.doneToDO));
+
+        break;
+      case "PROCESSED_TO_DO":
+        // remove from processed
+        final updatedList = state.data.onGoingToDo;
+        updatedList
+            .removeWhere((element) => element.toDoItem.toDoId == toDo.toDoId);
+
+        // update state
+        state = ToDoState(
+            status: "connected",
+            data: ToDoPointerData(
+                grabbed: state.data.grabbed,
+                createdToDo: state.data.createdToDo,
+                onGoingToDo: updatedList,
+                doneToDO: state.data.doneToDO));
+
+        break;
+      case "FINISHED_TO_DO":
+        // remove from finished
+        final updatedList = state.data.doneToDO;
+        updatedList
+            .removeWhere((element) => element.toDoItem.toDoId == toDo.toDoId);
+
+        // update state
+        state = ToDoState(
+            status: "connected",
+            data: ToDoPointerData(
+                grabbed: state.data.grabbed,
+                createdToDo: state.data.createdToDo,
+                onGoingToDo: state.data.onGoingToDo,
+                doneToDO: updatedList));
+
+        break;
+    }
+
+    // create to do pointer
+    ToDoPointerEntity toDoPointer = ToDoPointerEntity(
+        toDoPointerState: "DELETED",
+        targetToDoState: toDo.toDoState,
+        toDoItem: toDo);
+
+    // send data
+    sl<ManageProjectSocketUsecase>().sendStreamData(toDoEntity: toDoPointer);
+  }
+
   @override
   void dispose() {
     streamSubs?.cancel();
@@ -218,4 +287,5 @@ class ToDoNotifier extends StateNotifier<ToDoState> {
 }
 
 final toDoNotifier =
-    StateNotifierProvider<ToDoNotifier, ToDoState?>((ref) => ToDoNotifier());
+    StateNotifierProvider.autoDispose<ToDoNotifier, ToDoState?>(
+        (ref) => ToDoNotifier());

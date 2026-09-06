@@ -27,6 +27,10 @@ abstract interface class ManageProjectRemoteDatasource {
   // function to get all todo within project
   TaskEither<BaseException, ResponseModel<List<ToDoModel>>> getAllToDoProject(
       {required int projectId});
+
+  // fucntion to delete todo
+  TaskEither<BaseException, ResponseModel<String>> deleteToDoProject(
+      {required int toDoId});
 }
 
 class ManageProjectRemoteDatasourceImpl
@@ -146,6 +150,25 @@ class ManageProjectRemoteDatasourceImpl
               return ToDoModel.fromJson(e);
             }).toList();
           });
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<String>> deleteToDoProject(
+      {required int toDoId}) {
+    // create url
+    final apiUrl = apis.deleteToDoProject(toDoId: toDoId);
+
+    // do request
+    final response = service
+        .delete(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((data) {
+          return ResponseModel.fromJson(data, (json) => json as String);
         });
 
     return response;

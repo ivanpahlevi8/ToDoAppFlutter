@@ -7,7 +7,7 @@ part 'to_do_pointer_entity.g.dart';
 @freezed
 class ToDoPointerEntity with _$ToDoPointerEntity {
   factory ToDoPointerEntity({
-    @JsonKey(name: "toDoPointerState") required String toDoPointerState,
+    @JsonKey(name: "toDoPointerStatus") required String toDoPointerState,
     @JsonKey(name: "targetToDoState") required String targetToDoState,
     @JsonKey(name: "toDoItem") required ToDoEntity toDoItem,
   }) = _ToDoPointerEntity;

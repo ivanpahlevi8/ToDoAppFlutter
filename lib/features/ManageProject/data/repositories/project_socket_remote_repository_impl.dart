@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:to_do_app_flutter/features/ManageProject/data/datasource/project_socket_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
-import 'package:to_do_app_flutter/features/ManageProject/data/models/to_do_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/models/to_do_pointer_model.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_pointer_entity.dart';
@@ -51,7 +50,7 @@ class ProjectSocketRemoteRepositoryImpl
   }
 
   @override
-  void sendData(ToDoEntity toDoData) {
+  void sendData(ToDoPointerEntity toDoData) {
     // alter the model to json
     Map<String, dynamic> toDoDataJson = toDoData.toJson();
 

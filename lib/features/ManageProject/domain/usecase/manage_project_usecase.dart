@@ -41,4 +41,9 @@ class ManageProjectUsecase {
     return manageProjectRemoteRepository.getAllToDoProject(
         projectId: projectId);
   }
+
+  // function to delete todo project
+  TaskEither<BaseException, String> deleteToDoProject({required int toDoId}) {
+    return manageProjectRemoteRepository.deleteToDoProject(toDoId: toDoId);
+  }
 }

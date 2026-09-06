@@ -19,7 +19,7 @@ class ManageProjectSocketUsecase {
   }
 
   // function to send stream data
-  void sendStreamData({required ToDoEntity toDoEntity}) {
+  void sendStreamData({required ToDoPointerEntity toDoEntity}) {
     return projectSocketRepository.sendData(toDoEntity);
   }
 }

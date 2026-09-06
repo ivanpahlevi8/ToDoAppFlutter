@@ -240,4 +240,10 @@ class Apis {
     return _buildUri(ApiUrl.getToDoProject,
         queryParams: {"projectId": projectId.toString()});
   }
+
+  // Uri to delete todo
+  Uri deleteToDoProject({required int toDoId}) {
+    return _buildUri(ApiUrl.deleteToDoProject,
+        queryParams: {"toDoId": toDoId.toString()});
+  }
 }

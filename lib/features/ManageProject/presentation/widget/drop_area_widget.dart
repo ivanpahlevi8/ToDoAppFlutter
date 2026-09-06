@@ -8,13 +8,15 @@ class DropAreaWidget extends StatelessWidget {
   final List<ToDoPointerEntity> onFinishedItem;
   final List<int> grabbedToDo;
   final List<int> grabbedItem;
+  final Function(ToDoPointerEntity) onDelete;
   const DropAreaWidget(
       {super.key,
       required this.onCreatedItem,
       required this.onGoingItem,
       required this.onFinishedItem,
       required this.grabbedItem,
-      required this.grabbedToDo});
+      required this.grabbedToDo,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +30,22 @@ class DropAreaWidget extends StatelessWidget {
             titleColumn: "On Created Task",
             dataList: onCreatedItem,
             grabbedToDo: grabbedToDo,
+            onDelete: onDelete,
           ),
           DropAreaItem(
-              inputColor: Colors.green,
-              titleColumn: "On Going Task",
-              dataList: onGoingItem,
-              grabbedToDo: grabbedToDo),
+            inputColor: Colors.green,
+            titleColumn: "On Going Task",
+            dataList: onGoingItem,
+            grabbedToDo: grabbedToDo,
+            onDelete: onDelete,
+          ),
           DropAreaItem(
-              inputColor: Colors.blue,
-              titleColumn: "On Finished Task",
-              dataList: onFinishedItem,
-              grabbedToDo: grabbedToDo),
+            inputColor: Colors.blue,
+            titleColumn: "On Finished Task",
+            dataList: onFinishedItem,
+            grabbedToDo: grabbedToDo,
+            onDelete: onDelete,
+          ),
         ],
       ),
     );

@@ -5,8 +5,12 @@ import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/tar
 class TargetDraggedItem extends StatelessWidget {
   final ToDoPointerEntity toDoData;
   final bool isGrabbed;
+  final Function(ToDoPointerEntity) onDelete;
   const TargetDraggedItem(
-      {super.key, required this.toDoData, required this.isGrabbed});
+      {super.key,
+      required this.toDoData,
+      required this.isGrabbed,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +22,13 @@ class TargetDraggedItem extends StatelessWidget {
           child: TargetItem(
             toDoPointer: toDoData,
             isGrabbed: isGrabbed,
+            onDelete: (xx) {},
           ),
         ),
         child: TargetItem(
           toDoPointer: toDoData,
           isGrabbed: isGrabbed,
+          onDelete: onDelete,
         ));
   }
 }

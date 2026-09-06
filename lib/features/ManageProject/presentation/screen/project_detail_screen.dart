@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_pointer_entity.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/async_ui.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/delete_todo_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_todo_project_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/project_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/todo_stream_proider.dart';
@@ -42,6 +45,12 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
 
     // wathc to do project
     final toDoProject = ref.watch(getToDoProjectProviderProvider);
+
+    // listen to delete to do provider
+    ref.listen<AsyncValue<ToDoPointerEntity?>>(deleteToDoProviderProvider,
+        (previous, next) {
+      next.onDeleteToDo(context, ref);
+    });
 
     return projectDetailProvider.when(
       data: (data) {
@@ -381,6 +390,12 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                   onFinishedItem: toDoSocketProvider.data.doneToDO,
                   grabbedItem: toDoSocketProvider.data.grabbed,
                   grabbedToDo: toDoSocketProvider.data.grabbed,
+                  onDelete: (toDoPointer) {
+                    // delete on db
+                    ref
+                        .read(deleteToDoProviderProvider.notifier)
+                        .deleteToDoProject(toDoPointer: toDoPointer);
+                  },
                 );
               }
 

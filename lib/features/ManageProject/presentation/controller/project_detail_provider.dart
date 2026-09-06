@@ -1,7 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:to_do_app_flutter/core/services/service_locator.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project_entity.dart';
-import 'package:to_do_app_flutter/features/ManageProject/domain/usecase/manage_project_socket_usecase.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/usecase/manage_project_usecase.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_todo_project_provider.dart';
 

@@ -49,4 +49,5 @@ class ApiUrl {
   static const deleteProject = "todoapp/api/Project/delete-project";
   static const getProjectDetail = "todoapp/api/Project/get-project";
   static const getToDoProject = "todoapp/api/ToDo/get-todo-project";
+  static const deleteToDoProject = "todoapp/api/ToDo/delete-todo";
 }

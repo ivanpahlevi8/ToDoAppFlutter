@@ -20,7 +20,7 @@ ToDoPointerEntity _$ToDoPointerEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ToDoPointerEntity {
-  @JsonKey(name: "toDoPointerState")
+  @JsonKey(name: "toDoPointerStatus")
   String get toDoPointerState => throw _privateConstructorUsedError;
   @JsonKey(name: "targetToDoState")
   String get targetToDoState => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $ToDoPointerEntityCopyWith<$Res> {
       _$ToDoPointerEntityCopyWithImpl<$Res, ToDoPointerEntity>;
   @useResult
   $Res call(
-      {@JsonKey(name: "toDoPointerState") String toDoPointerState,
+      {@JsonKey(name: "toDoPointerStatus") String toDoPointerState,
       @JsonKey(name: "targetToDoState") String targetToDoState,
       @JsonKey(name: "toDoItem") ToDoEntity toDoItem});
 
@@ -98,7 +98,7 @@ abstract class _$$ToDoPointerEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "toDoPointerState") String toDoPointerState,
+      {@JsonKey(name: "toDoPointerStatus") String toDoPointerState,
       @JsonKey(name: "targetToDoState") String targetToDoState,
       @JsonKey(name: "toDoItem") ToDoEntity toDoItem});
 
@@ -142,7 +142,7 @@ class __$$ToDoPointerEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ToDoPointerEntityImpl implements _ToDoPointerEntity {
   _$ToDoPointerEntityImpl(
-      {@JsonKey(name: "toDoPointerState") required this.toDoPointerState,
+      {@JsonKey(name: "toDoPointerStatus") required this.toDoPointerState,
       @JsonKey(name: "targetToDoState") required this.targetToDoState,
       @JsonKey(name: "toDoItem") required this.toDoItem});
 
@@ -150,7 +150,7 @@ class _$ToDoPointerEntityImpl implements _ToDoPointerEntity {
       _$$ToDoPointerEntityImplFromJson(json);
 
   @override
-  @JsonKey(name: "toDoPointerState")
+  @JsonKey(name: "toDoPointerStatus")
   final String toDoPointerState;
   @override
   @JsonKey(name: "targetToDoState")
@@ -199,7 +199,7 @@ class _$ToDoPointerEntityImpl implements _ToDoPointerEntity {
 
 abstract class _ToDoPointerEntity implements ToDoPointerEntity {
   factory _ToDoPointerEntity(
-      {@JsonKey(name: "toDoPointerState")
+      {@JsonKey(name: "toDoPointerStatus")
       required final String toDoPointerState,
       @JsonKey(name: "targetToDoState") required final String targetToDoState,
       @JsonKey(name: "toDoItem")
@@ -209,7 +209,7 @@ abstract class _ToDoPointerEntity implements ToDoPointerEntity {
       _$ToDoPointerEntityImpl.fromJson;
 
   @override
-  @JsonKey(name: "toDoPointerState")
+  @JsonKey(name: "toDoPointerStatus")
   String get toDoPointerState;
   @override
   @JsonKey(name: "targetToDoState")

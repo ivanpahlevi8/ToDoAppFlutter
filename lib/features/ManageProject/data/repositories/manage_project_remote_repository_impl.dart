@@ -194,4 +194,26 @@ class ManageProjectRemoteRepositoryImpl
       return TaskEither.right(getAllToDoEntity);
     });
   }
+
+  @override
+  TaskEither<BaseException, String> deleteToDoProject({required int toDoId}) {
+    // do request
+    final responseTask =
+        manageProjectRemoteDatasource.deleteToDoProject(toDoId: toDoId);
+
+    return responseTask.flatMap((dataResponse) {
+      if (!dataResponse.isSuccess || dataResponse.result == null) {
+        return TaskEither.left(BaseException(
+          error: "Error Happen : ${dataResponse.message}",
+          stackTrace: StackTrace.current,
+          message: dataResponse.message,
+        ));
+      }
+
+      // get data
+      final getData = dataResponse.result!;
+
+      return TaskEither.right(getData);
+    });
+  }
 }

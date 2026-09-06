@@ -5,8 +5,12 @@ import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_p
 class TargetItem extends StatelessWidget {
   final ToDoPointerEntity toDoPointer;
   final bool isGrabbed;
+  final Function(ToDoPointerEntity) onDelete;
   const TargetItem(
-      {super.key, required this.toDoPointer, required this.isGrabbed});
+      {super.key,
+      required this.toDoPointer,
+      required this.isGrabbed,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,9 @@ class TargetItem extends StatelessWidget {
                       vertical: 4,
                       horizontal: 12,
                     )),
-                onPressed: () {},
+                onPressed: () {
+                  onDelete(toDoPointer);
+                },
                 child: Text(
                   "Delete",
                   style: TextStyle(

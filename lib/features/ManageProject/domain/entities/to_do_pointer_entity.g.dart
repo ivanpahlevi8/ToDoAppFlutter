@@ -9,7 +9,7 @@ part of 'to_do_pointer_entity.dart';
 _$ToDoPointerEntityImpl _$$ToDoPointerEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$ToDoPointerEntityImpl(
-      toDoPointerState: json['toDoPointerState'] as String,
+      toDoPointerState: json['toDoPointerStatus'] as String,
       targetToDoState: json['targetToDoState'] as String,
       toDoItem: ToDoEntity.fromJson(json['toDoItem'] as Map<String, dynamic>),
     );
@@ -17,7 +17,7 @@ _$ToDoPointerEntityImpl _$$ToDoPointerEntityImplFromJson(
 Map<String, dynamic> _$$ToDoPointerEntityImplToJson(
         _$ToDoPointerEntityImpl instance) =>
     <String, dynamic>{
-      'toDoPointerState': instance.toDoPointerState,
+      'toDoPointerStatus': instance.toDoPointerState,
       'targetToDoState': instance.targetToDoState,
       'toDoItem': instance.toDoItem,
     };
