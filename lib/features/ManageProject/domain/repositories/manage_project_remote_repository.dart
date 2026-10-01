@@ -26,4 +26,8 @@ abstract interface class ManageProjectRemoteRepository {
 
   // function to delete todo project
   TaskEither<BaseException, String> deleteToDoProject({required int toDoId});
+
+  // function to update todo project
+  TaskEither<BaseException, String> updateToDoProject(
+      {required ToDoEntity toDoEntity});
 }

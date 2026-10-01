@@ -1,4 +1,5 @@
 import 'package:to_do_app_flutter/core/constants/api_url.dart';
+import 'package:to_do_app_flutter/features/ManageProject/data/models/to_do_model.dart';
 
 class Apis {
   late final List<String> _urlWithoutAuth;
@@ -245,5 +246,10 @@ class Apis {
   Uri deleteToDoProject({required int toDoId}) {
     return _buildUri(ApiUrl.deleteToDoProject,
         queryParams: {"toDoId": toDoId.toString()});
+  }
+
+  // uri to update to do
+  Uri updateToDoProject({required ToDoModel toDo}) {
+    return _buildUri(ApiUrl.updateToDoProject);
   }
 }

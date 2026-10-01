@@ -216,4 +216,28 @@ class ManageProjectRemoteRepositoryImpl
       return TaskEither.right(getData);
     });
   }
+
+  @override
+  TaskEither<BaseException, String> updateToDoProject(
+      {required ToDoEntity toDoEntity}) {
+    // do requesyt
+    final responseTask = manageProjectRemoteDatasource.updateToDo(
+        toDoModel: toDoEntity.toModel());
+
+    // return response
+    return responseTask.flatMap((responseResult) {
+      if (!responseResult.isSuccess || responseResult.result == null) {
+        return TaskEither.left(BaseException(
+          error: responseResult.message,
+          message: "Error Happen : ${responseResult.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get data
+      String getData = responseResult.result!;
+
+      return TaskEither.right(getData);
+    });
+  }
 }

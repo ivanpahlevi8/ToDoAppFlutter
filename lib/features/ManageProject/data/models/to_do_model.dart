@@ -11,7 +11,7 @@ class ToDoModel with _$ToDoModel {
     @JsonKey(name: "itemName") required String toDoName,
     @JsonKey(name: "itemDescription") required String toDoDescription,
     @JsonKey(name: "itemState") required String toDoState,
-    @JsonKey(name: "createdAt") required String createdAt,
+    @JsonKey(name: "createdAt") required String? createdAt,
   }) = _ToDoModel;
 
   factory ToDoModel.fromJson(Map<String, dynamic> json) =>

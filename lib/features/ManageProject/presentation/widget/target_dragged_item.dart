@@ -6,15 +6,21 @@ class TargetDraggedItem extends StatelessWidget {
   final ToDoPointerEntity toDoData;
   final bool isGrabbed;
   final Function(ToDoPointerEntity) onDelete;
+  final Function(ToDoPointerEntity) onGrabbed;
   const TargetDraggedItem(
       {super.key,
       required this.toDoData,
       required this.isGrabbed,
-      required this.onDelete});
+      required this.onDelete,
+      required this.onGrabbed});
 
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable<ToDoPointerEntity>(
+        onDragStarted: () {
+          // on drag start function
+          onGrabbed(toDoData);
+        },
         maxSimultaneousDrags: isGrabbed ? 0 : 1,
         data: toDoData,
         feedback: Transform.scale(

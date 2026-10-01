@@ -64,6 +64,18 @@ extension ToDoModelMapper on ToDoModel {
         todoName: toDoName,
         toDoDescription: toDoDescription,
         toDoState: toDoState,
-        toDoCreatedAt: createdAt);
+        toDoCreatedAt: createdAt ?? "");
+  }
+}
+
+extension ToDoEntityMapper on ToDoEntity {
+  ToDoModel toModel() {
+    return ToDoModel(
+        toDoID: toDoId,
+        projectId: projectId,
+        toDoName: todoName,
+        toDoDescription: toDoDescription,
+        toDoState: toDoState,
+        createdAt: toDoCreatedAt);
   }
 }

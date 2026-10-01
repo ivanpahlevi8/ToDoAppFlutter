@@ -125,4 +125,45 @@ extension ToDoProjectExtension on AsyncValue<ToDoPointerEntity?> {
       );
     });
   }
+
+  // handle update to do
+  Future<void> onUpdateToDo(BuildContext context, WidgetRef ref) async {
+    when(data: (data) {
+      if (data != null) {
+        // pop up loading dialog
+        if (context.canPop()) {
+          context.pop();
+        }
+
+        // broadcast to do, for update
+        ref
+            .read(toDoNotifier.notifier)
+            .handleUpdateSocket(toDoPointerEntity: data);
+
+        // show success snackbar
+        context.showSuccessSnackBar(message: "Success Update To Do");
+      }
+    }, error: (error, stackTrace) {
+      // pop up loading dialog
+      if (context.canPop()) {
+        context.pop();
+      }
+
+      // show error message
+      context.showErrorSnackBar(
+          message:
+              "Error Happen : ${error.toString()}, ${stackTrace.toString()}");
+    }, loading: () {
+      // show loading
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const CustomLoadingDialog();
+        },
+      );
+    });
+  }
 }
+
+// extension

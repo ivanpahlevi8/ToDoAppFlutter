@@ -46,4 +46,10 @@ class ManageProjectUsecase {
   TaskEither<BaseException, String> deleteToDoProject({required int toDoId}) {
     return manageProjectRemoteRepository.deleteToDoProject(toDoId: toDoId);
   }
+
+  // function to update todo project
+  TaskEither<BaseException, String> updateToDoproject(
+      {required ToDoEntity toDo}) {
+    return manageProjectRemoteRepository.updateToDoProject(toDoEntity: toDo);
+  }
 }

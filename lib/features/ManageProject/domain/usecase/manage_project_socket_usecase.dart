@@ -1,4 +1,3 @@
-import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_pointer_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/repositories/project_socket_remote_repository.dart';
 

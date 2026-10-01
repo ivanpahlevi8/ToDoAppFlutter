@@ -7,6 +7,7 @@ import 'package:to_do_app_flutter/features/ManageProject/presentation/controller
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/get_todo_project_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/project_detail_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/todo_stream_proider.dart';
+import 'package:to_do_app_flutter/features/ManageProject/presentation/controller/update_project_team_provider.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/drop_area_widget.dart';
 
 class ProjectDetailScreen extends ConsumerStatefulWidget {
@@ -50,6 +51,12 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
     ref.listen<AsyncValue<ToDoPointerEntity?>>(deleteToDoProviderProvider,
         (previous, next) {
       next.onDeleteToDo(context, ref);
+    });
+
+    // listen to update to do provider
+    ref.listen<AsyncValue<ToDoPointerEntity?>>(
+        updateProjectTeamProviderProvider, (previous, next) {
+      next.onUpdateToDo(context, ref);
     });
 
     return projectDetailProvider.when(
@@ -395,6 +402,18 @@ class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
                     ref
                         .read(deleteToDoProviderProvider.notifier)
                         .deleteToDoProject(toDoPointer: toDoPointer);
+                  },
+                  onDropped: (toDoPointer) {
+                    // update to do
+                    ref
+                        .read(updateProjectTeamProviderProvider.notifier)
+                        .updateProjectTeam(toDo: toDoPointer);
+                  },
+                  onGrabbbed: (toDoPointer) {
+                    // grabbed
+                    ref
+                        .read(toDoNotifier.notifier)
+                        .handleOnGrabbed(toDoPointer);
                   },
                 );
               }

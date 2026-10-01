@@ -31,7 +31,7 @@ mixin _$ToDoModel {
   @JsonKey(name: "itemState")
   String get toDoState => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  String get createdAt => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +50,7 @@ abstract class $ToDoModelCopyWith<$Res> {
       @JsonKey(name: "itemName") String toDoName,
       @JsonKey(name: "itemDescription") String toDoDescription,
       @JsonKey(name: "itemState") String toDoState,
-      @JsonKey(name: "createdAt") String createdAt});
+      @JsonKey(name: "createdAt") String? createdAt});
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ class _$ToDoModelCopyWithImpl<$Res, $Val extends ToDoModel>
     Object? toDoName = null,
     Object? toDoDescription = null,
     Object? toDoState = null,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       toDoID: null == toDoID
@@ -94,10 +94,10 @@ class _$ToDoModelCopyWithImpl<$Res, $Val extends ToDoModel>
           ? _value.toDoState
           : toDoState // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -116,7 +116,7 @@ abstract class _$$ToDoModelImplCopyWith<$Res>
       @JsonKey(name: "itemName") String toDoName,
       @JsonKey(name: "itemDescription") String toDoDescription,
       @JsonKey(name: "itemState") String toDoState,
-      @JsonKey(name: "createdAt") String createdAt});
+      @JsonKey(name: "createdAt") String? createdAt});
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$$ToDoModelImplCopyWithImpl<$Res>
     Object? toDoName = null,
     Object? toDoDescription = null,
     Object? toDoState = null,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$ToDoModelImpl(
       toDoID: null == toDoID
@@ -158,10 +158,10 @@ class __$$ToDoModelImplCopyWithImpl<$Res>
           ? _value.toDoState
           : toDoState // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -197,7 +197,7 @@ class _$ToDoModelImpl implements _ToDoModel {
   final String toDoState;
   @override
   @JsonKey(name: "createdAt")
-  final String createdAt;
+  final String? createdAt;
 
   @override
   String toString() {
@@ -249,7 +249,7 @@ abstract class _ToDoModel implements ToDoModel {
       @JsonKey(name: "itemDescription") required final String toDoDescription,
       @JsonKey(name: "itemState") required final String toDoState,
       @JsonKey(name: "createdAt")
-      required final String createdAt}) = _$ToDoModelImpl;
+      required final String? createdAt}) = _$ToDoModelImpl;
 
   factory _ToDoModel.fromJson(Map<String, dynamic> json) =
       _$ToDoModelImpl.fromJson;
@@ -271,7 +271,7 @@ abstract class _ToDoModel implements ToDoModel {
   String get toDoState;
   @override
   @JsonKey(name: "createdAt")
-  String get createdAt;
+  String? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$ToDoModelImplCopyWith<_$ToDoModelImpl> get copyWith =>

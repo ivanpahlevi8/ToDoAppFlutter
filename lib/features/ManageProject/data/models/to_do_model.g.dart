@@ -13,7 +13,7 @@ _$ToDoModelImpl _$$ToDoModelImplFromJson(Map<String, dynamic> json) =>
       toDoName: json['itemName'] as String,
       toDoDescription: json['itemDescription'] as String,
       toDoState: json['itemState'] as String,
-      createdAt: json['createdAt'] as String,
+      createdAt: json['createdAt'] as String?,
     );
 
 Map<String, dynamic> _$$ToDoModelImplToJson(_$ToDoModelImpl instance) =>

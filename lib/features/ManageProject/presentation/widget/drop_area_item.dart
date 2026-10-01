@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_pointer_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/target_dragged_item.dart';
 
@@ -9,14 +10,21 @@ class DropAreaItem extends StatelessWidget {
   final String titleColumn;
   final List<ToDoPointerEntity> dataList;
   final List<int> grabbedToDo;
+  final String areaStateName;
   final Function(ToDoPointerEntity) onDelete;
-  const DropAreaItem(
-      {super.key,
-      required this.inputColor,
-      required this.titleColumn,
-      required this.dataList,
-      required this.grabbedToDo,
-      required this.onDelete});
+  final Function(ToDoPointerEntity) onDropped;
+  final Function(ToDoPointerEntity) onGrabbed;
+  const DropAreaItem({
+    super.key,
+    required this.inputColor,
+    required this.titleColumn,
+    required this.dataList,
+    required this.grabbedToDo,
+    required this.areaStateName,
+    required this.onDelete,
+    required this.onDropped,
+    required this.onGrabbed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +32,16 @@ class DropAreaItem extends StatelessWidget {
 
     return DragTarget<ToDoPointerEntity>(onAcceptWithDetails: (data) {
       // on accept function, get data
-      //final getData = data.data;
+      final getData = data.data;
+
+      // create new to do entity data
+      ToDoPointerEntity toDoPointer = ToDoPointerEntity(
+          toDoPointerState: "DROPPEPD",
+          targetToDoState: areaStateName,
+          toDoItem: getData.toDoItem);
+
+      // on drop
+      onDropped(toDoPointer);
     }, builder: (context, candidateItems, rejectedItems) {
       // return a column container
       return Container(
@@ -69,6 +86,7 @@ class DropAreaItem extends StatelessWidget {
                     toDoData: getData,
                     isGrabbed: isGrabbed,
                     onDelete: onDelete,
+                    onGrabbed: onGrabbed,
                   );
                 },
               ),

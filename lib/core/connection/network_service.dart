@@ -27,7 +27,7 @@ abstract interface class INetworkService<HttpResponse> {
     Uri uri,
     CancelToken? cancelToken, {
     Map<String, String> headers = const {},
-    Map<String, String> body = const {},
+    Map<String, dynamic> body = const {},
   });
 
   // fucntion to do delete request
@@ -55,8 +55,8 @@ class NetworkService implements INetworkService<Response> {
         uri,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 10000),
-          receiveTimeout: Duration(milliseconds: 10000),
+          sendTimeout: Duration(milliseconds: 20000),
+          receiveTimeout: Duration(milliseconds: 20000),
         ),
         cancelToken: cancelToken,
       ),
@@ -75,8 +75,8 @@ class NetworkService implements INetworkService<Response> {
         uri,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 10000),
-          receiveTimeout: Duration(milliseconds: 10000),
+          sendTimeout: Duration(milliseconds: 20000),
+          receiveTimeout: Duration(milliseconds: 20000),
         ),
         cancelToken: cancelToken,
       ),
@@ -99,8 +99,8 @@ class NetworkService implements INetworkService<Response> {
             : body,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 10000),
-          receiveTimeout: Duration(milliseconds: 10000),
+          sendTimeout: Duration(milliseconds: 20000),
+          receiveTimeout: Duration(milliseconds: 20000),
         ),
       ),
       exceptionHandler.handle,
@@ -112,7 +112,7 @@ class NetworkService implements INetworkService<Response> {
     Uri uri,
     CancelToken? cancelToken, {
     Map<String, String> headers = const {},
-    Map<String, String> body = const {},
+    Map<String, dynamic> body = const {},
   }) {
     return TaskEither.tryCatch(
       () => dio.putUri(
@@ -122,8 +122,8 @@ class NetworkService implements INetworkService<Response> {
             : body,
         options: Options(
           headers: headers,
-          sendTimeout: Duration(milliseconds: 10000),
-          receiveTimeout: Duration(milliseconds: 10000),
+          sendTimeout: Duration(milliseconds: 20000),
+          receiveTimeout: Duration(milliseconds: 20000),
         ),
       ),
       exceptionHandler.handle,
