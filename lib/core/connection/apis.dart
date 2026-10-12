@@ -252,4 +252,10 @@ class Apis {
   Uri updateToDoProject({required ToDoModel toDo}) {
     return _buildUri(ApiUrl.updateToDoProject);
   }
+
+  // uri to get project summary dashboard data
+  Uri getProjectSummaryDashboard({required String userId}) {
+    return _buildUri(ApiUrl.getProjectSummaryDashboard,
+        queryParams: {"userId": userId});
+  }
 }

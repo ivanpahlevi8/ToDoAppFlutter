@@ -51,4 +51,8 @@ class ApiUrl {
   static const getToDoProject = "todoapp/api/ToDo/get-todo-project";
   static const deleteToDoProject = "todoapp/api/ToDo/delete-todo";
   static const updateToDoProject = "todoapp/api/ToDo/update-todo";
+
+  // dashboard urls
+  static const getProjectSummaryDashboard =
+      "todoapp/api/Dashboard/project-summary";
 }

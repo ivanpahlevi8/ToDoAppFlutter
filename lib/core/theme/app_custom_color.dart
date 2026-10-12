@@ -72,6 +72,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
   final Color? blueLightStart;
   final Color? blueLightEnd;
 
+  // folor for card 1 for dashboard
+  final Color? cardGradientStart1;
+  final Color? cardGradientEnd1;
+  final Color? cardShadow1;
+  final Color? cardBorder1;
+
+  // color for ocean blue card
+  final Color? oceanBlueCardGradientStart;
+  final Color? oceanBlueCardGradientEnd;
+  final Color? oceanBlueCardShadow;
+  final Color? oceanBlueCardBorder;
+
   // Dark mode specific additions
   final Color? cardInformationBackground1;
   final Color? tabContainerBg;
@@ -168,6 +180,14 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     this.timeLineCardColor4,
     this.timeLineCardColor5,
     this.timeLineCardColor6,
+    this.cardGradientStart1,
+    this.cardGradientEnd1,
+    this.cardBorder1,
+    this.cardShadow1,
+    this.oceanBlueCardGradientStart,
+    this.oceanBlueCardGradientEnd,
+    this.oceanBlueCardBorder,
+    this.oceanBlueCardShadow,
   });
 
   @override
@@ -253,128 +273,132 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     Color? timeLineCardColor4,
     Color? timeLineCardColor5,
     Color? timeLineCardColor6,
+    Color? cardGradientStart1,
+    Color? cardGradiendStart2,
+    Color? cardShadow1,
+    Color? cardBorder1,
   }) {
     return AppCustomColors(
-      gold: gold ?? this.gold,
-      displaySmall: displaySmall ?? this.displaySmall,
-      textMedium: textMedium ?? this.textMedium,
-      textTitle: textTitle ?? this.textTitle,
-      body: body ?? this.body,
-      inputBackground: inputBackground ?? this.inputBackground,
-      placeholder: placeholder ?? this.placeholder,
-      shimmer: shimmer ?? this.shimmer,
-      errorColor: errorColor ?? this.errorColor,
-      lightGrayBackground: lightGrayBackground ?? this.lightGrayBackground,
-      winnerLabelText: winnerLabelText ?? this.winnerLabelText,
-      winnerLabelBackground:
-          winnerLabelBackground ?? this.winnerLabelBackground,
-      completedLabelText: completedLabelText ?? this.completedLabelText,
-      completedLabelBackground:
-          completedLabelBackground ?? this.completedLabelBackground,
-      cardBackgroundColor: cardBackgroundColor ?? this.cardBackgroundColor,
-      cardBackgroundColor2: cardBackgroundColor2 ?? this.cardBackgroundColor2,
-      cardBackgroundColor3: cardBackgroundColor3 ?? this.cardBackgroundColor3,
-      selectedTabButtonBackground:
-          selectedTabButtonBackground ?? this.selectedTabButtonBackground,
-      selectedTabButtonText:
-          selectedTabButtonText ?? this.selectedTabButtonText,
-      unselectedTabButtonBackground:
-          unselectedTabButtonBackground ?? this.unselectedTabButtonBackground,
-      unselectedTabButtonText:
-          unselectedTabButtonText ?? this.unselectedTabButtonText,
-      selectedPagerIndicator:
-          selectedPagerIndicator ?? this.selectedPagerIndicator,
-      unselectedPagerIndicator:
-          unselectedPagerIndicator ?? this.unselectedPagerIndicator,
-      buttonDeleteBackground:
-          buttonDeleteBackground ?? this.buttonDeleteBackground,
-      buttonDeleteText: buttonDeleteText ?? this.buttonDeleteText,
-      buttonDetailBackground:
-          buttonDetailBackground ?? this.buttonDetailBackground,
-      buttonDetailText: buttonDetailText ?? this.buttonDetailText,
-      deleteBackgroundDialogConfirmation:
-          deleteBackgroundDialogConfirmation ??
-          this.deleteBackgroundDialogConfirmation,
-      deleteBackgroundDialogConfirmationPositiveButtonBackground:
-          deleteBackgroundDialogConfirmationPositiveButtonBackground ??
-          this.deleteBackgroundDialogConfirmationPositiveButtonBackground,
-      colorPalette1DialogBackground:
-          colorPalette1DialogBackground ?? this.colorPalette1DialogBackground,
-      colorPalette1DialogHeadline:
-          colorPalette1DialogHeadline ?? this.colorPalette1DialogHeadline,
-      colorPalette1DialogParagraph:
-          colorPalette1DialogParagraph ?? this.colorPalette1DialogParagraph,
-      colorPalette1DialogStroke:
-          colorPalette1DialogStroke ?? this.colorPalette1DialogStroke,
-      colorPalette1DialogButtonBackground:
-          colorPalette1DialogButtonBackground ??
-          this.colorPalette1DialogButtonBackground,
-      colorPalette1DialogButtonText:
-          colorPalette1DialogButtonText ?? this.colorPalette1DialogButtonText,
-      loadingDialogBackground:
-          loadingDialogBackground ?? this.loadingDialogBackground,
-      loadingDialogText: loadingDialogText ?? this.loadingDialogText,
-      errorDialogBackground:
-          errorDialogBackground ?? this.errorDialogBackground,
-      errorDialogText: errorDialogText ?? this.errorDialogText,
-      nextButtonBackground: nextButtonBackground ?? this.nextButtonBackground,
-      nextButtonText: nextButtonText ?? this.nextButtonText,
-      successDialogBackground:
-          successDialogBackground ?? this.successDialogBackground,
-      successDialogText: successDialogText ?? this.successDialogText,
-      choiceBadgeBackground:
-          choiceBadgeBackground ?? this.choiceBadgeBackground,
-      topAppBarBackgroundColor:
-          topAppBarBackgroundColor ?? this.topAppBarBackgroundColor,
-      reviewTopBarColor: reviewTopBarColor ?? this.reviewTopBarColor,
-      excellentStart: excellentStart ?? this.excellentStart,
-      excellentEnd: excellentEnd ?? this.excellentEnd,
-      goodStart: goodStart ?? this.goodStart,
-      goodEnd: goodEnd ?? this.goodEnd,
-      averageStart: averageStart ?? this.averageStart,
-      averageEnd: averageEnd ?? this.averageEnd,
-      badStart: badStart ?? this.badStart,
-      badEnd: badEnd ?? this.badEnd,
-      veryBadStart: veryBadStart ?? this.veryBadStart,
-      veryBadEnd: veryBadEnd ?? this.veryBadEnd,
-      accessTagBackgroundColor:
-          accessTagBackgroundColor ?? this.accessTagBackgroundColor,
-      accessTagTextColor: accessTagTextColor ?? this.accessTagTextColor,
-      accessTagAccentColor: accessTagAccentColor ?? this.accessTagAccentColor,
-      otherTagBackgroundColor:
-          otherTagBackgroundColor ?? this.otherTagBackgroundColor,
-      otherTagTextColor: otherTagTextColor ?? this.otherTagTextColor,
-      otherTagAccentColor: otherTagAccentColor ?? this.otherTagAccentColor,
-      openHourSelectedDayBackgroundColor:
-          openHourSelectedDayBackgroundColor ??
-          this.openHourSelectedDayBackgroundColor,
-      openHourSelectedDayTextColor:
-          openHourSelectedDayTextColor ?? this.openHourSelectedDayTextColor,
-      openHourUnselectedDayBackgroundColor:
-          openHourUnselectedDayBackgroundColor ??
-          this.openHourUnselectedDayBackgroundColor,
-      openHourUnselectedDayPrimaryTextColor:
-          openHourUnselectedDayPrimaryTextColor ??
-          this.openHourUnselectedDayPrimaryTextColor,
-      openHourUnselectedDaySecondaryTextColor:
-          openHourUnselectedDaySecondaryTextColor ??
-          this.openHourUnselectedDaySecondaryTextColor,
-      blueLightStart: blueLightStart ?? this.blueLightStart,
-      blueLightEnd: blueLightEnd ?? this.blueLightEnd,
-      cardInformationBackground1:
-          cardInformationBackground1 ?? this.cardInformationBackground1,
-      tabContainerBg: tabContainerBg ?? this.tabContainerBg,
-      tabActiveBg: tabActiveBg ?? this.tabActiveBg,
-      tabActiveText: tabActiveText ?? this.tabActiveText,
-      tabInactiveText: tabInactiveText ?? this.tabInactiveText,
-      tabIndicatorTint: tabIndicatorTint ?? this.tabIndicatorTint,
-      timeLineCardColor1: timeLineCardColor1 ?? this.timeLineCardColor1,
-      timeLineCardColor2: timeLineCardColor2 ?? this.timeLineCardColor2,
-      timeLineCardColor3: timeLineCardColor3 ?? this.timeLineCardColor3,
-      timeLineCardColor4: timeLineCardColor4 ?? this.timeLineCardColor4,
-      timeLineCardColor5: timeLineCardColor5 ?? this.timeLineCardColor5,
-      timeLineCardColor6: timeLineCardColor6 ?? this.timeLineCardColor6,
-    );
+        gold: gold ?? this.gold,
+        displaySmall: displaySmall ?? this.displaySmall,
+        textMedium: textMedium ?? this.textMedium,
+        textTitle: textTitle ?? this.textTitle,
+        body: body ?? this.body,
+        inputBackground: inputBackground ?? this.inputBackground,
+        placeholder: placeholder ?? this.placeholder,
+        shimmer: shimmer ?? this.shimmer,
+        errorColor: errorColor ?? this.errorColor,
+        lightGrayBackground: lightGrayBackground ?? this.lightGrayBackground,
+        winnerLabelText: winnerLabelText ?? this.winnerLabelText,
+        winnerLabelBackground:
+            winnerLabelBackground ?? this.winnerLabelBackground,
+        completedLabelText: completedLabelText ?? this.completedLabelText,
+        completedLabelBackground:
+            completedLabelBackground ?? this.completedLabelBackground,
+        cardBackgroundColor: cardBackgroundColor ?? this.cardBackgroundColor,
+        cardBackgroundColor2: cardBackgroundColor2 ?? this.cardBackgroundColor2,
+        cardBackgroundColor3: cardBackgroundColor3 ?? this.cardBackgroundColor3,
+        selectedTabButtonBackground:
+            selectedTabButtonBackground ?? this.selectedTabButtonBackground,
+        selectedTabButtonText:
+            selectedTabButtonText ?? this.selectedTabButtonText,
+        unselectedTabButtonBackground:
+            unselectedTabButtonBackground ?? this.unselectedTabButtonBackground,
+        unselectedTabButtonText:
+            unselectedTabButtonText ?? this.unselectedTabButtonText,
+        selectedPagerIndicator:
+            selectedPagerIndicator ?? this.selectedPagerIndicator,
+        unselectedPagerIndicator:
+            unselectedPagerIndicator ?? this.unselectedPagerIndicator,
+        buttonDeleteBackground:
+            buttonDeleteBackground ?? this.buttonDeleteBackground,
+        buttonDeleteText: buttonDeleteText ?? this.buttonDeleteText,
+        buttonDetailBackground:
+            buttonDetailBackground ?? this.buttonDetailBackground,
+        buttonDetailText: buttonDetailText ?? this.buttonDetailText,
+        deleteBackgroundDialogConfirmation: deleteBackgroundDialogConfirmation ??
+            this.deleteBackgroundDialogConfirmation,
+        deleteBackgroundDialogConfirmationPositiveButtonBackground:
+            deleteBackgroundDialogConfirmationPositiveButtonBackground ??
+                this.deleteBackgroundDialogConfirmationPositiveButtonBackground,
+        colorPalette1DialogBackground:
+            colorPalette1DialogBackground ?? this.colorPalette1DialogBackground,
+        colorPalette1DialogHeadline:
+            colorPalette1DialogHeadline ?? this.colorPalette1DialogHeadline,
+        colorPalette1DialogParagraph:
+            colorPalette1DialogParagraph ?? this.colorPalette1DialogParagraph,
+        colorPalette1DialogStroke:
+            colorPalette1DialogStroke ?? this.colorPalette1DialogStroke,
+        colorPalette1DialogButtonBackground: colorPalette1DialogButtonBackground ??
+            this.colorPalette1DialogButtonBackground,
+        colorPalette1DialogButtonText:
+            colorPalette1DialogButtonText ?? this.colorPalette1DialogButtonText,
+        loadingDialogBackground:
+            loadingDialogBackground ?? this.loadingDialogBackground,
+        loadingDialogText: loadingDialogText ?? this.loadingDialogText,
+        errorDialogBackground:
+            errorDialogBackground ?? this.errorDialogBackground,
+        errorDialogText: errorDialogText ?? this.errorDialogText,
+        nextButtonBackground: nextButtonBackground ?? this.nextButtonBackground,
+        nextButtonText: nextButtonText ?? this.nextButtonText,
+        successDialogBackground:
+            successDialogBackground ?? this.successDialogBackground,
+        successDialogText: successDialogText ?? this.successDialogText,
+        choiceBadgeBackground:
+            choiceBadgeBackground ?? this.choiceBadgeBackground,
+        topAppBarBackgroundColor:
+            topAppBarBackgroundColor ?? this.topAppBarBackgroundColor,
+        reviewTopBarColor: reviewTopBarColor ?? this.reviewTopBarColor,
+        excellentStart: excellentStart ?? this.excellentStart,
+        excellentEnd: excellentEnd ?? this.excellentEnd,
+        goodStart: goodStart ?? this.goodStart,
+        goodEnd: goodEnd ?? this.goodEnd,
+        averageStart: averageStart ?? this.averageStart,
+        averageEnd: averageEnd ?? this.averageEnd,
+        badStart: badStart ?? this.badStart,
+        badEnd: badEnd ?? this.badEnd,
+        veryBadStart: veryBadStart ?? this.veryBadStart,
+        veryBadEnd: veryBadEnd ?? this.veryBadEnd,
+        accessTagBackgroundColor:
+            accessTagBackgroundColor ?? this.accessTagBackgroundColor,
+        accessTagTextColor: accessTagTextColor ?? this.accessTagTextColor,
+        accessTagAccentColor: accessTagAccentColor ?? this.accessTagAccentColor,
+        otherTagBackgroundColor:
+            otherTagBackgroundColor ?? this.otherTagBackgroundColor,
+        otherTagTextColor: otherTagTextColor ?? this.otherTagTextColor,
+        otherTagAccentColor: otherTagAccentColor ?? this.otherTagAccentColor,
+        openHourSelectedDayBackgroundColor: openHourSelectedDayBackgroundColor ??
+            this.openHourSelectedDayBackgroundColor,
+        openHourSelectedDayTextColor:
+            openHourSelectedDayTextColor ?? this.openHourSelectedDayTextColor,
+        openHourUnselectedDayBackgroundColor:
+            openHourUnselectedDayBackgroundColor ??
+                this.openHourUnselectedDayBackgroundColor,
+        openHourUnselectedDayPrimaryTextColor:
+            openHourUnselectedDayPrimaryTextColor ??
+                this.openHourUnselectedDayPrimaryTextColor,
+        openHourUnselectedDaySecondaryTextColor:
+            openHourUnselectedDaySecondaryTextColor ??
+                this.openHourUnselectedDaySecondaryTextColor,
+        blueLightStart: blueLightStart ?? this.blueLightStart,
+        blueLightEnd: blueLightEnd ?? this.blueLightEnd,
+        cardInformationBackground1:
+            cardInformationBackground1 ?? this.cardInformationBackground1,
+        tabContainerBg: tabContainerBg ?? this.tabContainerBg,
+        tabActiveBg: tabActiveBg ?? this.tabActiveBg,
+        tabActiveText: tabActiveText ?? this.tabActiveText,
+        tabInactiveText: tabInactiveText ?? this.tabInactiveText,
+        tabIndicatorTint: tabIndicatorTint ?? this.tabIndicatorTint,
+        timeLineCardColor1: timeLineCardColor1 ?? this.timeLineCardColor1,
+        timeLineCardColor2: timeLineCardColor2 ?? this.timeLineCardColor2,
+        timeLineCardColor3: timeLineCardColor3 ?? this.timeLineCardColor3,
+        timeLineCardColor4: timeLineCardColor4 ?? this.timeLineCardColor4,
+        timeLineCardColor5: timeLineCardColor5 ?? this.timeLineCardColor5,
+        timeLineCardColor6: timeLineCardColor6 ?? this.timeLineCardColor6,
+        cardGradientStart1: cardGradientStart1 ?? this.cardGradientStart1,
+        cardGradientEnd1: cardGradientEnd1 ?? this.cardGradientEnd1,
+        cardBorder1: cardBorder1 ?? this.cardBorder1,
+        cardShadow1: cardShadow1 ?? this.cardShadow1);
   }
 
   @override
@@ -740,6 +764,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     blueLightStart: Color(0xFF4FC3F7),
     blueLightEnd: Color(0xFF0288D1),
 
+    // color for card1
+    cardGradientStart1: Color(0xFF8C6CF2),
+    cardGradientEnd1: Color(0xFF3B23A6),
+    cardShadow1: Color(0x595B3FD6),
+    cardBorder1: Color(0x00000000),
+
+    // color for ocean blue card
+    oceanBlueCardGradientStart: Color(0xFF4FA3FF),
+    oceanBlueCardGradientEnd: Color(0xFF1F4FC2),
+    oceanBlueCardShadow: Color(0x592F6FE0),
+    oceanBlueCardBorder: Color(0x00000000),
+
     // Fallbacks from Dark Mode
     cardInformationBackground1: Color(0xFF1B3C53),
     tabContainerBg: Color(0xFF1F2937),
@@ -839,5 +875,17 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     timeLineCardColor4: Color(0xFF3C7A40),
     timeLineCardColor5: Color(0xFFBD4A4A),
     timeLineCardColor6: Color(0xFFD4A017),
+
+    // color for card1
+    cardGradientStart1: Color(0xFF3B2A7A),
+    cardGradientEnd1: Color(0xFF1E1745),
+    cardShadow1: Color(0x408C6CF2),
+    cardBorder1: Color(0x408C6CF2),
+
+    // color for ocean blue card
+    oceanBlueCardGradientStart: Color(0xFF1E3F7A),
+    oceanBlueCardGradientEnd: Color(0xFF0F1F45),
+    oceanBlueCardShadow: Color(0x404FA3FF),
+    oceanBlueCardBorder: Color(0x404FA3FF),
   );
 }

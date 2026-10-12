@@ -7,7 +7,7 @@ import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 
 extension ProjectModelMapper on ProjectModel {
-  ProjectEntity toEntity(UserModel userModel) {
+  ProjectEntity toEntity(UserModel? userModel) {
     return ProjectEntity(
       projectId: projectId,
       projectName: projectName,

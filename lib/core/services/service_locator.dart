@@ -15,6 +15,9 @@ import 'package:to_do_app_flutter/features/Authentication/data/repositories/auth
 import 'package:to_do_app_flutter/features/Authentication/data/repositories/user_login_repository_impl.dart';
 import 'package:to_do_app_flutter/features/Authentication/domain/usecase/auth_usecase.dart';
 import 'package:to_do_app_flutter/features/Authentication/domain/usecase/user_login_usecase.dart';
+import 'package:to_do_app_flutter/features/Dashboard/data/datasource/dashboard_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/Dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/usecase/dashboard_usecase.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/repositories/connection_remote_repository_impl.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/usecase/connection_remote_usecase.dart';
@@ -271,4 +274,19 @@ Future<void> setupServiceLocator() async {
   // create instance for project socket usecase
   sl.registerLazySingleton(() => ManageProjectSocketUsecase(
       projectSocketRepository: sl<ProjectSocketRemoteRepositoryImpl>()));
+
+  // create instance for dashboard remote datasource
+  sl.registerLazySingleton(() => DashboardRemoteDatasourceImpl(
+      apis: sl<Apis>(),
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>()));
+
+  // create instance for dashboard remote repository
+  sl.registerLazySingleton(() => DashboardRepositoryImpl(
+      sharedPreferences: sl<SharedPreferences>(),
+      dashboardRemoteDatasource: sl<DashboardRemoteDatasourceImpl>()));
+
+  // create instance for dashboard usecase
+  sl.registerLazySingleton(() =>
+      DashboardUsecase(dashboardRepository: sl<DashboardRepositoryImpl>()));
 }
