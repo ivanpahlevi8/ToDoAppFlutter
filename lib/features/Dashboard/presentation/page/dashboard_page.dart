@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/project_summary_widget.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/todo_summary_widget.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -24,6 +25,7 @@ class DashboardPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
+                      border: Border.all(color: customColor.cardBorder1!),
                       gradient: LinearGradient(colors: [
                         customColor.cardGradientStart1!,
                         customColor.cardGradientEnd1!
@@ -70,14 +72,15 @@ class DashboardPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
+                      border: Border.all(color: customColor.tealCardBorder!),
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       gradient: LinearGradient(colors: [
-                        customColor.oceanBlueCardGradientStart!,
-                        customColor.oceanBlueCardGradientEnd!
+                        customColor.tealCardGradientStart!,
+                        customColor.tealCardGradientEnd!
                       ]),
                       boxShadow: [
                         BoxShadow(
-                          color: customColor.oceanBlueCardShadow!,
+                          color: customColor.tealCardShadow!,
                           blurRadius: 12,
                           offset: Offset(2, 3),
                         )
@@ -100,6 +103,7 @@ class DashboardPage extends StatelessWidget {
                             )
                           ],
                         ),
+                        ToDoSummaryWidget(),
                       ],
                     )),
               )

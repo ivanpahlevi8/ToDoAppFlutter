@@ -84,6 +84,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
   final Color? oceanBlueCardShadow;
   final Color? oceanBlueCardBorder;
 
+  // color for teal card
+  final Color? tealCardGradientStart;
+  final Color? tealCardGradientEnd;
+  final Color? tealCardShadow;
+  final Color? tealCardBorder;
+
+  // color for pink card
+  final Color? pinkCardGradientStart;
+  final Color? pinkCardGradientEnd;
+  final Color? pinkCardShadow;
+  final Color? pinkCardBorder;
+
   // Dark mode specific additions
   final Color? cardInformationBackground1;
   final Color? tabContainerBg;
@@ -188,6 +200,14 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     this.oceanBlueCardGradientEnd,
     this.oceanBlueCardBorder,
     this.oceanBlueCardShadow,
+    this.tealCardGradientStart,
+    this.tealCardGradientEnd,
+    this.tealCardBorder,
+    this.tealCardShadow,
+    this.pinkCardGradientStart,
+    this.pinkCardGradientEnd,
+    this.pinkCardBorder,
+    this.pinkCardShadow,
   });
 
   @override
@@ -776,6 +796,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     oceanBlueCardShadow: Color(0x592F6FE0),
     oceanBlueCardBorder: Color(0x00000000),
 
+    // color for teal card
+    tealCardGradientStart: Color(0xFF3FD1B5),
+    tealCardGradientEnd: Color(0xFF3FD1B5),
+    tealCardBorder: Color(0xFF3FD1B5),
+    tealCardShadow: Color(0xFF3FD1B5),
+
+    // color for pink card
+    pinkCardGradientStart: Color(0xFFFF7EB3),
+    pinkCardGradientEnd: Color(0xFFC2185B),
+    pinkCardBorder: Color(0x59E0407F),
+    pinkCardShadow: Color(0x00000000),
+
     // Fallbacks from Dark Mode
     cardInformationBackground1: Color(0xFF1B3C53),
     tabContainerBg: Color(0xFF1F2937),
@@ -887,5 +919,17 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     oceanBlueCardGradientEnd: Color(0xFF0F1F45),
     oceanBlueCardShadow: Color(0x404FA3FF),
     oceanBlueCardBorder: Color(0x404FA3FF),
+
+    // color for teal card
+    tealCardGradientStart: Color(0xFF145A55),
+    tealCardGradientEnd: Color(0xFF0A2E2C),
+    tealCardBorder: Color(0x403FD1B5),
+    tealCardShadow: Color(0x403FD1B5),
+
+    // color for pink card
+    pinkCardGradientStart: Color(0xFF6E1F45),
+    pinkCardGradientEnd: Color(0xFF3A1028),
+    pinkCardBorder: Color(0x40FF7EB3),
+    pinkCardShadow: Color(0x40FF7EB3),
   );
 }

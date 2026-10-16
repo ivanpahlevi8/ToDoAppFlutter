@@ -1,5 +1,7 @@
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
+import 'package:to_do_app_flutter/features/Dashboard/data/models/todo_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/project_summary_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/todo_summary_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
 
 extension ProjectSummaryModelMapper on ProjectSummaryModel {
@@ -25,5 +27,27 @@ extension ProjectSummaryEntityMapper on ProjectSummaryEntity {
             topThreeProjectAsMember.map((e) => e.toModel()).toList(),
         topThreeProjectAsLeader:
             topThreeProjectAsLeader.map((e) => e.toModel()).toList());
+  }
+}
+
+extension ToDoSummaryModelMapper on ToDoSummaryModel {
+  ToDoSummaryEntity toEntity() {
+    return ToDoSummaryEntity(
+        toDoNumber: toDoNumber,
+        onCreateToDoNumber: onCreateToDoNumber,
+        onProgressToDoNumber: onProgressToDoNumber,
+        onFinishedToDoNumber: onFinishedToDoNumer,
+        topThreeToDo: topThreeToDo.map((e) => e.toEntity()).toList());
+  }
+}
+
+extension ToDoSummaryEntityMapper on ToDoSummaryEntity {
+  ToDoSummaryModel toModel() {
+    return ToDoSummaryModel(
+        toDoNumber: toDoNumber,
+        onCreateToDoNumber: onCreateToDoNumber,
+        onProgressToDoNumber: onProgressToDoNumber,
+        onFinishedToDoNumer: onFinishedToDoNumber,
+        topThreeToDo: topThreeToDo.map((e) => e.toModel()).toList());
   }
 }

@@ -55,4 +55,5 @@ class ApiUrl {
   // dashboard urls
   static const getProjectSummaryDashboard =
       "todoapp/api/Dashboard/project-summary";
+  static const getToDoSummaryDashboard = "todoapp/api/Dashboard/todo-summary";
 }

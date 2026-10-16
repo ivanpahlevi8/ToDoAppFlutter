@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/features/Dashboard/data/datasource/dashboard_r
 import 'package:to_do_app_flutter/features/Dashboard/data/mapper/dashboard_mapper.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/project_summary_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/todo_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/repositories/dashboard_repository.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
@@ -44,6 +45,31 @@ class DashboardRepositoryImpl implements DashboardRepository {
 
       // return as dto
       return TaskEither.right(projectSummaryModel.toEntity());
+    });
+  }
+
+  @override
+  TaskEither<BaseException, ToDoSummaryEntity> getToDoSummaryDashboard() {
+    // get login user id
+    String loginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // get to do summary response
+    final getToDoResponse =
+        dashboardRemoteDatasource.getToDoSummaryDashboard(userId: loginUserId);
+
+    return getToDoResponse.flatMap((toDoResponse) {
+      // check response
+      if (toDoResponse.result == null || !toDoResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+          message: "Error when get to do summary : ${toDoResponse.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get to do summary model
+      final getToDoSummary = toDoResponse.result!;
+
+      return TaskEither.right(getToDoSummary.toEntity());
     });
   }
 }

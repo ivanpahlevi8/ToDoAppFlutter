@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
-import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/domain/entities/to_do_pointer_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/presentation/widget/target_dragged_item.dart';
 
