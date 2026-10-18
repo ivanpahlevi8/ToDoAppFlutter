@@ -264,4 +264,10 @@ class Apis {
     return _buildUri(ApiUrl.getToDoSummaryDashboard,
         queryParams: {"userId": userId});
   }
+
+  // uri to get team summary dashboard
+  Uri getTeamSummaryDahsboard({required String userId}) {
+    return _buildUri(ApiUrl.getTeamSummaryDashboard,
+        queryParams: {"userId": userId});
+  }
 }

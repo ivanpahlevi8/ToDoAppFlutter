@@ -96,6 +96,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
   final Color? pinkCardShadow;
   final Color? pinkCardBorder;
 
+  // color for sunset colar card
+  final Color? sunsetColarCardGradientStart;
+  final Color? sunsetColarCardGradientEnd;
+  final Color? sunsetColarCardShadow;
+  final Color? sunsetColarCardBorder;
+
+  // color for amber
+  final Color? amberCardGradientStart;
+  final Color? amberCardGradientEnd;
+  final Color? amberCardShadow;
+  final Color? amberCardBorder;
+
   // Dark mode specific additions
   final Color? cardInformationBackground1;
   final Color? tabContainerBg;
@@ -208,6 +220,14 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     this.pinkCardGradientEnd,
     this.pinkCardBorder,
     this.pinkCardShadow,
+    this.sunsetColarCardGradientStart,
+    this.sunsetColarCardGradientEnd,
+    this.sunsetColarCardShadow,
+    this.sunsetColarCardBorder,
+    this.amberCardGradientStart,
+    this.amberCardGradientEnd,
+    this.amberCardShadow,
+    this.amberCardBorder,
   });
 
   @override
@@ -808,6 +828,18 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     pinkCardBorder: Color(0x59E0407F),
     pinkCardShadow: Color(0x00000000),
 
+    // color for sunset colar card
+    sunsetColarCardGradientStart: Color(0xFFFF9A6C),
+    sunsetColarCardGradientEnd: Color(0xFFE0453A),
+    sunsetColarCardShadow: Color(0x59EA6A4F),
+    sunsetColarCardBorder: Color(0x00000000),
+
+    // color for amber caqrd
+    amberCardGradientStart: Color(0xFFFFC857),
+    amberCardGradientEnd: Color(0xFFE08A00),
+    amberCardShadow: Color(0x59EBA21F),
+    amberCardBorder: Color(0x00000000),
+
     // Fallbacks from Dark Mode
     cardInformationBackground1: Color(0xFF1B3C53),
     tabContainerBg: Color(0xFF1F2937),
@@ -931,5 +963,17 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     pinkCardGradientEnd: Color(0xFF3A1028),
     pinkCardBorder: Color(0x40FF7EB3),
     pinkCardShadow: Color(0x40FF7EB3),
+
+    // color for sunset colar card
+    sunsetColarCardGradientStart: Color(0xFF7A2E24),
+    sunsetColarCardGradientEnd: Color(0xFF401612),
+    sunsetColarCardShadow: Color(0x40FF9A6C),
+    sunsetColarCardBorder: Color(0x40FF9A6C),
+
+    // color for amber caqrd
+    amberCardGradientStart: Color(0xFF6E4A0E),
+    amberCardGradientEnd: Color(0xFF3A2606),
+    amberCardShadow: Color(0x40FFC857),
+    amberCardBorder: Color(0x40FFC857),
   );
 }

@@ -1,8 +1,11 @@
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
+import 'package:to_do_app_flutter/features/Dashboard/data/models/team_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/todo_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/project_summary_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/team_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/todo_summary_entity.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
+import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
 
 extension ProjectSummaryModelMapper on ProjectSummaryModel {
   ProjectSummaryEntity toEntity() {
@@ -49,5 +52,25 @@ extension ToDoSummaryEntityMapper on ToDoSummaryEntity {
         onProgressToDoNumber: onProgressToDoNumber,
         onFinishedToDoNumer: onFinishedToDoNumber,
         topThreeToDo: topThreeToDo.map((e) => e.toModel()).toList());
+  }
+}
+
+extension TeamSummaryModelMapper on TeamSummaryModel {
+  TeamSummaryEntity toEntity() {
+    return TeamSummaryEntity(
+        numberTeamInvolved: numberTeamInvolved,
+        numberTeamLead: teamNumberLead,
+        topTeamInvolved: topTeamInvolved.map((e) => e.toEntity()).toList(),
+        topTeamLead: topTeamLeader.map((e) => e.toEntity()).toList());
+  }
+}
+
+extension TeamSummaryEntityMapper on TeamSummaryEntity {
+  TeamSummaryModel toModel() {
+    return TeamSummaryModel(
+        numberTeamInvolved: numberTeamInvolved,
+        teamNumberLead: numberTeamLead,
+        topTeamLeader: topTeamLead.map((e) => e.toModel()).toList(),
+        topTeamInvolved: topTeamInvolved.map((e) => e.toModel()).toList());
   }
 }

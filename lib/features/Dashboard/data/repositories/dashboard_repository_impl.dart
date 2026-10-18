@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/features/Dashboard/data/datasource/dashboard_r
 import 'package:to_do_app_flutter/features/Dashboard/data/mapper/dashboard_mapper.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/project_summary_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/team_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/todo_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/repositories/dashboard_repository.dart';
 
@@ -70,6 +71,30 @@ class DashboardRepositoryImpl implements DashboardRepository {
       final getToDoSummary = toDoResponse.result!;
 
       return TaskEither.right(getToDoSummary.toEntity());
+    });
+  }
+
+  @override
+  TaskEither<BaseException, TeamSummaryEntity> getTeamSummaryDashboard() {
+    // get login user id
+    String loginUserId = sharedPreferences.getString("user_id") ?? "";
+
+    // do request
+    final getTeamSummaryResponse =
+        dashboardRemoteDatasource.getTeamSummaryDashboard(userId: loginUserId);
+
+    return getTeamSummaryResponse.flatMap((getTeamResponse) {
+      // check for response
+      if (getTeamResponse.result == null || !getTeamResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+            message: getTeamResponse.message, stackTrace: StackTrace.current));
+      }
+
+      // get data
+      final getData = getTeamResponse.result!;
+
+      // return data
+      return TaskEither.right(getData.toEntity());
     });
   }
 }

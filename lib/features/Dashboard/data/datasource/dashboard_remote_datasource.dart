@@ -7,6 +7,7 @@ import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
+import 'package:to_do_app_flutter/features/Dashboard/data/models/team_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/todo_summary_model.dart';
 
 abstract interface class DashboardRemoteDatasource {
@@ -17,6 +18,10 @@ abstract interface class DashboardRemoteDatasource {
   // function to get todo dashboard summary
   TaskEither<BaseException, ResponseModel<ToDoSummaryModel>>
       getToDoSummaryDashboard({required String userId});
+
+  // function to get team dashboard summary
+  TaskEither<BaseException, ResponseModel<TeamSummaryModel>>
+      getTeamSummaryDashboard({required String userId});
 }
 
 class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
@@ -66,11 +71,32 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
         .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
         .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
         .map((data) {
-          print('summary response: ${jsonEncode(data)}');
           return ResponseModel.fromJson(
               data,
               (json) =>
                   ToDoSummaryModel.fromJson(json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel<TeamSummaryModel>>
+      getTeamSummaryDashboard({required String userId}) {
+    // get api url
+    final getApiUrl = apis.getTeamSummaryDahsboard(userId: userId);
+
+    // do request
+    final response = service
+        .get(getApiUrl, null, headers: {"Content-Tyoe": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((r) {
+          return ResponseModel.fromJson(
+              r,
+              (json) =>
+                  TeamSummaryModel.fromJson(json as Map<String, dynamic>));
         });
 
     return response;
