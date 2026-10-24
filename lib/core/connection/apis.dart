@@ -270,4 +270,10 @@ class Apis {
     return _buildUri(ApiUrl.getTeamSummaryDashboard,
         queryParams: {"userId": userId});
   }
+
+  // uri to get connection summary dashboard
+  Uri getConnectionSummaryDashboard({required String userId}) {
+    return _buildUri(ApiUrl.getConnectionSummaryDashboard,
+        queryParams: {"userId": userId});
+  }
 }

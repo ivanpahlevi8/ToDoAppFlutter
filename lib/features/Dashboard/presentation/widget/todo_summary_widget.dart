@@ -51,7 +51,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // show diagram
-          CustombarChart(
+          CustomBarChart(
             graphData: graphData,
             threeD: true,
           ),

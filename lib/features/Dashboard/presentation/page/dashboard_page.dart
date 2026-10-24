@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/connection_summary_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/project_summary_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/team_summary_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/todo_summary_widget.dart';
@@ -156,7 +157,55 @@ class DashboardPage extends StatelessWidget {
                         TeamSummaryWidget(),
                       ],
                     )),
-              )
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 6,
+          ),
+          // top three project as leader
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: customColor.emeraldCardBorder!),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      gradient: LinearGradient(colors: [
+                        customColor.emeraldCardGradientStart!,
+                        customColor.emeraldCardGradientEnd!
+                      ]),
+                      boxShadow: [
+                        BoxShadow(
+                          color: customColor.emeraldCardShadow!,
+                          blurRadius: 12,
+                          offset: Offset(2, 3),
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Connection Summary",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: customColor.textTitle!,
+                              ),
+                            )
+                          ],
+                        ),
+                        ConnectionSummaryWidget(),
+                      ],
+                    )),
+              ),
             ],
           )
         ],

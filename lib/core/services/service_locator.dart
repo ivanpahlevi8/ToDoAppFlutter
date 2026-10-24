@@ -283,8 +283,10 @@ Future<void> setupServiceLocator() async {
 
   // create instance for dashboard remote repository
   sl.registerLazySingleton(() => DashboardRepositoryImpl(
-      sharedPreferences: sl<SharedPreferences>(),
-      dashboardRemoteDatasource: sl<DashboardRemoteDatasourceImpl>()));
+        sharedPreferences: sl<SharedPreferences>(),
+        dashboardRemoteDatasource: sl<DashboardRemoteDatasourceImpl>(),
+        connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>(),
+      ));
 
   // create instance for dashboard usecase
   sl.registerLazySingleton(() =>

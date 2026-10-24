@@ -3,17 +3,31 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CustombarChart extends StatelessWidget {
-  const CustombarChart({
+/// Bar (column) chart for the project summary, with an optional 3D look.
+///
+/// Usage:
+///   ProjectBarChart(graphData: graphData)
+///   ProjectBarChart(graphData: graphData, colors: [Colors.indigo, Colors.teal], threeD: true)
+///
+/// graphData rows look like (same format as ProjectPieChart):
+///   {"category": "Project as Leader", "value": 3}
+///
+/// When there are more bars than [visibleBars], the chart shows the first
+/// few and the user drags sideways to see the rest.
+class CustomBarChart extends StatefulWidget {
+  const CustomBarChart({
     super.key,
     required this.graphData,
+    this.title = 'My projects',
     this.colors = const <Color>[Color(0xFF4F5BD5), Color(0xFF12A58C)],
-    this.height = 220,
+    this.height = 260,
     this.threeD = false,
     this.depth = 12,
+    this.visibleBars = 5,
   });
 
   final List<Map<String, dynamic>> graphData;
+  final String title;
 
   /// One color per bar, in the same order as graphData.
   final List<Color> colors;
@@ -27,9 +41,27 @@ class CustombarChart extends StatelessWidget {
   /// 3D only: how far each block sticks out up and to the right, in pixels.
   final double depth;
 
-  Color _colorAt(int index) => colors[index % colors.length];
+  /// How many bars fit on screen at once. With more data than this, the
+  /// chart becomes scrollable sideways. Fewer bars = wider space per bar,
+  /// so more room (and gap) for each x-axis label.
+  final int visibleBars;
 
-  double get _maxValue => graphData.fold<double>(
+  @override
+  State<CustomBarChart> createState() => _ProjectBarChartState();
+}
+
+class _ProjectBarChartState extends State<CustomBarChart> {
+  // Created once, so the scroll position isn't reset on every rebuild.
+  late final ZoomPanBehavior _panBehavior = ZoomPanBehavior(
+    enablePanning: true,
+    zoomMode: ZoomMode.x, // drag sideways only
+  );
+
+  Color _colorAt(int index) => widget.colors[index % widget.colors.length];
+
+  bool get _scrollable => widget.graphData.length > widget.visibleBars;
+
+  double get _maxValue => widget.graphData.fold<double>(
         0,
         (double max, Map<String, dynamic> row) =>
             math.max(max, (row['value'] as num).toDouble()),
@@ -40,7 +72,7 @@ class CustombarChart extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        SizedBox(height: height, child: _buildChart()),
+        SizedBox(height: widget.height, child: _buildChart()),
       ],
     );
   }
@@ -54,7 +86,15 @@ class CustombarChart extends StatelessWidget {
 
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
+      zoomPanBehavior: _scrollable ? _panBehavior : null,
       primaryXAxis: CategoryAxis(
+        // Show only `visibleBars` bars at a time, starting from the first;
+        // the user drags sideways to see the rest.
+        autoScrollingDelta: _scrollable ? widget.visibleBars : null,
+        autoScrollingMode: AutoScrollingMode.start,
+        // Long labels break onto several lines under their own bar instead
+        // of running into the neighbouring label.
+        labelIntersectAction: AxisLabelIntersectAction.wrap,
         labelStyle: axisStyle,
         majorGridLines: MajorGridLines(width: 0),
         majorTickLines: MajorTickLines(size: 0),
@@ -64,6 +104,8 @@ class CustombarChart extends StatelessWidget {
         minimum: 0,
         // Whole-number steps for small counts, so the axis doesn't show 0.5.
         interval: _maxValue <= 10 ? 1 : null,
+        // Keep the same scale while scrolling, so bar heights stay comparable.
+        anchorRangeToVisiblePoints: false,
         // Extra headroom so the 3D top face of the tallest bar isn't cut off.
         rangePadding: ChartRangePadding.additional,
         labelStyle: axisStyle,
@@ -77,7 +119,7 @@ class CustombarChart extends StatelessWidget {
       ),
       series: <CartesianSeries<Map<String, dynamic>, String>>[
         ColumnSeries<Map<String, dynamic>, String>(
-          dataSource: graphData,
+          dataSource: widget.graphData,
           xValueMapper: (Map<String, dynamic> row, _) =>
               row['category'] as String,
           yValueMapper: (Map<String, dynamic> row, _) =>
@@ -87,14 +129,14 @@ class CustombarChart extends StatelessWidget {
           width: 0.45, // bar thickness: 1.0 = bars touch each other
           animationDuration: 1200,
           // Flat mode gets rounded tops; 3D mode draws its own block shape.
-          borderRadius: threeD
+          borderRadius: widget.threeD
               ? BorderRadius.zero
               : const BorderRadius.vertical(top: Radius.circular(10)),
-          onCreateRenderer: threeD
+          onCreateRenderer: widget.threeD
               ? (ChartSeries<Map<String, dynamic>, String> series) =>
                   _Column3DRenderer<Map<String, dynamic>, String>(
-                    colors: colors,
-                    blockDepth: depth,
+                    colors: widget.colors,
+                    blockDepth: widget.depth,
                   )
               : null,
           // Value shown inside the top of each bar, so it doesn't sit on
@@ -115,6 +157,13 @@ class CustombarChart extends StatelessWidget {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// 3D renderer: Syncfusion lets you replace how each bar ("segment") is drawn.
+// Each bar becomes a block with a front face, a lighter top face, a darker
+// right side face and a soft shadow. It paints from the bar's current
+// rectangle, so it grows along with the intro animation.
+// ---------------------------------------------------------------------------
 
 class _Column3DRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
   _Column3DRenderer({required this.colors, required this.blockDepth});

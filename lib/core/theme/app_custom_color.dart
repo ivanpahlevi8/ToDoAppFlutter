@@ -108,6 +108,36 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
   final Color? amberCardShadow;
   final Color? amberCardBorder;
 
+  // color for emerald
+  final Color? emeraldCardGradientStart;
+  final Color? emeraldCardGradientEnd;
+  final Color? emeraldCardShadow;
+  final Color? emeraldCardBorder;
+
+  // color for indigo
+  final Color? indigoCardGradientStart;
+  final Color? indigoCardGradientEnd;
+  final Color? indigoCardShadow;
+  final Color? indigoCardBorder;
+
+  // color for cyan
+  final Color? cyanCardGradientStart;
+  final Color? cyanCardGradientEntd;
+  final Color? cyanCardShadow;
+  final Color? cyanCardBorder;
+
+  // color for crimson
+  final Color? crimsonCardGradientStart;
+  final Color? crimsonCarGradientEnd;
+  final Color? crimsonCardShadow;
+  final Color? crimsonCardBorder;
+
+  // color for grape
+  final Color? grapeCardGradientStart;
+  final Color? grapeCardGradientEnd;
+  final Color? grapeCardShadow;
+  final Color? grapeCardBorder;
+
   // Dark mode specific additions
   final Color? cardInformationBackground1;
   final Color? tabContainerBg;
@@ -228,6 +258,26 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     this.amberCardGradientEnd,
     this.amberCardShadow,
     this.amberCardBorder,
+    this.emeraldCardGradientStart,
+    this.emeraldCardGradientEnd,
+    this.emeraldCardShadow,
+    this.emeraldCardBorder,
+    this.indigoCardGradientStart,
+    this.indigoCardGradientEnd,
+    this.indigoCardShadow,
+    this.indigoCardBorder,
+    this.cyanCardGradientStart,
+    this.cyanCardGradientEntd,
+    this.cyanCardShadow,
+    this.cyanCardBorder,
+    this.crimsonCardGradientStart,
+    this.crimsonCarGradientEnd,
+    this.crimsonCardShadow,
+    this.crimsonCardBorder,
+    this.grapeCardGradientStart,
+    this.grapeCardGradientEnd,
+    this.grapeCardBorder,
+    this.grapeCardShadow,
   });
 
   @override
@@ -840,6 +890,36 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     amberCardShadow: Color(0x59EBA21F),
     amberCardBorder: Color(0x00000000),
 
+    // color for emerald card
+    emeraldCardGradientStart: Color(0xFF5EDB8C),
+    emeraldCardGradientEnd: Color(0xFF1E8A4C),
+    emeraldCardShadow: Color(0x5932A863),
+    emeraldCardBorder: Color(0x00000000),
+
+    // color for indigo card
+    indigoCardGradientStart: Color(0xFF7B8CFF),
+    indigoCardGradientEnd: Color(0xFF2E36B8),
+    indigoCardShadow: Color(0x594A55E0),
+    indigoCardBorder: Color(0x00000000),
+
+    // color for cyan card
+    cyanCardGradientStart: Color(0xFF5CE1F2),
+    cyanCardGradientEntd: Color(0xFF0A8FB8),
+    cyanCardBorder: Color(0xFF0A8FB8),
+    cyanCardShadow: Color(0x00000000),
+
+    // color for crimson card
+    crimsonCardGradientStart: Color(0xFFFF6B7A),
+    crimsonCarGradientEnd: Color(0xFFFF6B7A),
+    crimsonCardBorder: Color(0x59D93A50),
+    crimsonCardShadow: Color(0x59D93A50),
+
+    // color for grape card
+    grapeCardGradientStart: Color(0xFFD07CFF),
+    grapeCardGradientEnd: Color(0xFFD07CFF),
+    grapeCardBorder: Color(0x59A84AE0),
+    grapeCardShadow: Color(0x59A84AE0),
+
     // Fallbacks from Dark Mode
     cardInformationBackground1: Color(0xFF1B3C53),
     tabContainerBg: Color(0xFF1F2937),
@@ -975,5 +1055,35 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     amberCardGradientEnd: Color(0xFF3A2606),
     amberCardShadow: Color(0x40FFC857),
     amberCardBorder: Color(0x40FFC857),
+
+    // color for emerald card
+    emeraldCardGradientStart: Color(0xFF1D5A36),
+    emeraldCardGradientEnd: Color(0xFF0E2E1C),
+    emeraldCardShadow: Color(0x405EDB8C),
+    emeraldCardBorder: Color(0x405EDB8C),
+
+    // color for indigo card
+    indigoCardGradientStart: Color(0xFF2A3080),
+    indigoCardGradientEnd: Color(0xFF14183F),
+    indigoCardShadow: Color(0x407B8CFF),
+    indigoCardBorder: Color(0x407B8CFF),
+
+    // color for cyan card
+    cyanCardGradientStart: Color(0xFF135A6E),
+    cyanCardGradientEntd: Color(0xFF135A6E),
+    cyanCardBorder: Color(0xFF0A8FB8),
+    cyanCardShadow: Color(0x00000000),
+
+    // color for crimson card
+    crimsonCardGradientStart: Color(0xFF6E1A26),
+    crimsonCarGradientEnd: Color(0xFF6E1A26),
+    crimsonCardBorder: Color(0x40FF6B7A),
+    crimsonCardShadow: Color(0x40FF6B7A),
+
+    // color for grape card
+    grapeCardGradientStart: Color(0xFF4E1F6E),
+    grapeCardGradientEnd: Color(0xFF4E1F6E),
+    grapeCardBorder: Color(0x40D07CFF),
+    grapeCardShadow: Color(0x40D07CFF),
   );
 }

@@ -1,9 +1,13 @@
+import 'package:to_do_app_flutter/features/Dashboard/data/models/connection_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/project_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/team_summary_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/data/models/todo_summary_model.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/connection_summary_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/domain/entities/connection_user_item_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/project_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/team_summary_entity.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/todo_summary_entity.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/mappers/register_mapper.dart';
 import 'package:to_do_app_flutter/features/ManageProject/data/mapper/project_mapper.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/data/mapper/team_mapper.dart';
 
@@ -72,5 +76,23 @@ extension TeamSummaryEntityMapper on TeamSummaryEntity {
         teamNumberLead: numberTeamLead,
         topTeamLeader: topTeamLead.map((e) => e.toModel()).toList(),
         topTeamInvolved: topTeamInvolved.map((e) => e.toModel()).toList());
+  }
+}
+
+extension ConnectionSummaryModelMapper on ConnectionSummaryModel {
+  ConnectionSummaryEntity toEntity(
+      List<ConnectionUserItemSummaryEntity> userReference) {
+    return ConnectionSummaryEntity(
+        numberOfRequestedConnection: numberOfRequestedConnection,
+        numberOfRequestConnection: numberOfRequestConnection,
+        numberConnectionStatusUseFollow: numberConnectionStatusUseFollow,
+        numberConnectionStatusUserFollowed: numberConnectionStatusUserFollowed,
+        numberConnectionStatusConnect: numberConnectionStatusConnect,
+        numberConnectionStatusUserReject: numberConnectionStatusUserReject,
+        numberConnectionStatusUserRejected: numberConnectionStatusUserRejected,
+        numberConnectionStatusDisconnect: numberConnectionStatusDisconnect,
+        topThreeConnection:
+            topThreeConnection.map((e) => e.toEntity()).toList(),
+        userReference: userReference);
   }
 }
