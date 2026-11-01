@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/widget/project_performance_card_widget.dart';
+import 'package:to_do_app_flutter/features/performance/presentation/widget/team_performance_card_widget.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/widget/todo_summary_card_widget.dart';
 
 class PerformanceScreen extends StatefulWidget {
@@ -24,7 +25,24 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
             ),
             ProjectPerformanceCardWidget()
           ],
-        )
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TeamPerformanceCardWidget(),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+                child: SizedBox(
+              child: Text("...."),
+            ))
+          ],
+        ),
       ],
     );
   }

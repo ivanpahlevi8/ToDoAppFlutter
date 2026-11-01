@@ -1,6 +1,8 @@
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
 
 extension ToDoPerformanceModelMapper on ToDoPerformanceModel {
@@ -54,5 +56,17 @@ extension ProjectPerformanceEntityMapper on ProjectPerformanceEntity {
         numberProjectInvolvedCurrMonth: numberProjectInvolvedCurrMonth,
         numberProjectInvolvedLastMonth: numberProjectInvolvedLastMonth,
         numberProjectInvolvedPercentage: numberProjectInvolvedPercentage);
+  }
+}
+
+extension TeamPerformanceModelMapper on TeamPerformanceModel {
+  TeamPerformanceEntity toEntity() {
+    return TeamPerformanceEntity(
+        numberTeamLeadsCurrMonth: numberTeamLeadsCurrMonth,
+        numberTeamLeadsLastMonth: numberTeamLeadsLastMonth,
+        numberTeamLeadsPercentage: numberTeamLeadsPercentage,
+        numberTeamInvolvedCurrMonth: numberTeamInvolvedCurrMonth,
+        numberTeamInvolvedLastMonth: numberTeamInvolvedLastMonth,
+        numberTeamInvolvedPercentage: numberTeamInvolvedPercentage);
   }
 }

@@ -4,8 +4,10 @@ import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/features/performance/data/datasource/performance_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/mapper/performance_mapper.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/repositories/performance_remote_repository.dart';
 
@@ -84,6 +86,42 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
           projectPerformanceResponse.result!;
 
       return TaskEither.right(projectPerformanceModel.toEntity());
+    });
+  }
+
+  @override
+  TaskEither<BaseException, TeamPerformanceEntity> getTeamPerformance() {
+    // get login team
+    final getLoginUserId = sharedPreferences.getString("user_id");
+
+    // check login user id
+    if (getLoginUserId == null) {
+      return TaskEither.left(BaseException(
+        error: "Error Happen, user id not found",
+        message: "Error Happen, user id not found",
+        stackTrace: StackTrace.current,
+      ));
+    }
+
+    // get team performance task
+    final getTeamPerformanceTask =
+        performanceRemoteDatasource.getTeamPerformance(userId: getLoginUserId);
+
+    return getTeamPerformanceTask.flatMap((teamPerformanceResponse) {
+      // check response
+      if (teamPerformanceResponse.result == null ||
+          !teamPerformanceResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+          message: "Error happen : ${teamPerformanceResponse.message}",
+          error: "Error happen : ${teamPerformanceResponse.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get team performance model
+      TeamPerformanceModel getTeamPerformance = teamPerformanceResponse.result!;
+
+      return TaskEither.right(getTeamPerformance.toEntity());
     });
   }
 }

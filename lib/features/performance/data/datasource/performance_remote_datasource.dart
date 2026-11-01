@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 
 abstract interface class PerformanceRemoteDatasource {
@@ -14,6 +15,10 @@ abstract interface class PerformanceRemoteDatasource {
 
   // function to get project performance
   TaskEither<BaseException, ResponseModel> getProjectPerformance(
+      {required String userId});
+
+  // function to get team performance
+  TaskEither<BaseException, ResponseModel> getTeamPerformance(
       {required String userId});
 }
 
@@ -71,4 +76,33 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
 
     return response;
   }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getTeamPerformance(
+      {required String userId}) {
+    // get api url
+    final apiUrl = apis.getTeamPerformance(userId: userId);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((data) {
+          return ResponseModel.fromJson(
+              data,
+              (json) =>
+                  TeamPerformanceModel.fromJson(json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
 }
+
+/**
+ * NOTE :
+ * Handle cancel token later, when request being cancelled
+ * it will helps the exception of future already finished when user click back
+ * while request is on going
+ */

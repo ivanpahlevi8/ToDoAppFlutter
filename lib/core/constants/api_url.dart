@@ -65,4 +65,6 @@ class ApiUrl {
       "todoapp/api/Performance/get-todo-performance";
   static const getProjectPerformance =
       "todoapp/api/Performance/get-project-performance";
+  static const getTeamPerformance =
+      "todoapp/api/Performance/get-team-performance";
 }
