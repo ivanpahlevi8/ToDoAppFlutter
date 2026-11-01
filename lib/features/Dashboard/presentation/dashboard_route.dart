@@ -87,6 +87,17 @@ final RouteBase dashboardRoute = ShellRoute(
                           context.push("/connection-byuser");
                         },
                       ),
+                      ListTile(
+                        leading: const Icon(Icons.people_alt_rounded),
+                        title: const Text('Performance'),
+                        onTap: () {
+                          // unshow drawer
+                          if (context.canPop()) {
+                            context.pop();
+                          }
+                          context.push("/performance");
+                        },
+                      ),
                     ],
                   ),
                 ),

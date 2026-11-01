@@ -34,6 +34,9 @@ import 'package:to_do_app_flutter/features/OnBoarding/data/datasource/on_board_l
 import 'package:to_do_app_flutter/features/OnBoarding/data/repository/on_board_local_repository_impl.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/repository/on_board_local_repository.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/domain/usecase/on_board_local_usecase.dart';
+import 'package:to_do_app_flutter/features/performance/data/datasource/performance_remote_datasource.dart';
+import 'package:to_do_app_flutter/features/performance/data/repositories/performance_remote_repository_impl.dart';
+import 'package:to_do_app_flutter/features/performance/domain/usecase/performance_remote_usecase.dart';
 import 'package:to_do_app_flutter/features/search_friends/data/datasource/search_friend_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/search_friends/data/repositories/search_friend_remote_repository_impl.dart';
 import 'package:to_do_app_flutter/features/search_friends/domain/usecase/search_friend_usecase.dart';
@@ -291,4 +294,19 @@ Future<void> setupServiceLocator() async {
   // create instance for dashboard usecase
   sl.registerLazySingleton(() =>
       DashboardUsecase(dashboardRepository: sl<DashboardRepositoryImpl>()));
+
+  // create instance of performance remote datasource
+  sl.registerLazySingleton(() => PerformanceRemoteDatasourceImpl(
+      service: sl<NetworkService>(),
+      validator: sl<NetworkValidator>(),
+      apis: sl<Apis>()));
+
+  // create instance of performance remote repository
+  sl.registerLazySingleton(() => PerformanceRemoteRepositoryImpl(
+      performanceRemoteDatasource: sl<PerformanceRemoteDatasourceImpl>(),
+      sharedPreferences: sharedPreferences));
+
+  // create instance of performance usecase
+  sl.registerLazySingleton(() => PerformanceRemoteUsecase(
+      performanceRemoteRepository: sl<PerformanceRemoteRepositoryImpl>()));
 }

@@ -1,0 +1,8 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
+
+abstract interface class PerformanceRemoteRepository {
+  // function to get todo performance
+  TaskEither<BaseException, ToDoPerformanceEntity> getToDoPerformance();
+}

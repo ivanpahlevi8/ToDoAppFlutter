@@ -11,6 +11,7 @@ import 'package:to_do_app_flutter/features/ManageProject/presentation/manage_pro
 import 'package:to_do_app_flutter/features/ManageTeam/team_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/onboard_route.dart';
 import 'package:to_do_app_flutter/features/OnBoarding/presentation/controller/on_board_local_provider.dart';
+import 'package:to_do_app_flutter/features/performance/presentation/performance_route.dart';
 import 'package:to_do_app_flutter/features/search_friends/search_friend_route.dart';
 
 final routerProvider = Provider.autoDispose<GoRouter>((ref) {
@@ -26,6 +27,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
       teamsRoute,
       manageProjectRoute,
       dashboardRoute,
+      performanceRoute
     ],
 
     redirect: (context, state) {

@@ -276,4 +276,10 @@ class Apis {
     return _buildUri(ApiUrl.getConnectionSummaryDashboard,
         queryParams: {"userId": userId});
   }
+
+  // uri to get to do performance
+  Uri getToDoPerformance({required String userId}) {
+    return _buildUri(ApiUrl.getToDoPerformance,
+        queryParams: {"userId": userId});
+  }
 }

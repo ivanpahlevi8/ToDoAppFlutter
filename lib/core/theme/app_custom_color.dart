@@ -138,6 +138,26 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
   final Color? grapeCardShadow;
   final Color? grapeCardBorder;
 
+  // color for peformance dashboard
+  final Color? performanceDashboardCardColor;
+  final Color? performanceDashboardBorderColor;
+  final Color? performanceDashboardShadowColor;
+  final Color? performanceDashboardTextPrimary;
+  final Color? performanceDashboardTextSecondary;
+  final Color? performanceDashboardTextMuted;
+  final Color? performanceDashboardAccent;
+  final Color? performanceDashboardAccentSoft;
+  final Color? performanceDashboardAccentMuted;
+  final Color? performanceDashboardPositive;
+  final Color? performanceDashboardPositiveBg;
+  final Color? performanceDashboardNegative;
+  final Color? performanceDashboardNegativeBg;
+  final Color? performanceDashboardChartGrid;
+  final Color? performanceDashboardToDos;
+  final Color? performanceDashboardProjects;
+  final Color? performanceDashboardTeams;
+  final Color? performanceDashboardConnections;
+
   // Dark mode specific additions
   final Color? cardInformationBackground1;
   final Color? tabContainerBg;
@@ -278,6 +298,24 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     this.grapeCardGradientEnd,
     this.grapeCardBorder,
     this.grapeCardShadow,
+    this.performanceDashboardCardColor,
+    this.performanceDashboardBorderColor,
+    this.performanceDashboardShadowColor,
+    this.performanceDashboardTextPrimary,
+    this.performanceDashboardTextSecondary,
+    this.performanceDashboardTextMuted,
+    this.performanceDashboardAccent,
+    this.performanceDashboardAccentSoft,
+    this.performanceDashboardAccentMuted,
+    this.performanceDashboardPositive,
+    this.performanceDashboardPositiveBg,
+    this.performanceDashboardNegative,
+    this.performanceDashboardNegativeBg,
+    this.performanceDashboardChartGrid,
+    this.performanceDashboardToDos,
+    this.performanceDashboardProjects,
+    this.performanceDashboardTeams,
+    this.performanceDashboardConnections,
   });
 
   @override
@@ -920,6 +958,26 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     grapeCardBorder: Color(0x59A84AE0),
     grapeCardShadow: Color(0x59A84AE0),
 
+    // color for performance dashboard
+    performanceDashboardCardColor: Color(0xFFFFFFFF),
+    performanceDashboardBorderColor: Color(0xFFE5E7EB),
+    performanceDashboardShadowColor: Color(0x14111827),
+    performanceDashboardTextPrimary: Color(0xFF111827),
+    performanceDashboardTextSecondary: Color(0xFF4B5563),
+    performanceDashboardTextMuted: Color(0xFF6B7280),
+    performanceDashboardAccent: Color(0xFF4F46E5),
+    performanceDashboardAccentSoft: Color(0xFFEEEDFC),
+    performanceDashboardAccentMuted: Color(0xFFB9B5F2),
+    performanceDashboardPositive: Color(0xFF166534),
+    performanceDashboardPositiveBg: Color(0xFFE7F5EC),
+    performanceDashboardNegative: Color(0xFF991B1B),
+    performanceDashboardNegativeBg: Color(0xFFFDECEC),
+    performanceDashboardChartGrid: Color(0xFFEEF0F3),
+    performanceDashboardToDos: Color(0xFF4F46E5),
+    performanceDashboardProjects: Color(0xFF0D9488),
+    performanceDashboardTeams: Color(0xFFD97706),
+    performanceDashboardConnections: Color(0xFFDB2777),
+
     // Fallbacks from Dark Mode
     cardInformationBackground1: Color(0xFF1B3C53),
     tabContainerBg: Color(0xFF1F2937),
@@ -1085,5 +1143,25 @@ class AppCustomColors extends ThemeExtension<AppCustomColors> {
     grapeCardGradientEnd: Color(0xFF4E1F6E),
     grapeCardBorder: Color(0x40D07CFF),
     grapeCardShadow: Color(0x40D07CFF),
+
+    // color for performance dashboard
+    performanceDashboardCardColor: Color(0xFF181B22),
+    performanceDashboardBorderColor: Color(0xFF272B35),
+    performanceDashboardShadowColor: Color(0x59000000),
+    performanceDashboardTextPrimary: Color(0xFFF3F4F6),
+    performanceDashboardTextSecondary: Color(0xFFB4B9C4),
+    performanceDashboardTextMuted: Color(0xFF8B91A0),
+    performanceDashboardAccent: Color(0xFF8C87F8),
+    performanceDashboardAccentSoft: Color(0xFF262448),
+    performanceDashboardAccentMuted: Color(0xFF4B4699),
+    performanceDashboardPositive: Color(0xFF6EE7A1),
+    performanceDashboardPositiveBg: Color(0xFF13301F),
+    performanceDashboardNegative: Color(0xFFFCA5A5),
+    performanceDashboardNegativeBg: Color(0xFF3A1717),
+    performanceDashboardChartGrid: Color(0xFF252A34),
+    performanceDashboardToDos: Color(0xFF8C87F8),
+    performanceDashboardProjects: Color(0xFF2DD4BF),
+    performanceDashboardTeams: Color(0xFFFBBF24),
+    performanceDashboardConnections: Color(0xFFF472B6),
   );
 }

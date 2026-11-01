@@ -59,4 +59,8 @@ class ApiUrl {
   static const getTeamSummaryDashboard = "todoapp/api/Dashboard/team-summary";
   static const getConnectionSummaryDashboard =
       "todoapp/api/Dashboard/connection-summary";
+
+  // performance urls
+  static const getToDoPerformance =
+      "todoapp/api/Performance/get-todo-performance";
 }
