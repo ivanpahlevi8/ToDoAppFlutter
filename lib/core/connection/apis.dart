@@ -282,4 +282,10 @@ class Apis {
     return _buildUri(ApiUrl.getToDoPerformance,
         queryParams: {"userId": userId});
   }
+
+  // uri to get project performance
+  Uri getProjectPerformance({required String userId}) {
+    return _buildUri(ApiUrl.getProjectPerformance,
+        queryParams: {"userId": userId});
+  }
 }

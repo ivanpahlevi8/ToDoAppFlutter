@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/Dashboard/domain/entities/connection_user_item_summary_entity.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/domain/entities/connection_entity.dart';
 
