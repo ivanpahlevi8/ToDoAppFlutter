@@ -1,6 +1,8 @@
+import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
@@ -68,5 +70,17 @@ extension TeamPerformanceModelMapper on TeamPerformanceModel {
         numberTeamInvolvedCurrMonth: numberTeamInvolvedCurrMonth,
         numberTeamInvolvedLastMonth: numberTeamInvolvedLastMonth,
         numberTeamInvolvedPercentage: numberTeamInvolvedPercentage);
+  }
+}
+
+extension ConnectionPerformanceModelMapper on ConnectionPerformanceModel {
+  ConnectionPerformanceEntity toEntity() {
+    return ConnectionPerformanceEntity(
+        connectionConnectCurrMonth: connectionConnectCurrMonth,
+        connectionConnectLastMonth: connectionConnectLastMonth,
+        connectionConnectPercentage: connectionConnectPercentage,
+        connectionDisconnectCurrMonth: connectionDisconnectCurrMonth,
+        connectionDisconnectLastMonth: connectionDisconnectLastMonth,
+        connectionDisconnectPercentage: connectionDisconnectPercentage);
   }
 }

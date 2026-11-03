@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
@@ -20,5 +21,10 @@ class PerformanceRemoteUsecase {
 
   TaskEither<BaseException, TeamPerformanceEntity> getTeamPerformance() {
     return performanceRemoteRepository.getTeamPerformance();
+  }
+
+  TaskEither<BaseException, ConnectionPerformanceEntity>
+      getConnectionPerformance() {
+    return performanceRemoteRepository.getConnectionPerformance();
   }
 }

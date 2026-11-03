@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/core/connection/network_service.dart';
 import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
@@ -19,6 +20,10 @@ abstract interface class PerformanceRemoteDatasource {
 
   // function to get team performance
   TaskEither<BaseException, ResponseModel> getTeamPerformance(
+      {required String userId});
+
+  // function to get connection performance
+  TaskEither<BaseException, ResponseModel> getConnectionPerformance(
       {required String userId});
 }
 
@@ -94,6 +99,28 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
               data,
               (json) =>
                   TeamPerformanceModel.fromJson(json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getConnectionPerformance(
+      {required String userId}) {
+    // create api url
+    final apiUrl = apis.getConnectionPerformance(userId: userId);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((data) {
+          return ResponseModel.fromJson(
+              data,
+              (json) => ConnectionPerformanceModel.fromJson(
+                  json as Map<String, dynamic>));
         });
 
     return response;

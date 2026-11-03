@@ -12,7 +12,7 @@ final RouteBase performanceRoute = ShellRoute(
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         title: Text(
-          "Manage Teams",
+          "Performance",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w900,

@@ -294,4 +294,10 @@ class Apis {
     return _buildUri(ApiUrl.getTeamPerformance,
         queryParams: {"userId": userId});
   }
+
+  // uri to get connection performance
+  Uri getConnectionPerformance({required String userId}) {
+    return _buildUri(ApiUrl.getConnectionPerformance,
+        queryParams: {"userId": userId});
+  }
 }
