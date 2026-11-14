@@ -300,4 +300,10 @@ class Apis {
     return _buildUri(ApiUrl.getConnectionPerformance,
         queryParams: {"userId": userId});
   }
+
+  // uri to get todo chart performance
+  Uri getToDoChartPerformance({required String userId, required int year}) {
+    return _buildUri(ApiUrl.getToDoChartPerformance,
+        queryParams: {"userId": userId, "year": year.toString()});
+  }
 }

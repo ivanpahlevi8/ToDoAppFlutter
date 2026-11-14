@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/controller/connection_performance_controller.dart';
-import 'package:to_do_app_flutter/features/performance/presentation/controller/project_performance_controller.dart';
 
 class ConnectionPerformanceCardWidget extends ConsumerStatefulWidget {
   const ConnectionPerformanceCardWidget({super.key});

@@ -69,4 +69,6 @@ class ApiUrl {
       "todoapp/api/Performance/get-team-performance";
   static const getConnectionPerformance =
       "todoapp/api/Performance/get-connection-performance";
+  static const getToDoChartPerformance =
+      "todoapp/api/Performance/get-todo-performance-chart";
 }

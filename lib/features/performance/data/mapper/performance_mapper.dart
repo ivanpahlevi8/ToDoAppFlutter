@@ -1,10 +1,14 @@
+import 'package:to_do_app_flutter/features/performance/data/models/chart_object_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/chart_object_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/todo_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
 
 extension ToDoPerformanceModelMapper on ToDoPerformanceModel {
@@ -82,5 +86,20 @@ extension ConnectionPerformanceModelMapper on ConnectionPerformanceModel {
         connectionDisconnectCurrMonth: connectionDisconnectCurrMonth,
         connectionDisconnectLastMonth: connectionDisconnectLastMonth,
         connectionDisconnectPercentage: connectionDisconnectPercentage);
+  }
+}
+
+extension ChartObjectModelMapper on ChartObjectModel {
+  ChartObjectEntity toEntity() {
+    return ChartObjectEntity(year: year, month: month, count: count);
+  }
+}
+
+extension ToDoChartPerformanceModelMapper on ToDoChartPerformanceModel {
+  ToDoChartPerformanceEntity toEntity() {
+    return ToDoChartPerformanceEntity(
+        toDoOnCreated: toDoOnCreated.map((e) => e.toEntity()).toList(),
+        toDoOnProgressed: toDoOnProgressed.map((e) => e.toEntity()).toList(),
+        toDoOnFinished: toDoOnFinished.map((e) => e.toEntity()).toList());
   }
 }

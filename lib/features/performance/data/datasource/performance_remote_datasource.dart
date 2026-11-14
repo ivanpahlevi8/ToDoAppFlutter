@@ -7,6 +7,7 @@ import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 
 abstract interface class PerformanceRemoteDatasource {
@@ -25,6 +26,10 @@ abstract interface class PerformanceRemoteDatasource {
   // function to get connection performance
   TaskEither<BaseException, ResponseModel> getConnectionPerformance(
       {required String userId});
+
+  // function to get todo chart performance
+  TaskEither<BaseException, ResponseModel> getToDoChartPerformance(
+      {required String userId, required int year});
 }
 
 class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
@@ -121,6 +126,26 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
               data,
               (json) => ConnectionPerformanceModel.fromJson(
                   json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getToDoChartPerformance(
+      {required String userId, required int year}) {
+    // create api url
+    final apiUrl = apis.getToDoChartPerformance(userId: userId, year: year);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((resp) {
+          return ResponseModel.fromJson(
+              resp, (json) => ToDoChartPerformanceModel.fromJson(resp));
         });
 
     return response;
