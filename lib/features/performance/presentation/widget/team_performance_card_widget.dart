@@ -247,7 +247,7 @@ class _TeamPerformanceCardWidgetState
           );
         }, loading: () {
           return SizedBox(
-            height: 250,
+            height: 200,
             child: Center(
               child: CircularProgressIndicator(),
             ),

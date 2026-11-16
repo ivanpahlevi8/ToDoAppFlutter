@@ -145,7 +145,9 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
         .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
         .map((resp) {
           return ResponseModel.fromJson(
-              resp, (json) => ToDoChartPerformanceModel.fromJson(resp));
+              resp,
+              (json) => ToDoChartPerformanceModel.fromJson(
+                  json as Map<String, dynamic>));
         });
 
     return response;

@@ -248,7 +248,7 @@ class _ConnectionPerformanceCardWidgetState
           );
         }, loading: () {
           return SizedBox(
-            height: 250,
+            height: 200,
             child: Center(
               child: CircularProgressIndicator(),
             ),

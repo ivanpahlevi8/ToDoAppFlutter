@@ -303,10 +303,13 @@ Future<void> setupServiceLocator() async {
 
   // create instance of performance remote repository
   sl.registerLazySingleton(() => PerformanceRemoteRepositoryImpl(
-      performanceRemoteDatasource: sl<PerformanceRemoteDatasourceImpl>(),
-      sharedPreferences: sharedPreferences));
+        performanceRemoteDatasource: sl<PerformanceRemoteDatasourceImpl>(),
+        connectionRemoteDatasource: sl<ConnectionRemoteDatasourceImpl>(),
+        sharedPreferences: sharedPreferences,
+      ));
 
   // create instance of performance usecase
   sl.registerLazySingleton(() => PerformanceRemoteUsecase(
-      performanceRemoteRepository: sl<PerformanceRemoteRepositoryImpl>()));
+        performanceRemoteRepository: sl<PerformanceRemoteRepositoryImpl>(),
+      ));
 }

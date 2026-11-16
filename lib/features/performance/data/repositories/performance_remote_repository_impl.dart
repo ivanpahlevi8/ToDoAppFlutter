@@ -1,6 +1,8 @@
 import 'package:fpdart/src/task_either.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
+import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/datasource/performance_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/mapper/performance_mapper.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
@@ -17,10 +19,12 @@ import 'package:to_do_app_flutter/features/performance/domain/repositories/perfo
 
 class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
   final PerformanceRemoteDatasource performanceRemoteDatasource;
+  final ConnectionRemoteDatasource connectionRemoteDatasource;
   final SharedPreferences sharedPreferences;
 
   const PerformanceRemoteRepositoryImpl({
     required this.performanceRemoteDatasource,
+    required this.connectionRemoteDatasource,
     required this.sharedPreferences,
   });
 
@@ -139,7 +143,7 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
       return TaskEither.left(BaseException(
         message: "Error happen, user id not found",
         error: "Error happen, user id not found",
-        stackTrace: StackTrace.current!,
+        stackTrace: StackTrace.current,
       ));
     }
 
@@ -186,6 +190,7 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
         .getToDoChartPerformance(userId: getLoginUserId, year: year);
 
     return getToDoChartTask.flatMap((getChartResponse) {
+      print("Check response : ${getChartResponse.toString()}");
       // check response
       if (getChartResponse.result == null || !getChartResponse.isSuccess) {
         return TaskEither.left(BaseException(
@@ -199,6 +204,42 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
       // return as entity
       return TaskEither.right(
         getData.toEntity(),
+      );
+    });
+  }
+
+  @override
+  TaskEither<BaseException, UserModel> getUserLoginDetail() {
+    // get login user id
+    final getLoginUserId = sharedPreferences.getString("user_id");
+
+    if (getLoginUserId == null) {
+      return TaskEither.left(BaseException(
+          message: "Error Happen",
+          error: "Login user not found",
+          stackTrace: StackTrace.current));
+    }
+
+    // get user detail
+    final getUserDetailTask =
+        connectionRemoteDatasource.getUserById(userId: getLoginUserId);
+
+    return getUserDetailTask.flatMap((getUserDetailResponse) {
+      if (getUserDetailResponse.result == null ||
+          !getUserDetailResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+          message: "Error happen",
+          error: "Error Happen : ${getUserDetailResponse.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get data
+      UserModel getData = getUserDetailResponse.result!;
+
+      // return data
+      return TaskEither.right(
+        getData,
       );
     });
   }
