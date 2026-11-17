@@ -6,11 +6,13 @@ import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/con
 import 'package:to_do_app_flutter/features/performance/data/datasource/performance_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/mapper/performance_mapper.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/project_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/project_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_chart_performance_entity.dart';
@@ -241,6 +243,41 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
       return TaskEither.right(
         getData,
       );
+    });
+  }
+
+  @override
+  TaskEither<BaseException, ProjectChartPerformanceEntity>
+      getProjectChartPerformance({required int year}) {
+    // get login user id
+    final getLoginUserId = sharedPreferences.getString("user_id");
+
+    if (getLoginUserId == null) {
+      return TaskEither.left(BaseException(
+        message: "Error Happen",
+        error: "Login user id not found",
+        stackTrace: StackTrace.current,
+      ));
+    }
+
+    // get data
+    final projectChartTask = performanceRemoteDatasource
+        .getProjectChartPerformance(userId: getLoginUserId, year: year);
+
+    return projectChartTask.flatMap((projectChartResponse) {
+      if (projectChartResponse.result == null ||
+          !projectChartResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+          message: projectChartResponse.message,
+          error: "Error happen : ${projectChartResponse.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      // get data
+      ProjectChartPerformanceModel getData = projectChartResponse.result!;
+
+      return TaskEither.right(getData.toEntity());
     });
   }
 }

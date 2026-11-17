@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/project_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
@@ -29,6 +30,10 @@ abstract interface class PerformanceRemoteDatasource {
 
   // function to get todo chart performance
   TaskEither<BaseException, ResponseModel> getToDoChartPerformance(
+      {required String userId, required int year});
+
+  // function to get project chart performance
+  TaskEither<BaseException, ResponseModel> getProjectChartPerformance(
       {required String userId, required int year});
 }
 
@@ -147,6 +152,28 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
           return ResponseModel.fromJson(
               resp,
               (json) => ToDoChartPerformanceModel.fromJson(
+                  json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getProjectChartPerformance(
+      {required String userId, required int year}) {
+    // create api url
+    final apiUrl = apis.getProjectChartPerformance(userId: userId, year: year);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((resp) {
+          return ResponseModel.fromJson(
+              resp,
+              (json) => ProjectChartPerformanceModel.fromJson(
                   json as Map<String, dynamic>));
         });
 

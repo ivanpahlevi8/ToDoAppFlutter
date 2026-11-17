@@ -1,11 +1,13 @@
 import 'package:to_do_app_flutter/features/performance/data/models/chart_object_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/project_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/chart_object_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/project_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_chart_performance_entity.dart';
@@ -101,5 +103,13 @@ extension ToDoChartPerformanceModelMapper on ToDoChartPerformanceModel {
         toDoOnCreated: toDoOnCreated.map((e) => e.toEntity()).toList(),
         toDoOnProgressed: toDoOnProgressed.map((e) => e.toEntity()).toList(),
         toDoOnFinished: toDoOnFinished.map((e) => e.toEntity()).toList());
+  }
+}
+
+extension ProjectChartPerformanceModelMapper on ProjectChartPerformanceModel {
+  ProjectChartPerformanceEntity toEntity() {
+    return ProjectChartPerformanceEntity(
+        projectLeads: projectLeads.map((e) => e.toEntity()).toList(),
+        projectMember: projectMember.map((e) => e.toEntity()).toList());
   }
 }
