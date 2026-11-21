@@ -312,4 +312,17 @@ class Apis {
     return _buildUri(ApiUrl.getProjectChartPerformance,
         queryParams: {"userId": userId, "year": year.toString()});
   }
+
+  // uri to get team chart performance
+  Uri getTeamChartPerformance({required String userId, required int year}) {
+    return _buildUri(ApiUrl.getTeamChartPerformance,
+        queryParams: {"userId": userId, "year": year.toString()});
+  }
+
+  // uri to get connection chart performance
+  Uri getConnectionChartPerformance(
+      {required String userId, required int year}) {
+    return _buildUri(ApiUrl.getConnectionChartPerformance,
+        queryParams: {"userId": userId, "year": year.toString()});
+  }
 }

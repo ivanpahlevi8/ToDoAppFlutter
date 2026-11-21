@@ -4,6 +4,8 @@ import 'package:to_do_app_flutter/core/connection/network_service.dart';
 import 'package:to_do_app_flutter/core/connection/validators.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/response_model.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/TeamChartPerformanceModel.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/connection_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
@@ -34,6 +36,14 @@ abstract interface class PerformanceRemoteDatasource {
 
   // function to get project chart performance
   TaskEither<BaseException, ResponseModel> getProjectChartPerformance(
+      {required String userId, required int year});
+
+  // function to get team chart performance
+  TaskEither<BaseException, ResponseModel> getTeamChartPerformance(
+      {required String userId, required int year});
+
+  // function to get connection chart performance
+  TaskEither<BaseException, ResponseModel> getConnectionChartPerformance(
       {required String userId, required int year});
 }
 
@@ -174,6 +184,51 @@ class PerformanceRemoteDatasourceImpl implements PerformanceRemoteDatasource {
           return ResponseModel.fromJson(
               resp,
               (json) => ProjectChartPerformanceModel.fromJson(
+                  json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getTeamChartPerformance(
+      {required String userId, required int year}) {
+    // get api url
+    final apiUrl = apis.getTeamChartPerformance(userId: userId, year: year);
+
+    // do request
+    final response = service
+        .get(apiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((resp) {
+          return ResponseModel.fromJson(
+              resp,
+              (json) => TeamChartPerformanceModel.fromJson(
+                  json as Map<String, dynamic>));
+        });
+
+    return response;
+  }
+
+  @override
+  TaskEither<BaseException, ResponseModel> getConnectionChartPerformance(
+      {required String userId, required int year}) {
+    // get api url
+    final getApiUrl =
+        apis.getConnectionChartPerformance(userId: userId, year: year);
+
+    // do request
+    final response = service
+        .get(getApiUrl, null, headers: {"Content-Type": "application/json"})
+        .flatMap((r) => TaskEither.fromEither(validator.validateBody(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateJson(r)))
+        .flatMap((r) => TaskEither.fromEither(validator.validateMap(r)))
+        .map((resp) {
+          return ResponseModel.fromJson(
+              resp,
+              (json) => ConnectionChartPerformanceModel.fromJson(
                   json as Map<String, dynamic>));
         });
 

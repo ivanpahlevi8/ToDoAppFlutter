@@ -75,9 +75,6 @@ class _ProjectChartPerformanceWidgetState
         "Dec",
       ];
 
-      print("Check project leads length : ${data.projectLeads.length}");
-      print("Check projec member length : ${data.projectMember.length}");
-
       // create data
       List<ChartDataEntity> projectLeads = data.projectLeads.map((e) {
         return ChartDataEntity(

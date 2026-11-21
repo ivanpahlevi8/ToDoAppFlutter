@@ -1,9 +1,11 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:to_do_app_flutter/core/exception/base_exception.dart';
 import 'package:to_do_app_flutter/core/models/user_model.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/connection_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/team_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
@@ -39,6 +41,17 @@ class PerformanceRemoteUsecase {
   TaskEither<BaseException, ProjectChartPerformanceEntity>
       getProjectChartPerformance({required int year}) {
     return performanceRemoteRepository.getProjectChartPerformance(year: year);
+  }
+
+  TaskEither<BaseException, TeamChartPerformanceEntity> getTeamChartPerformance(
+      {required int year}) {
+    return performanceRemoteRepository.getTeamChartPerformance(year: year);
+  }
+
+  TaskEither<BaseException, ConnectionChartPerformanceEntity>
+      getConnectionChartPerformance({required int year}) {
+    return performanceRemoteRepository.getConnectionChartPerformance(
+        year: year);
   }
 
   TaskEither<BaseException, UserModel> getLoginUserDetail() {

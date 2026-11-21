@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/features/performance/presentation/widget/connection_chart_performance_widget.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/widget/connection_performance_card_widget.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/widget/project_chart_performance_widget.dart';
 import 'package:to_do_app_flutter/features/performance/presentation/widget/project_performance_card_widget.dart';
@@ -173,6 +174,10 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
             height: 8,
           ),
           ProjectChartPerformanceWidget(),
+          SizedBox(
+            height: 8,
+          ),
+          ConnectionChartPerformanceWidget(),
         ],
       ),
     );

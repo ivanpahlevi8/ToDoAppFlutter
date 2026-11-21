@@ -5,15 +5,19 @@ import 'package:to_do_app_flutter/core/models/user_model.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/data/datasource/connection_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/datasource/performance_remote_datasource.dart';
 import 'package:to_do_app_flutter/features/performance/data/mapper/performance_mapper.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/TeamChartPerformanceModel.dart';
+import 'package:to_do_app_flutter/features/performance/data/models/connection_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/connection_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/project_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/team_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_chart_performance_model.dart';
 import 'package:to_do_app_flutter/features/performance/data/models/todo_performance_model.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/connection_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/connection_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/project_performance_entity.dart';
+import 'package:to_do_app_flutter/features/performance/domain/entities/team_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/team_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_chart_performance_entity.dart';
 import 'package:to_do_app_flutter/features/performance/domain/entities/todo_performance_entity.dart';
@@ -276,6 +280,71 @@ class PerformanceRemoteRepositoryImpl implements PerformanceRemoteRepository {
 
       // get data
       ProjectChartPerformanceModel getData = projectChartResponse.result!;
+
+      return TaskEither.right(getData.toEntity());
+    });
+  }
+
+  @override
+  TaskEither<BaseException, TeamChartPerformanceEntity> getTeamChartPerformance(
+      {required int year}) {
+    // get login user id
+    final getLoginUserId = sharedPreferences.getString("user_id");
+
+    if (getLoginUserId == null) {
+      return TaskEither.left(BaseException(
+        message: "Error Happen",
+        error: "Error : User id not found on login user",
+        stackTrace: StackTrace.current,
+      ));
+    }
+
+    // get data
+    final getTeamChartTask = performanceRemoteDatasource
+        .getTeamChartPerformance(userId: getLoginUserId, year: year);
+
+    return getTeamChartTask.flatMap((getTeamChartResponse) {
+      if (getTeamChartResponse.result == null || !getTeamChartResponse.result) {
+        return TaskEither.left(BaseException(
+            message: getTeamChartResponse.message,
+            error: "Error Happen : ${getTeamChartResponse.message}",
+            stackTrace: StackTrace.current));
+      }
+
+      TeamChartPerformanceModel getData = getTeamChartResponse.result;
+
+      return TaskEither.right(getData.toEntity());
+    });
+  }
+
+  @override
+  TaskEither<BaseException, ConnectionChartPerformanceEntity>
+      getConnectionChartPerformance({required int year}) {
+    // get login user id
+    final getLoginUserId = sharedPreferences.getString("user_id");
+
+    if (getLoginUserId == null) {
+      return TaskEither.left(BaseException(
+          error: "Error Happen : user id not found",
+          message: "Error Happen",
+          stackTrace: StackTrace.current));
+    }
+
+    // get data
+    final getData = performanceRemoteDatasource.getConnectionChartPerformance(
+        userId: getLoginUserId, year: year);
+
+    return getData.flatMap((connectionChartResponse) {
+      if (connectionChartResponse.result == null ||
+          !connectionChartResponse.isSuccess) {
+        return TaskEither.left(BaseException(
+          message: connectionChartResponse.message,
+          error: "Error Happen : ${connectionChartResponse.message}",
+          stackTrace: StackTrace.current,
+        ));
+      }
+
+      ConnectionChartPerformanceModel getData = connectionChartResponse.result!;
 
       return TaskEither.right(getData.toEntity());
     });
