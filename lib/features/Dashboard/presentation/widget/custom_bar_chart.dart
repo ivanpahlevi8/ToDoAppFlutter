@@ -2,18 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 
-/// Bar (column) chart for the project summary, with an optional 3D look.
-///
-/// Usage:
-///   ProjectBarChart(graphData: graphData)
-///   ProjectBarChart(graphData: graphData, colors: [Colors.indigo, Colors.teal], threeD: true)
-///
-/// graphData rows look like (same format as ProjectPieChart):
-///   {"category": "Project as Leader", "value": 3}
-///
-/// When there are more bars than [visibleBars], the chart shows the first
-/// few and the user drags sideways to see the rest.
 class CustomBarChart extends StatefulWidget {
   const CustomBarChart({
     super.key,
@@ -28,22 +18,10 @@ class CustomBarChart extends StatefulWidget {
 
   final List<Map<String, dynamic>> graphData;
   final String title;
-
-  /// One color per bar, in the same order as graphData.
   final List<Color> colors;
-
-  /// Height of the chart area in pixels (title not included).
   final double height;
-
-  /// Draws each bar as a 3D block with a side face, top face and shadow.
   final bool threeD;
-
-  /// 3D only: how far each block sticks out up and to the right, in pixels.
   final double depth;
-
-  /// How many bars fit on screen at once. With more data than this, the
-  /// chart becomes scrollable sideways. Fewer bars = wider space per bar,
-  /// so more room (and gap) for each x-axis label.
   final int visibleBars;
 
   @override
@@ -72,50 +50,46 @@ class _ProjectBarChartState extends State<CustomBarChart> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        SizedBox(height: widget.height, child: _buildChart()),
+        SizedBox(height: widget.height, child: _buildChart(context)),
       ],
     );
   }
 
-  Widget _buildChart() {
-    const TextStyle axisStyle = TextStyle(
+  Widget _buildChart(BuildContext context) {
+    final customColor = Theme.of(context).extension<AppCustomColors>()!;
+
+    final TextStyle axisStyle = TextStyle(
       fontFamily: 'Poppins',
       fontSize: 12,
-      color: Color(0xFF757575),
+      color: customColor.dashboardTextSecondary!,
     );
 
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       zoomPanBehavior: _scrollable ? _panBehavior : null,
       primaryXAxis: CategoryAxis(
-        // Show only `visibleBars` bars at a time, starting from the first;
-        // the user drags sideways to see the rest.
         autoScrollingDelta: _scrollable ? widget.visibleBars : null,
         autoScrollingMode: AutoScrollingMode.start,
-        // Long labels break onto several lines under their own bar instead
-        // of running into the neighbouring label.
         labelIntersectAction: AxisLabelIntersectAction.wrap,
         labelStyle: axisStyle,
         majorGridLines: MajorGridLines(width: 0),
         majorTickLines: MajorTickLines(size: 0),
-        axisLine: AxisLine(width: 1, color: Colors.grey.shade300),
+        axisLine:
+            AxisLine(width: 1, color: customColor.dashboardChartBaselineColor!),
       ),
       primaryYAxis: NumericAxis(
         minimum: 0,
-        // Whole-number steps for small counts, so the axis doesn't show 0.5.
+        maximum: _maxValue + 0.2,
         interval: _maxValue <= 10 ? 1 : null,
-        // Keep the same scale while scrolling, so bar heights stay comparable.
         anchorRangeToVisiblePoints: false,
-        // Extra headroom so the 3D top face of the tallest bar isn't cut off.
         rangePadding: ChartRangePadding.additional,
         labelStyle: axisStyle,
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),
         majorGridLines: MajorGridLines(
-          width: 1,
-          dashArray: <double>[4, 4],
-          color: Colors.grey.withValues(alpha: 0.25),
+          width: 0,
         ),
+        isVisible: false,
       ),
       series: <CartesianSeries<Map<String, dynamic>, String>>[
         ColumnSeries<Map<String, dynamic>, String>(
@@ -142,9 +116,9 @@ class _ProjectBarChartState extends State<CustomBarChart> {
           // Value shown inside the top of each bar, so it doesn't sit on
           // the 3D top face.
           dataLabelMapper: (Map<String, dynamic> row, _) => '${row['value']}',
-          dataLabelSettings: const DataLabelSettings(
+          dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.top,
+            labelAlignment: ChartDataLabelAlignment.outer,
             textStyle: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 13,

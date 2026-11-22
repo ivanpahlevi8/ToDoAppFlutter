@@ -1,38 +1,49 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 
 class AppTheme {
-  // You can keep deepPurple, or change this seed color to match your brand's primary color
-  static const Color _primarySeed = Colors.deepPurple;
-
   // 1. LIGHT THEME
-  static ThemeData get lightTheme {
-    return ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: _primarySeed,
-        brightness: Brightness.light,
-      ),
-
-      // ---> ATTACH THE PRE-BUILT LIGHT COLORS HERE <---
-      extensions: const <ThemeExtension<dynamic>>[AppCustomColors.light],
-    );
-  }
+  static ThemeData get lightTheme =>
+      _buildTheme(AppCustomColors.light, Brightness.light);
 
   // 2. DARK THEME
-  static ThemeData get darkTheme {
+  static ThemeData get darkTheme =>
+      _buildTheme(AppCustomColors.dark, Brightness.dark);
+
+  // Both themes are built from the same dashboard colors in AppCustomColors,
+  // so light and dark only differ by which color set is passed in.
+  static ThemeData _buildTheme(AppCustomColors colors, Brightness brightness) {
+    final Color background = colors.dashboardBackgroundColor!;
+
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: brightness,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: _primarySeed,
-        brightness: Brightness.dark,
+        seedColor: colors.dashboardAccent!,
+        brightness: brightness,
+        primary: colors.dashboardAccent!,
+        onPrimary: colors.dashboardOnAccent!,
+        surface: background,
+        onSurface: colors.dashboardTextPrimary!,
       ),
-
-      // ---> ATTACH THE PRE-BUILT DARK COLORS HERE <---
-      extensions: const <ThemeExtension<dynamic>>[AppCustomColors.dark],
+      scaffoldBackgroundColor: background,
+      canvasColor: background,
+      cardColor: colors.dashboardCardColor!,
+      dividerColor: colors.dashboardDividerColor!,
+      appBarTheme: AppBarTheme(
+        backgroundColor: background,
+        foregroundColor: colors.dashboardTextPrimary!,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: colors.dashboardDrawerColor!,
+        scrimColor: colors.dashboardScrimColor!,
+      ),
+      dividerTheme: DividerThemeData(
+        color: colors.dashboardDividerColor!,
+      ),
+      extensions: <ThemeExtension<dynamic>>[colors],
     );
   }
 }

@@ -4,7 +4,12 @@ import 'package:to_do_app_flutter/features/ManageProject/domain/entities/project
 
 class TopProjectItemWidget extends StatelessWidget {
   final ProjectEntity project;
-  const TopProjectItemWidget({super.key, required this.project});
+  final bool isLeading;
+  const TopProjectItemWidget({
+    super.key,
+    required this.project,
+    required this.isLeading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,114 +17,102 @@ class TopProjectItemWidget extends StatelessWidget {
 
     return Container(
       width: 250,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
-          border: Border.all(color: customColor.oceanBlueCardBorder!),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          gradient: LinearGradient(
-            colors: [
-              customColor.oceanBlueCardGradientStart!,
-              customColor.oceanBlueCardGradientEnd!,
-            ],
-            begin: AlignmentGeometry.topLeft,
-            end: AlignmentGeometry.bottomRight,
-          )),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: customColor.dashboardCardColor!,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            project.projectName,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: customColor.textTitle!,
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.drag_indicator,
-                          color: customColor.textTitle!,
-                          size: 14,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          project.projectStatus,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: customColor.textMedium!,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: customColor.textTitle!,
-                          size: 14,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          project.createdAt.split("T")[0],
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: customColor.textMedium!,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)))),
-                  onPressed: () {},
-                  child: Container(
-                    padding: EdgeInsets.all(6),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 11,
+                    height: 11,
                     decoration: BoxDecoration(
-                        color: customColor.averageEnd,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.4),
-                              blurRadius: 8,
-                              offset: Offset(1, 2))
-                        ]),
-                    child: Icon(
-                      Icons.info,
-                      color: customColor.textTitle!,
-                      size: 16,
+                        shape: BoxShape.circle,
+                        color: isLeading
+                            ? customColor.dashboardRoleLeading
+                            : customColor.dashboardRoleMember),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    isLeading ? "Leader" : "Member",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      color: customColor.dashboardTextPrimary!,
                     ),
-                  ))
+                  )
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  color: customColor.dashboardChartTrackColor!,
+                ),
+                child: Text(
+                  project.projectStatus == "CREATED" ? "New" : "In Progress",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: project.projectStatus == "CREATED"
+                        ? customColor.dashboardRoleMember!
+                        : customColor.dashboardRoleLeading,
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text(
+            project.projectName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: customColor.dashboardTextPrimary!),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.calendar_today,
+                color: customColor.dashboardTextSecondary!,
+                size: 16,
+              ),
+              SizedBox(
+                width: 3,
+              ),
+              Flexible(
+                child: Text(
+                  "Created ${project.createdAt.split("T")[0]}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: customColor.dashboardTextSecondary!),
+                ),
+              )
             ],
           )
         ],

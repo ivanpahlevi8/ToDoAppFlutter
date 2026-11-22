@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/page/dashboard_page.dart';
 
 final RouteBase dashboardRoute = ShellRoute(
   builder: (context, state, child) {
+    final customColor = Theme.of(context).extension<AppCustomColors>()!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("")),
+      appBar: AppBar(
+          title: Text(
+        "Home",
+        style: TextStyle(
+          color: customColor.dashboardTextPrimary!,
+          fontSize: 22,
+          fontWeight: FontWeight.w900,
+        ),
+      )),
       drawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

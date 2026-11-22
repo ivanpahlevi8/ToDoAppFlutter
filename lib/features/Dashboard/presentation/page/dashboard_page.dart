@@ -19,195 +19,139 @@ class DashboardPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // project summary
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(color: customColor.cardBorder1!),
-                      gradient: LinearGradient(colors: [
-                        customColor.cardGradientStart1!,
-                        customColor.cardGradientEnd1!
-                      ]),
-                      boxShadow: [
-                        BoxShadow(
-                          color: customColor.cardShadow1!,
-                          blurRadius: 12,
-                          offset: Offset(2, 3),
-                        )
-                      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Projects",
+                  style: TextStyle(
+                    color: customColor.dashboardTextPrimary!,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "See all",
+                    style: TextStyle(
+                      color: customColor.dashboardTextSecondary!,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Project Summary",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: customColor.textTitle!,
-                              ),
-                            )
-                          ],
-                        ),
-                        ProjectSummaryWidget(),
-                      ],
-                    )),
-              )
-            ],
+                  ),
+                )
+              ],
+            ),
           ),
+          ProjectSummaryWidget(),
+
           SizedBox(
-            height: 6,
+            height: 12,
+          ),
+
+          // top three project as leader
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "To-Dos",
+                  style: TextStyle(
+                    color: customColor.dashboardTextPrimary!,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "See all",
+                    style: TextStyle(
+                      color: customColor.dashboardTextSecondary!,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          ToDoSummaryWidget(),
+          SizedBox(
+            height: 12,
+          ),
+          // team summary
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Teams",
+                  style: TextStyle(
+                    color: customColor.dashboardTextPrimary!,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "See all",
+                    style: TextStyle(
+                      color: customColor.dashboardTextSecondary!,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          TeamSummaryWidget(),
+          SizedBox(
+            height: 12,
           ),
           // top three project as leader
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: customColor.tealCardBorder!),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      gradient: LinearGradient(colors: [
-                        customColor.tealCardGradientStart!,
-                        customColor.tealCardGradientEnd!
-                      ]),
-                      boxShadow: [
-                        BoxShadow(
-                          color: customColor.tealCardShadow!,
-                          blurRadius: 12,
-                          offset: Offset(2, 3),
-                        )
-                      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Connections",
+                  style: TextStyle(
+                    color: customColor.dashboardTextPrimary!,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "See all",
+                    style: TextStyle(
+                      color: customColor.dashboardTextSecondary!,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "ToDo Summary",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: customColor.textTitle!,
-                              ),
-                            )
-                          ],
-                        ),
-                        ToDoSummaryWidget(),
-                      ],
-                    )),
-              )
-            ],
+                  ),
+                )
+              ],
+            ),
           ),
+          ConnectionSummaryWidget(),
           SizedBox(
-            height: 6,
+            height: 12,
           ),
-          // top three project as leader
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: customColor.sunsetColarCardBorder!),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      gradient: LinearGradient(colors: [
-                        customColor.sunsetColarCardGradientStart!,
-                        customColor.sunsetColarCardGradientEnd!
-                      ]),
-                      boxShadow: [
-                        BoxShadow(
-                          color: customColor.sunsetColarCardShadow!,
-                          blurRadius: 12,
-                          offset: Offset(2, 3),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Team Summary",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: customColor.textTitle!,
-                              ),
-                            )
-                          ],
-                        ),
-                        TeamSummaryWidget(),
-                      ],
-                    )),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          // top three project as leader
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: customColor.emeraldCardBorder!),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      gradient: LinearGradient(colors: [
-                        customColor.emeraldCardGradientStart!,
-                        customColor.emeraldCardGradientEnd!
-                      ]),
-                      boxShadow: [
-                        BoxShadow(
-                          color: customColor.emeraldCardShadow!,
-                          blurRadius: 12,
-                          offset: Offset(2, 3),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Connection Summary",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: customColor.textTitle!,
-                              ),
-                            )
-                          ],
-                        ),
-                        ConnectionSummaryWidget(),
-                      ],
-                    )),
-              ),
-            ],
-          )
         ],
       ),
     );
