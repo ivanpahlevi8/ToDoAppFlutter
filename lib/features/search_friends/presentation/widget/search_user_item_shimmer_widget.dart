@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
-import 'package:to_do_app_flutter/core/widget/shimmer_box_widget.dart';
+import 'package:to_do_app_flutter/core/widget/app_shimmer.dart';
 
+/// Loading placeholder with the same size and layout as
+/// [SearchUserItemWidget]: avatar circle, two text lines and a button shape.
+/// The card stays still; only the shapes inside it shimmer.
 class SearchUserItemShimmerWidget extends StatelessWidget {
   const SearchUserItemShimmerWidget({super.key});
 
@@ -10,86 +13,31 @@ class SearchUserItemShimmerWidget extends StatelessWidget {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        gradient: LinearGradient(
-          colors: [
-            customColor.excellentStart!.withOpacity(0.5),
-            customColor.excellentEnd!.withOpacity(0.5),
-          ],
-          begin: AlignmentGeometry.topLeft,
-          end: AlignmentGeometry.bottomRight,
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(18)),
+        color: customColor.dashboardCardColor!,
       ),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/images/person_icon.png"),
-            radius: 45,
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ShimmerBoxWidget(height: 45, width: 130, padValue: 3),
-                SizedBox(height: 4),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.person, size: 22, color: customColor.textTitle),
-                    SizedBox(width: 4),
-                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
-                  ],
-                ),
-                SizedBox(height: 4),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.email, size: 22, color: customColor.textTitle),
-                    SizedBox(width: 4),
-                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
-                  ],
-                ),
-                SizedBox(height: 4),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.phone, size: 22, color: customColor.textTitle),
-                    SizedBox(width: 4),
-                    ShimmerBoxWidget(height: 35, width: 100, padValue: 3),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: 12),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              splashFactory: InkSparkle.splashFactory,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-              backgroundColor: customColor.excellentEnd,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+      child: const AppShimmer(
+        child: Row(
+          children: [
+            ShimmerBone(width: 44, height: 44, circle: true),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerBone(width: 120, height: 14),
+                  SizedBox(height: 8),
+                  ShimmerBone(width: 90, height: 12),
+                ],
               ),
             ),
-            onPressed: () {
-              // send request to user
-            },
-            child: const Icon(
-              Icons.person_add_alt,
-              size: 24,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-        ],
+            SizedBox(width: 12),
+            ShimmerBone(width: 104, height: 42, radius: 12),
+          ],
+        ),
       ),
     );
   }

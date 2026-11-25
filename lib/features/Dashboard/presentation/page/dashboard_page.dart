@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/connect
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/project_summary_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/team_summary_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/todo_summary_widget.dart';
+import 'package:intl/intl.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -16,8 +17,30 @@ class DashboardPage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // header
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // current datetime
+                Text(
+                  DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: customColor.dashboardTextSecondary!,
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
           // project summary
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),

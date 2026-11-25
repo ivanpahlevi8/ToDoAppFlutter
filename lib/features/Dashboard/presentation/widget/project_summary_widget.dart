@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/controller/project_summary_controller.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/custom_doughnut_chart.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/top_project_item_widget.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/dashboard_shimmer_widget.dart';
 
 class ProjectSummaryWidget extends ConsumerStatefulWidget {
   const ProjectSummaryWidget({super.key});
@@ -40,7 +41,7 @@ class _ProjectSummaryWidgetState extends ConsumerState<ProjectSummaryWidget> {
 
     return projectSummaryController.when(data: (data) {
       if (data == null) {
-        return CircularProgressIndicator();
+        return const RoleSummaryShimmer(showList: true);
       }
 
       // create graph data
@@ -165,7 +166,7 @@ class _ProjectSummaryWidgetState extends ConsumerState<ProjectSummaryWidget> {
     }, error: (error, stackTrace) {
       return Text("Error happen ${error.toString()}, ${stackTrace.toString()}");
     }, loading: () {
-      return CircularProgressIndicator();
+      return const RoleSummaryShimmer(showList: true);
     });
   }
 

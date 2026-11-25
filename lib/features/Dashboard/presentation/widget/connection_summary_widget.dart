@@ -4,6 +4,7 @@ import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/controller/connection_summary_controller.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/avatar_stack_widget.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/stat_bar_widget.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/dashboard_shimmer_widget.dart';
 
 class ConnectionSummaryWidget extends ConsumerStatefulWidget {
   const ConnectionSummaryWidget({super.key});
@@ -35,7 +36,7 @@ class _ConnectionSummaryWidgetState
 
     return connectionSummaryProvider.when(data: (data) {
       if (data == null) {
-        return CircularProgressIndicator();
+        return const ConnectionSummaryShimmer();
       }
 
       // create data set
@@ -187,7 +188,7 @@ class _ConnectionSummaryWidgetState
         ),
       );
     }, loading: () {
-      return CircularProgressIndicator();
+      return const ConnectionSummaryShimmer();
     });
   }
 

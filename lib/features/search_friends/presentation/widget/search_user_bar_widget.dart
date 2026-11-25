@@ -1,83 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 
 class SearchUserBarWidget extends StatelessWidget {
   final TextEditingController textEditing;
   final Function(String) onSearch;
+  final String hintText;
 
   const SearchUserBarWidget({
     super.key,
     required this.textEditing,
     required this.onSearch,
+    this.hintText = "Search by username",
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: textEditing,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.search,
-            onFieldSubmitted: (value) {
-              onSearch(value);
-            },
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w900,
-              fontSize: 18,
-            ),
-            decoration: InputDecoration(
-              floatingLabelStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 22,
-              ),
-              labelText: "Username",
-              labelStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: Colors.black, width: 1.3),
-              ),
-              // Border state when the user is actively typing in the field
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-              ),
-              // Border state when the field validator fails
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: Colors.red, width: 1.0),
-              ),
-            ),
-          ),
+    final customColor = Theme.of(context).extension<AppCustomColors>()!;
+
+    OutlineInputBorder border(Color color, double width) => OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: color, width: width),
+        );
+
+    return TextField(
+      controller: textEditing,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.search,
+      onSubmitted: (value) {
+        final String username = value.trim();
+        if (username.isNotEmpty) onSearch(username);
+      },
+      cursorColor: customColor.dashboardAccent!,
+      style: TextStyle(
+        color: customColor.dashboardTextPrimary!,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        fillColor: customColor.dashboardCardColor!,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: customColor.dashboardTextSecondary!,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
-        SizedBox(width: 6),
-        FilledButton(
-          style: FilledButton.styleFrom(
-            splashFactory: InkSparkle.splashFactory,
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            foregroundColor: Colors.black, // 2. Fixes the splash color base
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                8,
-              ), // 3. Fixes the BorderRadius geometry bug
-            ),
-          ),
-          onPressed: () {
-            onSearch(textEditing.text);
+        contentPadding: const EdgeInsets.symmetric(vertical: 14),
+        prefixIcon: Icon(
+          Icons.search,
+          size: 22,
+          color: customColor.dashboardTextSecondary!,
+        ),
+        suffixIcon: ValueListenableBuilder<TextEditingValue>(
+          valueListenable: textEditing,
+          builder: (context, value, _) {
+            if (value.text.isEmpty) return const SizedBox.shrink();
+
+            return IconButton(
+              tooltip: "Clear",
+              onPressed: textEditing.clear,
+              icon: Icon(
+                Icons.close,
+                size: 20,
+                color: customColor.dashboardTextSecondary!,
+              ),
+            );
           },
-          child: const Icon(
-            Icons.search,
-            size: 28,
-            fontWeight: FontWeight.w900,
-          ),
         ),
-      ],
+        enabledBorder: border(customColor.dashboardStrongBorderColor!, 1.2),
+        focusedBorder: border(customColor.dashboardAccent!, 2),
+      ),
     );
   }
 }

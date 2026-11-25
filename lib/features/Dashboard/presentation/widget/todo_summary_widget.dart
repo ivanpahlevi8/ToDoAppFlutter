@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/controller/todo_summary_controller.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/custom_bar_chart.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/dashboard_shimmer_widget.dart';
 
 class ToDoSummaryWidget extends ConsumerStatefulWidget {
   const ToDoSummaryWidget({super.key});
@@ -35,7 +36,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
 
     return toDoSummaryController.when(data: (data) {
       if (data == null) {
-        return CircularProgressIndicator();
+        return const ToDoSummaryShimmer();
       }
 
       // create graph data
@@ -99,7 +100,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
                       child: Icon(
                         Icons.watch_later_outlined,
                         color: customColor.dashboardAccent!,
-                        size: 18,
+                        size: 16,
                       ),
                     ),
                     SizedBox(
@@ -113,7 +114,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
                           getToDo.todoName,
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
-                            fontSize: 17,
+                            fontSize: 16,
                             color: customColor.dashboardTextPrimary!,
                           ),
                         ),
@@ -121,7 +122,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
                           "Created ${getToDo.toDoCreatedAt.split("T")[0]}",
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 15,
+                            fontSize: 14,
                             color: customColor.dashboardTextSecondary!,
                           ),
                         )
@@ -143,7 +144,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
                                 ? "In progress"
                                 : "Finished",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 10,
                           fontWeight: FontWeight.w900,
                           color: customColor.dashboardAccentText!,
                         ),
@@ -165,7 +166,7 @@ class _ToDoSummaryWidgetState extends ConsumerState<ToDoSummaryWidget> {
             color: customColor.errorColor!),
       );
     }, loading: () {
-      return CircularProgressIndicator();
+      return const ToDoSummaryShimmer();
     });
   }
 }

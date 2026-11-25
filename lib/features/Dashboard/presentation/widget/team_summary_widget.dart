@@ -5,6 +5,7 @@ import 'package:to_do_app_flutter/features/Dashboard/presentation/controller/tea
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/avatar_color.dart';
 import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/custom_doughnut_chart.dart';
 import 'package:to_do_app_flutter/features/ManageTeam/domain/entities/team_entity.dart';
+import 'package:to_do_app_flutter/features/Dashboard/presentation/widget/dashboard_shimmer_widget.dart';
 
 class TeamSummaryWidget extends ConsumerStatefulWidget {
   const TeamSummaryWidget({super.key});
@@ -39,7 +40,7 @@ class _TeamSummaryWidgetState extends ConsumerState<TeamSummaryWidget> {
 
     return teamSummaryController.when(data: (data) {
       if (data == null) {
-        return CircularProgressIndicator();
+        return const RoleSummaryShimmer();
       }
 
       // create data fragment (leader first, so index 0 = Leading)
@@ -210,7 +211,7 @@ class _TeamSummaryWidgetState extends ConsumerState<TeamSummaryWidget> {
         ),
       );
     }), loading: () {
-      return CircularProgressIndicator();
+      return const RoleSummaryShimmer();
     });
   }
 

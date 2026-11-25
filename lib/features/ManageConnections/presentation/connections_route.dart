@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
+import 'package:to_do_app_flutter/core/widget/app_drawer.dart';
+import 'package:to_do_app_flutter/core/widget/app_shell_scaffold.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/disconnect_connection_byother_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/disconnect_connection_byuser_screen.dart';
 import 'package:to_do_app_flutter/features/ManageConnections/presentation/screen/get_connection_user.dart';
@@ -39,25 +41,9 @@ final RouteBase connectionsRoute = ShellRoute(
         break;
     }
 
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        title: Text(
-          "Manage Connections",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-            color: customColor.textTitle!,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            context.go("/home");
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-      ),
+    return AppShellScaffold(
+      title: "Manage Connections",
+      destination: AppDrawerDestination.connections,
       body: SafeArea(
         child: Column(
           children: [

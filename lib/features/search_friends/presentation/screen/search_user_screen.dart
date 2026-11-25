@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:to_do_app_flutter/core/theme/app_custom_color.dart';
 import 'package:to_do_app_flutter/features/search_friends/domain/entities/send_user_connection_field_entity.dart';
 import 'package:to_do_app_flutter/features/search_friends/presentation/async_ui_extension.dart';
@@ -22,6 +21,20 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
     text: "",
   );
 
+  // Users we sent a connection request to while on this screen. The search
+  // API only says "connected" or not, so we remember requests here to show
+  // the "Requested" state.
+  final Set<String> _requestedUserIds = {};
+
+  // the user whose request is being sent right now
+  String? _pendingUserId;
+
+  @override
+  void dispose() {
+    inputSearchUsername.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final customColor = Theme.of(context).extension<AppCustomColors>()!;
@@ -35,82 +48,33 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
       next,
     ) {
       next.onSendUserConnection(context, ref);
+
+      // request sent: mark that user as requested
+      if (next.hasValue && next.value != null && _pendingUserId != null) {
+        setState(() {
+          _requestedUserIds.add(_pendingUserId!);
+          _pendingUserId = null;
+        });
+      }
     });
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: 32,
-                  left: 8,
-                  right: 12,
-                  bottom: 32,
-                ),
-                height: 210,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white.withOpacity(0.4),
-                      offset: Offset(2, 5),
-                      blurRadius: 16,
-                    ),
-                  ],
-                  gradient: LinearGradient(
-                    colors: [
-                      customColor.averageStart!,
-                      customColor.averageEnd!,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            if (context.canPop()) {
-                              context.pop();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.arrow_back,
-                            size: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: SearchUserBarWidget(
-                        textEditing: inputSearchUsername,
-                        onSearch: (username) {
-                          ref
-                              .read(searchUserProviderProvider.notifier)
-                              .searchUserByUsername(username: username);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        // search bar
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+          child: SearchUserBarWidget(
+            textEditing: inputSearchUsername,
+            onSearch: (username) {
+              ref
+                  .read(searchUserProviderProvider.notifier)
+                  .searchUserByUsername(username: username);
+            },
+          ),
         ),
+
         Expanded(
           child: searchFriendRiverpod.when(
             data: (data) {
@@ -123,7 +87,11 @@ class _SearchUserScreenState extends ConsumerState<SearchUserScreen> {
                 itemBuilder: (context, index) {
                   return SearchUserItemWidget(
                     searchUserEntity: data,
+                    isRequested: _requestedUserIds
+                        .contains(data.userModel.userId),
                     sendUserFriendRequest: (userId) {
+                      _pendingUserId = userId;
+
                       // send user friend request
                       ref
                           .read(sendUserConnectionProviderProvider.notifier)
